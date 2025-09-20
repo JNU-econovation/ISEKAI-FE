@@ -1,0 +1,118 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "ANIYA.moc3",
+		"Textures": [
+			"ANIYA.8192/texture_00.png",
+			"ANIYA.8192/texture_01.png",
+			"ANIYA.8192/texture_02.png",
+			"ANIYA.8192/texture_03.png",
+			"ANIYA.8192/texture_04.png",
+			"ANIYA.8192/texture_05.png"
+		],
+		"Physics": "ANIYA.physics3.json",
+		"DisplayInfo": "ANIYA.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "exp_01",
+				"File": "expressions/0.exp3.json"
+			},
+			{
+				"Name": "exp_02",
+				"File": "expressions/1.exp3.json"
+			},
+			{
+				"Name": "exp_03",
+				"File": "expressions/2.exp3.json"
+			},
+			{
+				"Name": "exp_04",
+				"File": "expressions/3.exp3.json"
+			},
+			{
+				"Name": "exp_05",
+				"File": "expressions/4.exp3.json"
+			},
+			{
+				"Name": "exp_06",
+				"File": "expressions/5.exp3.json"
+			},
+			{
+				"Name": "exp_07",
+				"File": "expressions/6.exp3.json"
+			},
+			{
+				"Name": "exp_08",
+				"File": "expressions/7.exp3.json"
+			},
+			{
+				"Name": "exp_09",
+				"File": "expressions/8.exp3.json"
+			},
+			{
+				"Name": "exp_10",
+				"File": "expressions/9.exp3.json"
+			},
+			{
+				"Name": "exp_t",
+				"File": "expressions/t.exp3.json"
+			},
+			{
+				"Name": "exp_u",
+				"File": "expressions/u.exp3.json"
+			},
+			{
+				"Name": "exp_W",
+				"File": "expressions/W.exp3.json"
+			},{
+				"Name": "exp_y",
+				"File": "expressions/y.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+				
+			],
+			"TapBody": [
+				{
+					"File": "motions/zoulu.motion3.json"
+				},
+				{
+					"File": "motions/Scene1.motion3.json"
+				},
+				{
+					"File": "motions/Scene2.motion3.json"
+				},
+				{
+					"File": "motions/Scene3.motion3.json"
+				}
+			]
+		}
+	},
+	
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		}
+	],
+	"HitAreas": [
+		{
+			"Id": "HitAreaHead",
+			"Name": "Head"
+		},
+		{
+			"Id": "HitAreaBody",
+			"Name": "Body"
+		}
+	]
+}
