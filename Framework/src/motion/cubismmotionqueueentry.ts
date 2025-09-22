@@ -1,19 +1,18 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { ACubismMotion } from './acubismmotion';
 import { CubismMotionQueueEntryHandle } from './cubismmotionqueuemanager';
 
 /**
- * CubismMotionQueueManagerで再生している各モーションの管理クラス。
+ * CubismMotionQueueManager에서 재생 중인 각 모션의 관리 클래스.
  */
 export class CubismMotionQueueEntry {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._autoDelete = false;
@@ -33,7 +32,7 @@ export class CubismMotionQueueEntry {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     if (this._autoDelete && this._motion) {
@@ -42,8 +41,8 @@ export class CubismMotionQueueEntry {
   }
 
   /**
-   * フェードアウト時間と開始判定の設定
-   * @param fadeOutSeconds フェードアウトにかかる時間[秒]
+   * 페이드 아웃 시간 및 시작 판정 설정
+   * @param fadeOutSeconds 페이드 아웃에 걸리는 시간 [초]
    */
   public setFadeOut(fadeOutSeconds: number): void {
     this._fadeOutSeconds = fadeOutSeconds;
@@ -51,9 +50,9 @@ export class CubismMotionQueueEntry {
   }
 
   /**
-   * フェードアウトの開始
-   * @param fadeOutSeconds フェードアウトにかかる時間[秒]
-   * @param userTimeSeconds デルタ時間の積算値[秒]
+   * 페이드 아웃 시작
+   * @param fadeOutSeconds 페이드 아웃에 걸리는 시간 [초]
+   * @param userTimeSeconds 델타 시간의 누적 값 [초]
    */
   public startFadeOut(fadeOutSeconds: number, userTimeSeconds: number): void {
     const newEndTimeSeconds: number = userTimeSeconds + fadeOutSeconds;
@@ -68,109 +67,109 @@ export class CubismMotionQueueEntry {
   }
 
   /**
-   * モーションの終了の確認
+   * 모션 종료 확인
    *
-   * @return true モーションが終了した
-   * @return false 終了していない
+   * @return true 모션이 종료됨
+   * @return false 종료되지 않음
    */
   public isFinished(): boolean {
     return this._finished;
   }
 
   /**
-   * モーションの開始の確認
-   * @return true モーションが開始した
-   * @return false 開始していない
+   * 모션 시작 확인
+   * @return true 모션이 시작됨
+   * @return false 시작되지 않음
    */
   public isStarted(): boolean {
     return this._started;
   }
 
   /**
-   * モーションの開始時刻の取得
-   * @return モーションの開始時刻[秒]
+   * 모션 시작 시간 가져오기
+   * @return 모션 시작 시간 [초]
    */
   public getStartTime(): number {
     return this._startTimeSeconds;
   }
 
   /**
-   * フェードインの開始時刻の取得
-   * @return フェードインの開始時刻[秒]
+   * 페이드 인 시작 시간 가져오기
+   * @return 페이드 인 시작 시간 [초]
    */
   public getFadeInStartTime(): number {
     return this._fadeInStartTimeSeconds;
   }
 
   /**
-   * フェードインの終了時刻の取得
-   * @return フェードインの終了時刻の取得
+   * 페이드 인 종료 시간 가져오기
+   * @return 페이드 인 종료 시간
    */
   public getEndTime(): number {
     return this._endTimeSeconds;
   }
 
   /**
-   * モーションの開始時刻の設定
-   * @param startTime モーションの開始時刻
+   * 모션 시작 시간 설정
+   * @param startTime 모션 시작 시간
    */
   public setStartTime(startTime: number): void {
     this._startTimeSeconds = startTime;
   }
 
   /**
-   * フェードインの開始時刻の設定
-   * @param startTime フェードインの開始時刻[秒]
+   * 페이드 인 시작 시간 설정
+   * @param startTime 페이드 인 시작 시간 [초]
    */
   public setFadeInStartTime(startTime: number): void {
     this._fadeInStartTimeSeconds = startTime;
   }
 
   /**
-   * フェードインの終了時刻の設定
-   * @param endTime フェードインの終了時刻[秒]
+   * 페이드 인 종료 시간 설정
+   * @param endTime 페이드 인 종료 시간 [초]
    */
   public setEndTime(endTime: number): void {
     this._endTimeSeconds = endTime;
   }
 
   /**
-   * モーションの終了の設定
-   * @param f trueならモーションの終了
+   * 모션 종료 설정
+   * @param f true인 경우 모션 종료
    */
   public setIsFinished(f: boolean): void {
     this._finished = f;
   }
 
   /**
-   * モーション開始の設定
-   * @param f trueならモーションの開始
+   * 모션 시작 설정
+   * @param f true인 경우 모션 시작
    */
   public setIsStarted(f: boolean): void {
     this._started = f;
   }
 
   /**
-   * モーションの有効性の確認
-   * @return true モーションは有効
-   * @return false モーションは無効
+   * 모션 유효성 확인
+   * @return true 모션이 유효함
+   * @return false 모션이 유효하지 않음
    */
   public isAvailable(): boolean {
     return this._available;
   }
 
   /**
-   * モーションの有効性の設定
-   * @param v trueならモーションは有効
+   * 모션 유효성 설정
+   * @param v true인 경우 모션이 유효함
    */
   public setIsAvailable(v: boolean): void {
     this._available = v;
   }
 
   /**
-   * モーションの状態の設定
-   * @param timeSeconds 現在時刻[秒]
-   * @param weight モーション尾重み
+   * 모션 상태 설정
+   * @param timeSeconds 현재 시간 [초]
+   * @param weight 모션 가중치
    */
   public setState(timeSeconds: number, weight: number): void {
     this._stateTimeSeconds = timeSeconds;
@@ -178,82 +177,82 @@ export class CubismMotionQueueEntry {
   }
 
   /**
-   * モーションの現在時刻の取得
-   * @return モーションの現在時刻[秒]
+   * 모션 현재 시간 가져오기
+   * @return 모션 현재 시간 [초]
    */
   public getStateTime(): number {
     return this._stateTimeSeconds;
   }
 
   /**
-   * モーションの重みの取得
-   * @return モーションの重み
+   * 모션 가중치 가져오기
+   * @return 모션 가중치
    */
   public getStateWeight(): number {
     return this._stateWeight;
   }
 
   /**
-   * 最後にイベントの発火をチェックした時間を取得
+   * 마지막으로 이벤트 발생을 확인한 시간 가져오기
    *
-   * @return 最後にイベントの発火をチェックした時間[秒]
+   * @return 마지막으로 이벤트 발생을 확인한 시간 [초]
    */
   public getLastCheckEventSeconds(): number {
     return this._lastEventCheckSeconds;
   }
 
   /**
-   * 最後にイベントをチェックした時間を設定
-   * @param checkSeconds 最後にイベントをチェックした時間[秒]
+   * 마지막으로 이벤트를 확인한 시간 설정
+   * @param checkSeconds 마지막으로 이벤트를 확인한 시간 [초]
    */
   public setLastCheckEventSeconds(checkSeconds: number): void {
     this._lastEventCheckSeconds = checkSeconds;
   }
 
   /**
-   * フェードアウト開始判定の取得
-   * @return フェードアウト開始するかどうか
+   * 페이드 아웃 시작 판정 가져오기
+   * @return 페이드 아웃 시작 여부
    */
   public isTriggeredFadeOut(): boolean {
     return this._isTriggeredFadeOut;
   }
 
   /**
-   * フェードアウト時間の取得
-   * @return フェードアウト時間[秒]
+   * 페이드 아웃 시간 가져오기
+   * @return 페이드 아웃 시간 [초]
    */
   public getFadeOutSeconds(): number {
     return this._fadeOutSeconds;
   }
 
   /**
-   * モーションの取得
+   * 모션 가져오기
    *
-   * @return モーション
+   * @return 모션
    */
   public getCubismMotion(): ACubismMotion {
     return this._motion;
   }
 
-  _autoDelete: boolean; // 自動削除
-  _motion: ACubismMotion; // モーション
+  _autoDelete: boolean; // 자동 삭제
+  _motion: ACubismMotion; // 모션
 
-  _available: boolean; // 有効化フラグ
-  _finished: boolean; // 終了フラグ
-  _started: boolean; // 開始フラグ
-  _startTimeSeconds: number; // モーション再生開始時刻[秒]
-  _fadeInStartTimeSeconds: number; // フェードイン開始時刻（ループの時は初回のみ）[秒]
-  _endTimeSeconds: number; // 終了予定時刻[秒]
-  _stateTimeSeconds: number; // 時刻の状態[秒]
-  _stateWeight: number; // 重みの状態
-  _lastEventCheckSeconds: number; // 最終のMotion側のチェックした時間
-  private _fadeOutSeconds: number; // フェードアウト時間[秒]
-  private _isTriggeredFadeOut: boolean; // フェードアウト開始フラグ
+  _available: boolean; // 활성화 플래그
+  _finished: boolean; // 종료 플래그
+  _started: boolean; // 시작 플래그
+  _startTimeSeconds: number; // 모션 재생 시작 시간 [초]
+  _fadeInStartTimeSeconds: number; // 페이드 인 시작 시간 (루프 시에는 처음만) [초]
+  _endTimeSeconds: number; // 종료 예정 시간 [초]
+  _stateTimeSeconds: number; // 시간 상태 [초]
+  _stateWeight: number; // 가중치 상태
+  _lastEventCheckSeconds: number; // 마지막 Motion 측에서 확인한 시간
+  private _fadeOutSeconds: number; // 페이드 아웃 시간 [초]
+  private _isTriggeredFadeOut: boolean; // 페이드 아웃 시작 플래그
 
-  _motionQueueEntryHandle: CubismMotionQueueEntryHandle; // インスタンスごとに一意の値を持つ識別番号
+  _motionQueueEntryHandle: CubismMotionQueueEntryHandle; // 인스턴스별로 고유한 값을 가지는 식별 번호
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmotionqueueentry';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -10,21 +9,21 @@ import { CubismModel } from '../model/cubismmodel';
 import { csmVector } from '../type/csmvector';
 
 /**
- * 呼吸機能
+ * 호흡 기능
  *
- * 呼吸機能を提供する。
+ * 호흡 기능을 제공합니다.
  */
 export class CubismBreath {
   /**
-   * インスタンスの作成
+   * 인스턴스 생성
    */
   public static create(): CubismBreath {
     return new CubismBreath();
   }
 
   /**
-   * インスタンスの破棄
-   * @param instance 対象のCubismBreath
+   * 인스턴스 파기
+   * @param instance 대상 CubismBreath
    */
   public static delete(instance: CubismBreath): void {
     if (instance != null) {
@@ -33,25 +32,25 @@ export class CubismBreath {
   }
 
   /**
-   * 呼吸のパラメータの紐づけ
-   * @param breathParameters 呼吸を紐づけたいパラメータのリスト
+   * 호흡 파라미터 연결
+   * @param breathParameters 호흡을 연결할 파라미터 목록
    */
   public setParameters(breathParameters: csmVector<BreathParameterData>): void {
     this._breathParameters = breathParameters;
   }
 
   /**
-   * 呼吸に紐づいているパラメータの取得
-   * @return 呼吸に紐づいているパラメータのリスト
+   * 호흡에 연결된 파라미터 가져오기
+   * @return 호흡에 연결된 파라미터 목록
    */
   public getParameters(): csmVector<BreathParameterData> {
     return this._breathParameters;
   }
 
   /**
-   * モデルのパラメータの更新
-   * @param model 対象のモデル
-   * @param deltaTimeSeconds デルタ時間[秒]
+   * 모델 파라미터 업데이트
+   * @param model 대상 모델
+   * @param deltaTimeSeconds 델타 시간 [초]
    */
   public updateParameters(model: CubismModel, deltaTimeSeconds: number): void {
     this._currentTime += deltaTimeSeconds;
@@ -70,27 +69,27 @@ export class CubismBreath {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._currentTime = 0.0;
   }
 
-  _breathParameters: csmVector<BreathParameterData>; // 呼吸にひもづいているパラメータのリスト
-  _currentTime: number; // 積算時間[秒]
+  _breathParameters: csmVector<BreathParameterData>; // 호흡에 연결된 파라미터 목록
+  _currentTime: number; // 누적 시간 [초]
 }
 
 /**
- * 呼吸のパラメータ情報
+ * 호흡 파라미터 정보
  */
 export class BreathParameterData {
   /**
-   * コンストラクタ
-   * @param parameterId   呼吸をひもづけるパラメータID
-   * @param offset        呼吸を正弦波としたときの、波のオフセット
-   * @param peak          呼吸を正弦波としたときの、波の高さ
-   * @param cycle         呼吸を正弦波としたときの、波の周期
-   * @param weight        パラメータへの重み
+   * 생성자
+   * @param parameterId   호흡을 연결할 파라미터 ID
+   * @param offset        호흡을 사인파로 했을 때의 파동 오프셋
+   * @param peak          호흡을 사인파로 했을 때의 파동 높이
+   * @param cycle         호흡을 사인파로 했을 때의 파동 주기
+   * @param weight        파라미터에 대한 가중치
    */
   constructor(
     parameterId?: CubismIdHandle,
@@ -106,14 +105,14 @@ export class BreathParameterData {
     this.weight = weight == undefined ? 0.0 : weight;
   }
 
-  parameterId: CubismIdHandle; // 呼吸をひもづけるパラメータID\
-  offset: number; // 呼吸を正弦波としたときの、波のオフセット
-  peak: number; // 呼吸を正弦波としたときの、波の高さ
-  cycle: number; // 呼吸を正弦波としたときの、波の周期
-  weight: number; // パラメータへの重み
+  parameterId: CubismIdHandle; // 호흡을 연결할 파라미터 ID
+  offset: number; // 호흡을 사인파로 했을 때의 파동 오프셋
+  peak: number; // 호흡을 사인파로 했을 때의 파동 높이
+  cycle: number; // 호흡을 사인파로 했을 때의 파동 주기
+  weight: number; // 파라미터에 대한 가중치
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismbreath';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

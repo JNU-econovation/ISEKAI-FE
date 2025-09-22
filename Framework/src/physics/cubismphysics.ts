@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismMath } from '../math/cubismmath';
@@ -21,32 +20,32 @@ import {
 } from './cubismphysicsinternal';
 import { CubismPhysicsJson } from './cubismphysicsjson';
 
-// physics types tags.
+// 물리 타입 태그.
 const PhysicsTypeTagX = 'X';
 const PhysicsTypeTagY = 'Y';
 const PhysicsTypeTagAngle = 'Angle';
 
-// Constant of air resistance.
+// 공기 저항 상수.
 const AirResistance = 5.0;
 
-// Constant of maximum weight of input and output ratio.
+// 입출력 비율의 최대 가중치 상수.
 const MaximumWeight = 100.0;
 
-// Constant of threshold of movement.
+// 이동 임계값 상수.
 const MovementThreshold = 0.001;
 
-// Constant of maximum allowed delta time
+// 허용되는 최대 델타 시간 상수
 const MaxDeltaTime = 5.0;
 
 /**
- * 物理演算クラス
+ * 물리 연산 클래스
  */
 export class CubismPhysics {
   /**
-   * インスタンスの作成
-   * @param buffer    physics3.jsonが読み込まれているバッファ
-   * @param size      バッファのサイズ
-   * @return 作成されたインスタンス
+   * 인스턴스 생성
+   * @param buffer    physics3.json이 로드된 버퍼
+   * @param size      버퍼의 크기
+   * @return 생성된 인스턴스
    */
   public static create(buffer: ArrayBuffer, size: number): CubismPhysics {
     const ret: CubismPhysics = new CubismPhysics();
@@ -58,8 +57,8 @@ export class CubismPhysics {
   }
 
   /**
-   * インスタンスを破棄する
-   * @param physics 破棄するインスタンス
+   * 인스턴스를 파기합니다.
+   * @param physics 파기할 인스턴스
    */
   public static delete(physics: CubismPhysics): void {
     if (physics != null) {
@@ -69,9 +68,9 @@ export class CubismPhysics {
   }
 
   /**
-   * physics3.jsonをパースする。
-   * @param physicsJson physics3.jsonが読み込まれているバッファ
-   * @param size バッファのサイズ
+   * physics3.json을 파싱합니다.
+   * @param physicsJson physics3.json이 로드된 버퍼
+   * @param size 버퍼의 크기
    */
   public parse(physicsJson: ArrayBuffer, size: number): void {
     this._physicsRig = new CubismPhysicsRig();
@@ -127,7 +126,7 @@ export class CubismPhysics {
       this._physicsRig.settings.at(i).normalizationAngle.defalut =
         json.getNormalizationAngleDefaultValue(i);
 
-      // Input
+      // 입력
       this._physicsRig.settings.at(i).inputCount = json.getInputCount(i);
       this._physicsRig.settings.at(i).baseInputIndex = inputIndex;
 
@@ -170,7 +169,7 @@ export class CubismPhysics {
       }
       inputIndex += this._physicsRig.settings.at(i).inputCount;
 
-      // Output
+      // 출력
       this._physicsRig.settings.at(i).outputCount = json.getOutputCount(i);
       this._physicsRig.settings.at(i).baseOutputIndex = outputIndex;
 
@@ -185,7 +184,7 @@ export class CubismPhysics {
       );
 
       for (let j = 0; j < this._physicsRig.settings.at(i).outputCount; ++j) {
-        // initialize
+        // 초기화
         currentRigOutput.outputs.set(j, 0.0);
         previousRigOutput.outputs.set(j, 0.0);
 
@@ -235,7 +234,7 @@ export class CubismPhysics {
 
       outputIndex += this._physicsRig.settings.at(i).outputCount;
 
-      // Particle
+      // 파티클
       this._physicsRig.settings.at(i).particleCount = json.getParticleCount(i);
       this._physicsRig.settings.at(i).baseParticleIndex = particleIndex;
 
@@ -263,8 +262,8 @@ export class CubismPhysics {
   }
 
   /**
-   * 現在のパラメータ値で物理演算が安定化する状態を演算する。
-   * @param model 物理演算の結果を適用するモデル
+   * 현재 파라미터 값으로 물리 연산이 안정화되는 상태를 연산합니다.
+   * @param model 물리 연산의 결과를 적용할 모델
    */
   public stabilization(model: CubismModel): void {
     let totalAngle: { angle: number };
@@ -405,7 +404,7 @@ export class CubismPhysics {
                 JSON.stringify(
                   parameterValues.subarray(destinationParameterIndex)
                 )
-              ) // 値渡しするため、JSON.parse, JSON.stringify
+              ) // 값 전달을 위해 JSON.parse, JSON.stringify
             : parameterValues.slice(destinationParameterIndex);
 
         updateOutputParameterValue(
@@ -416,7 +415,7 @@ export class CubismPhysics {
           currentOutputs[i]
         );
 
-        // 値を反映
+        // 값 반영
         for (
           let offset: number = destinationParameterIndex, outParamIndex = 0;
           offset < this._parameterCaches.length;
@@ -430,31 +429,31 @@ export class CubismPhysics {
   }
 
   /**
-   * 物理演算の評価
+   * 물리 연산 평가
    *
    * Pendulum interpolation weights
    *
-   * 振り子の計算結果は保存され、パラメータへの出力は保存された前回の結果で補間されます。
+   * 진자 계산 결과는 저장되고, 파라미터에 대한 출력은 저장된 이전 결과로 보간됩니다.
    * The result of the pendulum calculation is saved and
    * the output to the parameters is interpolated with the saved previous result of the pendulum calculation.
    *
-   * 図で示すと[1]と[2]で補間されます。
+   * 그림으로 나타내면 [1]과 [2]로 보간됩니다.
    * The figure shows the interpolation between [1] and [2].
    *
-   * 補間の重みは最新の振り子計算タイミングと次回のタイミングの間で見た現在時間で決定する。
+   * 보간 가중치는 최신 진자 계산 타이밍과 다음 타이밍 사이에서 본 현재 시간으로 결정됩니다.
    * The weight of the interpolation are determined by the current time seen between
    * the latest pendulum calculation timing and the next timing.
    *
-   * 図で示すと[2]と[4]の間でみた(3)の位置の重みになる。
+   * 그림으로 나타내면 [2]와 [4] 사이에서 본 (3) 위치의 가중치가 됩니다.
    * Figure shows the weight of position (3) as seen between [2] and [4].
    *
-   * 解釈として振り子計算のタイミングと重み計算のタイミングがズレる。
+   * 해석상 진자 계산 타이밍과 가중치 계산 타이밍이 어긋납니다.
    * As an interpretation, the pendulum calculation and weights are misaligned.
    *
-   * physics3.jsonにFPS情報が存在しない場合は常に前の振り子状態で設定される。
+   * physics3.json에 FPS 정보가 없으면 항상 이전 진자 상태로 설정됩니다.
    * If there is no FPS information in physics3.json, it is always set in the previous pendulum state.
    *
-   * この仕様は補間範囲を逸脱したことが原因の震えたような見た目を回避を目的にしている。
+   * 이 사양은 보간 범위를 벗어난 것으로 인한 떨림 현상을 방지하기 위한 것입니다.
    * The purpose of this specification is to avoid the quivering appearance caused by deviations from the interpolation range.
    *
    * ------------ time -------------->
@@ -467,8 +466,8 @@ export class CubismPhysics {
    * 2:_currentRigOutputs
    * 3:_currentRemainTime (now rendering)
    * 4:next particles timing
-   * @param model 物理演算の結果を適用するモデル
-   * @param deltaTimeSeconds デルタ時間[秒]
+   * @param model 물리 연산의 결과를 적용할 모델
+   * @param deltaTimeSeconds 델타 시간[초]
    */
   public evaluate(model: CubismModel, deltaTimeSeconds: number): void {
     let totalAngle: { angle: number };
@@ -537,9 +536,9 @@ export class CubismPhysics {
         }
       }
 
-      // 入力キャッシュとパラメータで線形補間してUpdateParticlesするタイミングでの入力を計算する。
+      // 입력 캐시와 파라미터로 선형 보간하여 UpdateParticles할 타이밍의 입력을 계산합니다.
       // Calculate the input at the timing to UpdateParticles by linear interpolation with the _parameterInputCache and parameterValue.
-      // _parameterCacheはグループ間での値の伝搬の役割があるので_parameterInputCacheとの分離が必要。
+      // _parameterCache는 그룹 간 값 전파 역할을 하므로 _parameterInputCache와 분리해야 합니다.
       // _parameterCache needs to be separated from _parameterInputCache because of its role in propagating values between groups.
       const inputWeight = physicsDeltaTime / this._currentRemainTime;
       for (let j = 0; j < model.getParameterCount(); ++j) {
@@ -656,7 +655,7 @@ export class CubismPhysics {
                   JSON.stringify(
                     this._parameterCaches.subarray(destinationParameterIndex)
                   )
-                ) // 値渡しするため、JSON.parse, JSON.stringify
+                ) // 값 전달을 위해 JSON.parse, JSON.stringify
               : this._parameterCaches.slice(destinationParameterIndex);
 
           updateOutputParameterValue(
@@ -667,7 +666,7 @@ export class CubismPhysics {
             currentOutputs[i]
           );
 
-          // 値を反映
+          // 값 반영
           for (
             let offset: number = destinationParameterIndex, outParamIndex = 0;
             offset < this._parameterCaches.length;
@@ -685,10 +684,10 @@ export class CubismPhysics {
   }
 
   /**
-   * 物理演算結果の適用
-   * 振り子演算の最新の結果と一つ前の結果から指定した重みで適用する。
-   * @param model 物理演算の結果を適用するモデル
-   * @param weight 最新結果の重み
+   * 물리 연산 결과 적용
+   * 진자 연산의 최신 결과와 이전 결과에서 지정된 가중치로 적용합니다.
+   * @param model 물리 연산의 결과를 적용할 모델
+   * @param weight 최신 결과의 가중치
    */
   public interpolate(model: CubismModel, weight: number): void {
     let currentOutputs: CubismPhysicsOutput[];
@@ -723,7 +722,7 @@ export class CubismPhysics {
                 JSON.stringify(
                   parameterValues.subarray(destinationParameterIndex)
                 )
-              ) // 値渡しするため、JSON.parse, JSON.stringify
+              ) // 값 전달을 위해 JSON.parse, JSON.stringify
             : parameterValues.slice(destinationParameterIndex);
 
         updateOutputParameterValue(
@@ -736,7 +735,7 @@ export class CubismPhysics {
           currentOutputs[i]
         );
 
-        // 値を反映
+        // 값 반영
         for (
           let offset: number = destinationParameterIndex, outParamIndex = 0;
           offset < parameterValues.length;
@@ -749,28 +748,28 @@ export class CubismPhysics {
   }
 
   /**
-   * オプションの設定
-   * @param options オプション
+   * 옵션 설정
+   * @param options 옵션
    */
   public setOptions(options: Options): void {
     this._options = options;
   }
 
   /**
-   * オプションの取得
-   * @return オプション
+   * 옵션 가져오기
+   * @return 옵션
    */
   public getOption(): Options {
     return this._options;
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._physicsRig = null;
 
-    // set default options
+    // 기본 옵션 설정
     this._options = new Options();
     this._options.gravity.y = -1.0;
     this._options.gravity.x = 0.0;
@@ -784,7 +783,7 @@ export class CubismPhysics {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     this._physicsRig = void 0;
@@ -792,7 +791,7 @@ export class CubismPhysics {
   }
 
   /**
-   * 初期化する
+   * 초기화합니다.
    */
   public initialize(): void {
     let strand: CubismPhysicsParticle[];
@@ -807,7 +806,7 @@ export class CubismPhysics {
       currentSetting = this._physicsRig.settings.at(settingIndex);
       strand = this._physicsRig.particles.get(currentSetting.baseParticleIndex);
 
-      // Initialize the top of particle.
+      // 파티클의 상단 초기화.
       strand[0].initialPosition = new CubismVector2(0.0, 0.0);
       strand[0].lastPosition = new CubismVector2(
         strand[0].initialPosition.x,
@@ -818,7 +817,7 @@ export class CubismPhysics {
       strand[0].velocity = new CubismVector2(0.0, 0.0);
       strand[0].force = new CubismVector2(0.0, 0.0);
 
-      // Initialize particles.
+      // 파티클 초기화.
       for (let i = 1; i < currentSetting.particleCount; ++i) {
         radius = new CubismVector2(0.0, 0.0);
         radius.y = strand[i].radius;
@@ -842,20 +841,20 @@ export class CubismPhysics {
     }
   }
 
-  _physicsRig: CubismPhysicsRig; // 物理演算のデータ
-  _options: Options; // オプション
+  _physicsRig: CubismPhysicsRig; // 물리 연산 데이터
+  _options: Options; // 옵션
 
-  _currentRigOutputs: csmVector<PhysicsOutput>; ///< 最新の振り子計算の結果
-  _previousRigOutputs: csmVector<PhysicsOutput>; ///< 一つ前の振り子計算の結果
+  _currentRigOutputs: csmVector<PhysicsOutput>; ///< 최신 진자 계산 결과
+  _previousRigOutputs: csmVector<PhysicsOutput>; ///< 이전 진자 계산 결과
 
-  _currentRemainTime: number; ///< 物理演算が処理していない時間
+  _currentRemainTime: number; ///< 물리 연산이 처리하지 않은 시간
 
-  _parameterCaches: Float32Array; ///< Evaluateで利用するパラメータのキャッシュ
-  _parameterInputCaches: Float32Array; ///< UpdateParticlesが動くときの入力をキャッシュ
+  _parameterCaches: Float32Array; ///< Evaluate에서 사용하는 파라미터 캐시
+  _parameterInputCaches: Float32Array; ///< UpdateParticles가 움직일 때의 입력을 캐시
 }
 
 /**
- * 物理演算のオプション
+ * 물리 연산 옵션
  */
 export class Options {
   constructor() {
@@ -863,23 +862,23 @@ export class Options {
     this.wind = new CubismVector2(0, 0);
   }
 
-  gravity: CubismVector2; // 重力方向
-  wind: CubismVector2; // 風の方向
+  gravity: CubismVector2; // 중력 방향
+  wind: CubismVector2; // 바람 방향
 }
 
 /**
- * パラメータに適用する前の物理演算の出力結果
+ * 파라미터에 적용하기 전의 물리 연산 출력 결과
  */
 export class PhysicsOutput {
   constructor() {
     this.outputs = new csmVector<number>(0);
   }
 
-  outputs: csmVector<number>; // 物理演算出力結果
+  outputs: csmVector<number>; // 물리 연산 출력 결과
 }
 
 /**
- * Gets sign.
+ * 부호를 가져옵니다.
  *
  * @param value Evaluation target value.
  *
@@ -1063,7 +1062,7 @@ function getOutputScaleAngle(
 }
 
 /**
- * Updates particles.
+ * 파티클을 업데이트합니다.
  *
  * @param strand                Target array of particle.
  * @param strandCount           Count of particle.
@@ -1161,7 +1160,7 @@ function updateParticles(
 }
 
 /**
- * Updates particles for stabilization.
+ * 안정화를 위해 파티클을 업데이트합니다.
  *
  * @param strand                Target array of particle.
  * @param strandCount           Count of particle.
@@ -1220,7 +1219,7 @@ function updateParticlesForStabilization(
 }
 
 /**
- * Updates output parameter value.
+ * 출력 파라미터 값을 업데이트합니다.
  * @param parameterValue            Target parameter value.
  * @param parameterValueMinimum     Minimum of parameter value.
  * @param parameterValueMaximum     Maximum of parameter value.
@@ -1338,7 +1337,7 @@ function normalizeParameterValue(
   return isInverted ? result : result * -1.0;
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismphysics';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

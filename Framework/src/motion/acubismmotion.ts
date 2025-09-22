@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismMath } from '../math/cubismmath';
@@ -12,20 +11,20 @@ import { csmVector } from '../type/csmvector';
 import { CSM_ASSERT, CubismDebug } from '../utils/cubismdebug';
 import { CubismMotionQueueEntry } from './cubismmotionqueueentry';
 
-/** モーション再生開始コールバック関数定義 */
+/** 모션 재생 시작 콜백 함수 정의 */
 export type BeganMotionCallback = (self: ACubismMotion) => void;
 
-/** モーション再生終了コールバック関数定義 */
+/** 모션 재생 종료 콜백 함수 정의 */
 export type FinishedMotionCallback = (self: ACubismMotion) => void;
 
 /**
- * モーションの抽象基底クラス
+ * 모션의 추상 기본 클래스
  *
- * モーションの抽象基底クラス。MotionQueueManagerによってモーションの再生を管理する。
+ * 모션의 추상 기본 클래스. MotionQueueManager에 의해 모션 재생을 관리합니다.
  */
 export abstract class ACubismMotion {
   /**
-   * インスタンスの破棄
+   * 인스턴스 파기
    */
   public static delete(motion: ACubismMotion): void {
     motion.release();
@@ -33,31 +32,31 @@ export abstract class ACubismMotion {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._fadeInSeconds = -1.0;
     this._fadeOutSeconds = -1.0;
     this._weight = 1.0;
-    this._offsetSeconds = 0.0; // 再生の開始時刻
-    this._isLoop = false; // ループするか
-    this._isLoopFadeIn = true; // ループ時にフェードインが有効かどうかのフラグ。初期値では有効。
+    this._offsetSeconds = 0.0; // 재생 시작 시간
+    this._isLoop = false; // 루프 여부
+    this._isLoopFadeIn = true; // 루프 시 페이드인이 활성화되어 있는지 여부 플래그. 초기값은 활성화.
     this._previousLoopState = this._isLoop;
     this._firedEventValues = new csmVector<csmString>();
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     this._weight = 0.0;
   }
 
   /**
-   * モデルのパラメータ
-   * @param model 対象のモデル
-   * @param motionQueueEntry CubismMotionQueueManagerで管理されているモーション
-   * @param userTimeSeconds デルタ時間の積算値[秒]
+   * 모델 파라미터
+   * @param model 대상 모델
+   * @param motionQueueEntry CubismMotionQueueManager에서 관리하는 모션
+   * @param userTimeSeconds 델타 시간의 누적 값 [초]
    */
   public updateParameters(
     model: CubismModel,
@@ -72,7 +71,7 @@ export abstract class ACubismMotion {
 
     const fadeWeight = this.updateFadeWeight(motionQueueEntry, userTimeSeconds);
 
-    //---- 全てのパラメータIDをループする ----
+    //---- 모든 파라미터 ID를 루프 ----
     this.doUpdateParameters(
       model,
       userTimeSeconds,
@@ -80,23 +79,23 @@ export abstract class ACubismMotion {
       motionQueueEntry
     );
 
-    // 後処理
-    // 終了時刻を過ぎたら終了フラグを立てる(CubismMotionQueueManager)
+    // 후처리
+    // 종료 시간을 지나면 종료 플래그를 설정 (CubismMotionQueueManager)
     if (
       motionQueueEntry.getEndTime() > 0 &&
       motionQueueEntry.getEndTime() < userTimeSeconds
     ) {
-      motionQueueEntry.setIsFinished(true); // 終了
+      motionQueueEntry.setIsFinished(true); // 종료
     }
   }
 
   /**
-   * @brief モデルの再生開始処理
+   * @brief 모델 재생 시작 처리
    *
-   * モーションの再生を開始するためのセットアップを行う。
+   * 모션 재생을 시작하기 위한 설정을 수행합니다.
    *
-   * @param[in]   motionQueueEntry    CubismMotionQueueManagerで管理されているモーション
-   * @param[in]   userTimeSeconds     デルタ時間の積算値[秒]
+   * @param[in]   motionQueueEntry    CubismMotionQueueManager에서 관리하는 모션
+   * @param[in]   userTimeSeconds     델타 시간의 누적 값 [초]
    */
   public setupMotionQueueEntry(
     motionQueueEntry: CubismMotionQueueEntry,
@@ -111,27 +110,27 @@ export abstract class ACubismMotion {
     }
 
     motionQueueEntry.setIsStarted(true);
-    motionQueueEntry.setStartTime(userTimeSeconds - this._offsetSeconds); // モーションの開始時刻を記録
-    motionQueueEntry.setFadeInStartTime(userTimeSeconds); // フェードインの開始時刻
+    motionQueueEntry.setStartTime(userTimeSeconds - this._offsetSeconds); // 모션 시작 시간 기록
+    motionQueueEntry.setFadeInStartTime(userTimeSeconds); // 페이드인 시작 시간
 
     if (motionQueueEntry.getEndTime() < 0.0) {
-      // 開始していないうちに終了設定している場合がある
+      // 시작하기 전에 종료 설정이 되어 있는 경우가 있음
       this.adjustEndTime(motionQueueEntry);
     }
 
-    // 再生開始コールバック
+    // 재생 시작 콜백
     if (motionQueueEntry._motion._onBeganMotion) {
       motionQueueEntry._motion._onBeganMotion(motionQueueEntry._motion);
     }
   }
 
   /**
-   * @brief モデルのウェイト更新
+   * @brief 모델 가중치 업데이트
    *
-   * モーションのウェイトを更新する。
+   * 모션의 가중치를 업데이트합니다.
    *
-   * @param[in]   motionQueueEntry    CubismMotionQueueManagerで管理されているモーション
-   * @param[in]   userTimeSeconds     デルタ時間の積算値[秒]
+   * @param[in]   motionQueueEntry    CubismMotionQueueManager에서 관리하는 모션
+   * @param[in]   userTimeSeconds     델타 시간의 누적 값 [초]
    */
   public updateFadeWeight(
     motionQueueEntry: CubismMotionQueueEntry,
@@ -141,10 +140,10 @@ export abstract class ACubismMotion {
       CubismDebug.print(LogLevel.LogLevel_Error, 'motionQueueEntry is null.');
     }
 
-    let fadeWeight: number = this._weight; // 現在の値と掛け合わせる割合
+    let fadeWeight: number = this._weight; // 현재 값과 곱할 비율
 
-    //---- フェードイン・アウトの処理 ----
-    // 単純なサイン関数でイージングする
+    //---- 페이드인·아웃 처리 ----
+    // 단순한 사인 함수로 이징
     const fadeIn: number =
       this._fadeInSeconds == 0.0
         ? 1.0
@@ -171,128 +170,128 @@ export abstract class ACubismMotion {
   }
 
   /**
-   * フェードインの時間を設定する
-   * @param fadeInSeconds フェードインにかかる時間[秒]
+   * 페이드인 시간 설정
+   * @param fadeInSeconds 페이드인에 걸리는 시간 [초]
    */
   public setFadeInTime(fadeInSeconds: number): void {
     this._fadeInSeconds = fadeInSeconds;
   }
 
   /**
-   * フェードアウトの時間を設定する
-   * @param fadeOutSeconds フェードアウトにかかる時間[秒]
+   * 페이드아웃 시간 설정
+   * @param fadeOutSeconds 페이드아웃에 걸리는 시간 [초]
    */
   public setFadeOutTime(fadeOutSeconds: number): void {
     this._fadeOutSeconds = fadeOutSeconds;
   }
 
   /**
-   * フェードアウトにかかる時間の取得
-   * @return フェードアウトにかかる時間[秒]
+   * 페이드아웃에 걸리는 시간 가져오기
+   * @return 페이드아웃에 걸리는 시간 [초]
    */
   public getFadeOutTime(): number {
     return this._fadeOutSeconds;
   }
 
   /**
-   * フェードインにかかる時間の取得
-   * @return フェードインにかかる時間[秒]
+   * 페이드인에 걸리는 시간 가져오기
+   * @return 페이드인에 걸리는 시간 [초]
    */
   public getFadeInTime(): number {
     return this._fadeInSeconds;
   }
 
   /**
-   * モーション適用の重みの設定
-   * @param weight 重み（0.0 - 1.0）
+   * 모션 적용 가중치 설정
+   * @param weight 가중치 (0.0 - 1.0)
    */
   public setWeight(weight: number): void {
     this._weight = weight;
   }
 
   /**
-   * モーション適用の重みの取得
-   * @return 重み（0.0 - 1.0）
+   * 모션 적용 가중치 가져오기
+   * @return 가중치 (0.0 - 1.0)
    */
   public getWeight(): number {
     return this._weight;
   }
 
   /**
-   * モーションの長さの取得
-   * @return モーションの長さ[秒]
+   * 모션 길이 가져오기
+   * @return 모션 길이 [초]
    *
-   * @note ループの時は「-1」。
-   *       ループでない場合は、オーバーライドする。
-   *       正の値の時は取得される時間で終了する。
-   *       「-1」の時は外部から停止命令がない限り終わらない処理となる。
+   * @note 루프 시에는 "-1".
+   *       루프가 아닌 경우 재정의합니다.
+   *       양수 값일 때는 가져온 시간으로 종료됩니다.
+   *       "-1"일 때는 외부에서 정지 명령이 없는 한 끝나지 않는 처리가 됩니다.
    */
   public getDuration(): number {
     return -1.0;
   }
 
   /**
-   * モーションのループ1回分の長さの取得
-   * @return モーションのループ一回分の長さ[秒]
+   * 모션 루프 1회분의 길이 가져오기
+   * @return 모션 루프 1회분의 길이 [초]
    *
-   * @note ループしない場合は、getDuration()と同じ値を返す
-   *       ループ一回分の長さが定義できない場合(プログラム的に動き続けるサブクラスなど)の場合は「-1」を返す
+   * @note 루프하지 않는 경우 getDuration()과 동일한 값을 반환
+   *       루프 1회분의 길이를 정의할 수 없는 경우(프로그램적으로 계속 움직이는 서브클래스 등)에는 "-1"을 반환
    */
   public getLoopDuration(): number {
     return -1.0;
   }
 
   /**
-   * モーション再生の開始時刻の設定
-   * @param offsetSeconds モーション再生の開始時刻[秒]
+   * 모션 재생 시작 시간 설정
+   * @param offsetSeconds 모션 재생 시작 시간 [초]
    */
   public setOffsetTime(offsetSeconds: number): void {
     this._offsetSeconds = offsetSeconds;
   }
 
   /**
-   * ループ情報の設定
-   * @param loop ループ情報
+   * 루프 정보 설정
+   * @param loop 루프 정보
    */
   public setLoop(loop: boolean): void {
     this._isLoop = loop;
   }
 
   /**
-   * ループ情報の取得
-   * @return true ループする
-   * @return false ループしない
+   * 루프 정보 가져오기
+   * @return true 루프함
+   * @return false 루프하지 않음
    */
   public getLoop(): boolean {
     return this._isLoop;
   }
 
   /**
-   * ループ時のフェードイン情報の設定
-   * @param loopFadeIn  ループ時のフェードイン情報
+   * 루프 시 페이드인 정보 설정
+   * @param loopFadeIn  루프 시 페이드인 정보
    */
   public setLoopFadeIn(loopFadeIn: boolean) {
     this._isLoopFadeIn = loopFadeIn;
   }
 
   /**
-   * ループ時のフェードイン情報の取得
+   * 루프 시 페이드인 정보 가져오기
    *
-   * @return  true    する
-   * @return  false   しない
+   * @return  true    함
+   * @return  false   하지 않음
    */
   public getLoopFadeIn(): boolean {
     return this._isLoopFadeIn;
   }
 
   /**
-   * モデルのパラメータ更新
+   * 모델 파라미터 업데이트
    *
-   * イベント発火のチェック。
-   * 入力する時間は呼ばれるモーションタイミングを０とした秒数で行う。
+   * 이벤트 발생 확인.
+   * 입력하는 시간은 호출되는 모션 타이밍을 0으로 한 초 단위로 수행합니다.
    *
-   * @param beforeCheckTimeSeconds 前回のイベントチェック時間[秒]
-   * @param motionTimeSeconds 今回の再生時間[秒]
+   * @param beforeCheckTimeSeconds 이전 이벤트 확인 시간 [초]
+   * @param motionTimeSeconds 이번 재생 시간 [초]
    */
   public getFiredEvent(
     beforeCheckTimeSeconds: number,
@@ -302,13 +301,13 @@ export abstract class ACubismMotion {
   }
 
   /**
-   * モーションを更新して、モデルにパラメータ値を反映する
-   * @param model 対象のモデル
-   * @param userTimeSeconds デルタ時間の積算値[秒]
-   * @param weight モーションの重み
-   * @param motionQueueEntry CubismMotionQueueManagerで管理されているモーション
-   * @return true モデルへパラメータ値の反映あり
-   * @return false モデルへのパラメータ値の反映なし（モーションの変化なし）
+   * 모션을 업데이트하고 모델에 파라미터 값을 반영합니다.
+   * @param model 대상 모델
+   * @param userTimeSeconds 델타 시간의 누적 값 [초]
+   * @param weight 모션 가중치
+   * @param motionQueueEntry CubismMotionQueueManager에서 관리하는 모션
+   * @return true 모델에 파라미터 값 반영 있음
+   * @return false 모델에 파라미터 값 반영 없음 (모션 변화 없음)
    */
   public abstract doUpdateParameters(
     model: CubismModel,
@@ -318,121 +317,121 @@ export abstract class ACubismMotion {
   ): void;
 
   /**
-   * モーション再生開始コールバックの登録
+   * 모션 재생 시작 콜백 등록
    *
-   * モーション再生開始コールバックを登録する。
-   * 以下の状態の際には呼び出されない:
-   *   1. 再生中のモーションが「ループ」として設定されているとき
-   *   2. コールバックが登録されていない時
+   * 모션 재생 시작 콜백을 등록합니다.
+   * 다음 상태에서는 호출되지 않습니다:
+   *   1. 재생 중인 모션이 "루프"로 설정된 경우
+   *   2. 콜백이 등록되지 않은 경우
    *
-   * @param onBeganMotionHandler モーション再生開始コールバック関数
+   * @param onBeganMotionHandler 모션 재생 시작 콜백 함수
    */
   public setBeganMotionHandler = (onBeganMotionHandler: BeganMotionCallback) =>
     (this._onBeganMotion = onBeganMotionHandler);
 
   /**
-   * モーション再生開始コールバックの取得
+   * 모션 재생 시작 콜백 가져오기
    *
-   * モーション再生開始コールバックを取得する。
+   * 모션 재생 시작 콜백을 가져옵니다.
    *
-   * @return 登録されているモーション再生開始コールバック関数
+   * @return 등록된 모션 재생 시작 콜백 함수
    */
   public getBeganMotionHandler = () => this._onBeganMotion;
 
   /**
-   * モーション再生終了コールバックの登録
+   * 모션 재생 종료 콜백 등록
    *
-   * モーション再生終了コールバックを登録する。
-   * isFinishedフラグを設定するタイミングで呼び出される。
-   * 以下の状態の際には呼び出されない:
-   *   1. 再生中のモーションが「ループ」として設定されているとき
-   *   2. コールバックが登録されていない時
+   * 모션 재생 종료 콜백을 등록합니다.
+   * isFinished 플래그를 설정하는 타이밍에 호출됩니다.
+   * 다음 상태에서는 호출되지 않습니다:
+   *   1. 재생 중인 모션이 "루프"로 설정된 경우
+   *   2. 콜백이 등록되지 않은 경우
    *
-   * @param onFinishedMotionHandler モーション再生終了コールバック関数
+   * @param onFinishedMotionHandler 모션 재생 종료 콜백 함수
    */
   public setFinishedMotionHandler = (
     onFinishedMotionHandler: FinishedMotionCallback
   ) => (this._onFinishedMotion = onFinishedMotionHandler);
 
   /**
-   * モーション再生終了コールバックの取得
+   * 모션 재생 종료 콜백 가져오기
    *
-   * モーション再生終了コールバックを取得する。
+   * 모션 재생 종료 콜백을 가져옵니다.
    *
-   * @return 登録されているモーション再生終了コールバック関数
+   * @return 등록된 모션 재생 종료 콜백 함수
    */
   public getFinishedMotionHandler = () => this._onFinishedMotion;
 
   /**
-   * 透明度のカーブが存在するかどうかを確認する
+   * 불투명도 커브 존재 여부 확인
    *
-   * @returns true  -> キーが存在する
-   *          false -> キーが存在しない
+   * @returns true  -> 키가 존재함
+   *          false -> 키가 존재하지 않음
    */
   public isExistModelOpacity(): boolean {
     return false;
   }
 
   /**
-   * 透明度のカーブのインデックスを返す
+   * 불투명도 커브의 인덱스를 반환합니다.
    *
-   * @returns success:透明度のカーブのインデックス
+   * @returns success:불투명도 커브의 인덱스
    */
   public getModelOpacityIndex(): number {
     return -1;
   }
 
   /**
-   * 透明度のIdを返す
+   * 불투명도 ID를 반환합니다.
    *
-   * @param index モーションカーブのインデックス
-   * @returns success:透明度のId
+   * @param index 모션 커브의 인덱스
+   * @returns success:불투명도 ID
    */
   public getModelOpacityId(index: number): CubismIdHandle {
     return null;
   }
 
   /**
-   * 指定時間の透明度の値を返す
+   * 지정 시간의 불투명도 값을 반환합니다.
    *
-   * @returns success:モーションの現在時間におけるOpacityの値
+   * @returns success:모션의 현재 시간에서의 Opacity 값
    *
-   * @note  更新後の値を取るにはUpdateParameters() の後に呼び出す。
+   * @note  업데이트된 값을 가져오려면 UpdateParameters() 다음에 호출합니다.
    */
   protected getModelOpacityValue(): number {
     return 1.0;
   }
 
   /**
-   * 終了時刻の調整
-   * @param motionQueueEntry CubismMotionQueueManagerで管理されているモーション
+   * 종료 시간 조정
+   * @param motionQueueEntry CubismMotionQueueManager에서 관리하는 모션
    */
   protected adjustEndTime(motionQueueEntry: CubismMotionQueueEntry) {
     const duration = this.getDuration();
 
-    // duration == -1 の場合はループする
+    // duration == -1인 경우 루프
     const endTime =
       duration <= 0.0 ? -1 : motionQueueEntry.getStartTime() + duration;
 
     motionQueueEntry.setEndTime(endTime);
   }
 
-  public _fadeInSeconds: number; // フェードインにかかる時間[秒]
-  public _fadeOutSeconds: number; // フェードアウトにかかる時間[秒]
-  public _weight: number; // モーションの重み
-  public _offsetSeconds: number; // モーション再生の開始時間[秒]
-  public _isLoop: boolean; // ループが有効かのフラグ
-  public _isLoopFadeIn: boolean; // ループ時にフェードインが有効かどうかのフラグ
-  public _previousLoopState: boolean; // 前回の `_isLoop` の状態
+  public _fadeInSeconds: number; // 페이드인에 걸리는 시간 [초]
+  public _fadeOutSeconds: number; // 페이드아웃에 걸리는 시간 [초]
+  public _weight: number; // 모션 가중치
+  public _offsetSeconds: number; // 모션 재생 시작 시간 [초]
+  public _isLoop: boolean; // 루프 활성화 여부 플래그
+  public _isLoopFadeIn: boolean; // 루프 시 페이드인 활성화 여부 플래그
+  public _previousLoopState: boolean; // 이전 `_isLoop` 상태
   public _firedEventValues: csmVector<csmString>;
 
-  // モーション再生開始コールバック関数
+  // 모션 재생 시작 콜백 함수
   public _onBeganMotion?: BeganMotionCallback;
-  // モーション再生終了コールバック関数
+  // 모션 재생 종료 콜백 함수
   public _onFinishedMotion?: FinishedMotionCallback;
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './acubismmotion';
 import { CubismIdHandle } from '../id/cubismid';
 import { LogLevel } from '../live2dcubismframework';

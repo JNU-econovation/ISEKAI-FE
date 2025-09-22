@@ -7,3 +7,5 @@ Rice/
 Wanko/
 node_modules/
 dist/
+
+*.env

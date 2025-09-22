@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdManager } from './id/cubismidmanager';
@@ -19,32 +18,32 @@ export function strtod(s: string, endPtr: string[]): number {
   for (let i = 1; ; i++) {
     const testC: string = s.slice(i - 1, i);
 
-    // 指数・マイナスの可能性があるのでスキップする
+    // 지수·마이너스 가능성이 있으므로 건너뛰기
     if (testC == 'e' || testC == '-' || testC == 'E') {
       continue;
-    } // 文字列の範囲を広げていく
+    } // 문자열 범위를 넓혀감
 
     const test: string = s.substring(0, i);
     const number = Number(test);
     if (isNaN(number)) {
-      // 数値として認識できなくなったので終了
+      // 숫자로 인식할 수 없게 되어 종료
       break;
-    } // 最後に数値としてできたindexを格納しておく
+    } // 마지막으로 숫자로 인식된 index를 저장
 
     index = i;
   }
-  let d = parseFloat(s); // パースした数値
+  let d = parseFloat(s); // 파싱된 숫자
 
   if (isNaN(d)) {
-    // 数値として認識できなくなったので終了
+    // 숫자로 인식할 수 없게 되어 종료
     d = NaN;
   }
 
-  endPtr[0] = s.slice(index); // 後続の文字列
+  endPtr[0] = s.slice(index); // 뒤따르는 문자열
   return d;
 }
 
-// ファイルスコープの変数を初期化
+// 파일 범위 변수 초기화
 
 let s_isStarted = false;
 let s_isInitialized = false;
@@ -52,11 +51,11 @@ let s_option: Option = null;
 let s_cubismIdManager: CubismIdManager = null;
 
 /**
- * Framework内で使う定数の宣言
+ * Framework 내에서 사용하는 상수 선언
  */
 export const Constant = Object.freeze<Record<string, number>>({
-  vertexOffset: 0, // メッシュ頂点のオフセット値
-  vertexStep: 2 // メッシュ頂点のステップ値
+  vertexOffset: 0, // 메쉬 정점의 오프셋 값
+  vertexStep: 2 // 메쉬 정점의 스텝 값
 });
 
 export function csmDelete<T>(address: T): void {
@@ -68,18 +67,18 @@ export function csmDelete<T>(address: T): void {
 }
 
 /**
- * Live2D Cubism SDK Original Workflow SDKのエントリポイント
- * 利用開始時はCubismFramework.initialize()を呼び、CubismFramework.dispose()で終了する。
+ * Live2D Cubism SDK Original Workflow SDK의 진입점
+ * 이용 시작 시 CubismFramework.initialize()를 호출하고, CubismFramework.dispose()로 종료합니다.
  */
 export class CubismFramework {
   /**
-   * Cubism FrameworkのAPIを使用可能にする。
-   *  APIを実行する前に必ずこの関数を実行すること。
-   *  一度準備が完了して以降は、再び実行しても内部処理がスキップされます。
+   * Cubism Framework의 API를 사용 가능하게 합니다.
+   *  API를 실행하기 전에 반드시 이 함수를 실행해야 합니다.
+   *  한 번 준비가 완료된 이후에는 다시 실행해도 내부 처리가 생략됩니다.
    *
-   * @param    option      Optionクラスのインスタンス
+   * @param    option      Option 클래스의 인스턴스
    *
-   * @return   準備処理が完了したらtrueが返ります。
+   * @return   준비 처리가 완료되면 true가 반환됩니다.
    */
   public static startUp(option: Option = null): boolean {
     if (s_isStarted) {
@@ -95,7 +94,7 @@ export class CubismFramework {
 
     s_isStarted = true;
 
-    // Live2D Cubism Coreバージョン情報を表示
+    // Live2D Cubism Core 버전 정보 표시
     if (s_isStarted) {
       const version: number = Live2DCubismCore.Version.csmGetVersion();
       const major: number = (version & 0xff000000) >> 24;
@@ -118,8 +117,8 @@ export class CubismFramework {
   }
 
   /**
-   * StartUp()で初期化したCubismFrameworkの各パラメータをクリアします。
-   * Dispose()したCubismFrameworkを再利用する際に利用してください。
+   * StartUp()으로 초기화한 CubismFramework의 각 파라미터를 지웁니다.
+   * Dispose()한 CubismFramework를 재사용할 때 이용하십시오.
    */
   public static cleanUp(): void {
     s_isStarted = false;
@@ -129,13 +128,13 @@ export class CubismFramework {
   }
 
   /**
-   * Cubism Framework内のリソースを初期化してモデルを表示可能な状態にします。<br>
-   *     再度Initialize()するには先にDispose()を実行する必要があります。
+   * Cubism Framework 내의 리소스를 초기화하여 모델을 표시 가능한 상태로 만듭니다。<br>
+   *     다시 Initialize()하려면 먼저 Dispose()를 실행해야 합니다.
    *
-   * @param memorySize 初期化時メモリ量 [byte(s)]
-   *    複数モデル表示時などにモデルが更新されない際に使用してください。
-   *    指定する際は必ず1024*1024*16 byte(16MB)以上の値を指定してください。
-   *    それ以外はすべて1024*1024*16 byteに丸めます。
+   * @param memorySize 초기화 시 메모리 양 [byte(s)]
+   *    여러 모델을 표시할 때 모델이 업데이트되지 않는 경우 사용하십시오.
+   *    지정 시 반드시 1024*1024*16 byte(16MB) 이상의 값을 지정하십시오.
+   *    그 외에는 모두 1024*1024*16 byte로 반올림합니다.
    */
   public static initialize(memorySize = 0): void {
     CSM_ASSERT(s_isStarted);
@@ -144,9 +143,9 @@ export class CubismFramework {
       return;
     }
 
-    // --- s_isInitializedによる連続初期化ガード ---
-    // 連続してリソース確保が行われないようにする。
-    // 再度Initialize()するには先にDispose()を実行する必要がある。
+    // --- s_isInitialized에 의한 연속 초기화 방지 ---
+    // 연속으로 리소스 할당이 일어나지 않도록 합니다.
+    // 다시 Initialize()하려면 먼저 Dispose()를 실행해야 합니다.
     if (s_isInitialized) {
       CubismLogWarning(
         'CubismFramework.initialize() skipped, already initialized.'
@@ -154,15 +153,15 @@ export class CubismFramework {
       return;
     }
 
-    //---- static 初期化 ----
+    //---- static 초기화 ----
     Value.staticInitializeNotForClientCall();
 
     s_cubismIdManager = new CubismIdManager();
 
-    // --- HACK: 初期化時メモリ量の拡張(単位byte) ---
-    // 複数モデル表示時などにモデルが更新されない際に使用してください。
-    // 指定する際は必ず1024*1024*16 byte(16MB)以上の値を指定してください。
-    // それ以外はすべて1024*1024*16 byteに丸めます。
+    // --- HACK: 초기화 시 메모리 양 확장 (단위 byte) ---
+    // 여러 모델을 표시할 때 모델이 업데이트되지 않는 경우 사용하십시오.
+    // 지정 시 반드시 1024*1024*16 byte(16MB) 이상의 값을 지정하십시오.
+    // 그 외에는 모두 1024*1024*16 byte로 반올림합니다.
     Live2DCubismCore.Memory.initializeAmountOfMemory(memorySize);
 
     s_isInitialized = true;
@@ -171,9 +170,9 @@ export class CubismFramework {
   }
 
   /**
-   * Cubism Framework内の全てのリソースを解放します。
-   *      ただし、外部で確保されたリソースについては解放しません。
-   *      外部で適切に破棄する必要があります。
+   * Cubism Framework 내의 모든 리소스를 해제합니다.
+   *      단, 외부에서 할당된 리소스는 해제하지 않습니다.
+   *      외부에서 적절하게 파기해야 합니다.
    */
   public static dispose(): void {
     CSM_ASSERT(s_isStarted);
@@ -182,10 +181,10 @@ export class CubismFramework {
       return;
     }
 
-    // --- s_isInitializedによる未初期化解放ガード ---
-    // dispose()するには先にinitialize()を実行する必要がある。
+    // --- s_isInitialized에 의한 미초기화 해제 방지 ---
+    // dispose()하려면 먼저 initialize()를 실행해야 합니다.
     if (!s_isInitialized) {
-      // false...リソース未確保の場合
+      // false...리소스 미확보의 경우
       CubismLogWarning('CubismFramework.dispose() skipped, not initialized.');
       return;
     }
@@ -195,7 +194,7 @@ export class CubismFramework {
     s_cubismIdManager.release();
     s_cubismIdManager = null;
 
-    // レンダラの静的リソース（シェーダプログラム他）を解放する
+    // 렌더러의 정적 리소스(셰이더 프로그램 등)를 해제합니다.
     CubismRenderer.staticRelease();
 
     s_isInitialized = false;
@@ -204,25 +203,25 @@ export class CubismFramework {
   }
 
   /**
-   * Cubism FrameworkのAPIを使用する準備が完了したかどうか
-   * @return APIを使用する準備が完了していればtrueが返ります。
+   * Cubism Framework의 API를 사용할 준비가 완료되었는지 여부
+   * @return API를 사용할 준비가 완료되었으면 true가 반환됩니다.
    */
   public static isStarted(): boolean {
     return s_isStarted;
   }
 
   /**
-   * Cubism Frameworkのリソース初期化がすでに行われているかどうか
-   * @return リソース確保が完了していればtrueが返ります
+   * Cubism Framework의 리소스 초기화가 이미 수행되었는지 여부
+   * @return 리소스 할당이 완료되었으면 true가 반환됩니다.
    */
   public static isInitialized(): boolean {
     return s_isInitialized;
   }
 
   /**
-   * Core APIにバインドしたログ関数を実行する
+   * Core API에 바인딩된 로그 함수를 실행합니다.
    *
-   * @praram message ログメッセージ
+   * @praram message 로그 메시지
    */
   public static coreLogFunction(message: string): void {
     // Return if logging not possible.
@@ -234,9 +233,9 @@ export class CubismFramework {
   }
 
   /**
-   * 現在のログ出力レベル設定の値を返す。
+   * 현재 로그 출력 레벨 설정 값을 반환합니다.
    *
-   * @return  現在のログ出力レベル設定の値
+   * @return  현재 로그 출력 레벨 설정 값
    */
   public static getLoggingLevel(): LogLevel {
     if (s_option != null) {
@@ -246,38 +245,38 @@ export class CubismFramework {
   }
 
   /**
-   * IDマネージャのインスタンスを取得する
-   * @return CubismManagerクラスのインスタンス
+   * ID 관리자 인스턴스 가져오기
+   * @return CubismManager 클래스의 인스턴스
    */
   public static getIdManager(): CubismIdManager {
     return s_cubismIdManager;
   }
 
   /**
-   * 静的クラスとして使用する
-   * インスタンス化させない
+   * 정적 클래스로 사용
+   * 인스턴스화하지 않음
    */
   private constructor() {}
 }
 
 export class Option {
-  logFunction: Live2DCubismCore.csmLogFunction; // ログ出力の関数オブジェクト
-  loggingLevel: LogLevel; // ログ出力レベルの設定
+  logFunction: Live2DCubismCore.csmLogFunction; // 로그 출력 함수 객체
+  loggingLevel: LogLevel; // 로그 출력 레벨 설정
 }
 
 /**
- * ログ出力のレベル
+ * 로그 출력 레벨
  */
 export enum LogLevel {
-  LogLevel_Verbose = 0, // 詳細ログ
-  LogLevel_Debug, // デバッグログ
-  LogLevel_Info, // Infoログ
-  LogLevel_Warning, // 警告ログ
-  LogLevel_Error, // エラーログ
-  LogLevel_Off // ログ出力無効
+  LogLevel_Verbose = 0, // 상세 로그
+  LogLevel_Debug, // 디버그 로그
+  LogLevel_Info, // 정보 로그
+  LogLevel_Warning, // 경고 로그
+  LogLevel_Error, // 오류 로그
+  LogLevel_Off // 로그 출력 비활성화
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './live2dcubismframework';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

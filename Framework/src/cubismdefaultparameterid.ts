@@ -1,17 +1,16 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 /**
- * @brief パラメータIDのデフォルト値を保持する定数<br>
- *         デフォルト値の仕様は以下のマニュアルに基づく<br>
+ * @brief 파라미터 ID의 기본값을 유지하는 상수<br>
+ *         기본값의 사양은 아래 설명서를 기반으로 합니다<br>
  *         https://docs.live2d.com/cubism-editor-manual/standard-parametor-list/
  */
 export const CubismDefaultParameterId = Object.freeze<Record<string, string>>({
-  // パーツID
+  // 파트 ID
   HitAreaPrefix: 'HitArea',
   HitAreaHead: 'Head',
   HitAreaBody: 'Body',
@@ -19,7 +18,7 @@ export const CubismDefaultParameterId = Object.freeze<Record<string, string>>({
   PartsArmPrefix: 'Parts01Arm_',
   PartsArmLPrefix: 'Parts01ArmL_',
   PartsArmRPrefix: 'Parts01ArmR_',
-  // パラメータID
+  // 파라미터 ID
   ParamAngleX: 'ParamAngleX',
   ParamAngleY: 'ParamAngleY',
   ParamAngleZ: 'ParamAngleZ',
@@ -63,7 +62,7 @@ export const CubismDefaultParameterId = Object.freeze<Record<string, string>>({
   ParamNONE: 'NONE:'
 });
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismdefaultparameterid';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

@@ -1,20 +1,19 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismMatrix44 } from './cubismmatrix44';
 
 /**
- * カメラの位置変更に使うと便利な4x4行列
+ * 카메라 위치 변경에 사용하면 편리한 4x4 행렬
  *
- * カメラの位置変更に使うと便利な4x4行列のクラス。
+ * 카메라 위치 변경에 사용하면 편리한 4x4 행렬 클래스.
  */
 export class CubismViewMatrix extends CubismMatrix44 {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     super();
@@ -31,10 +30,10 @@ export class CubismViewMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 移動を調整
+   * 이동 조정
    *
-   * @param x X軸の移動量
-   * @param y Y軸の移動量
+   * @param x X축 이동량
+   * @param y Y축 이동량
    */
   public adjustTranslate(x: number, y: number): void {
     if (this._tr[0] * this._maxLeft + (this._tr[12] + x) > this._screenLeft) {
@@ -79,11 +78,11 @@ export class CubismViewMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 拡大率を調整
+   * 확대율 조정
    *
-   * @param cx 拡大を行うX軸の中心位置
-   * @param cy 拡大を行うY軸の中心位置
-   * @param scale 拡大率
+   * @param cx 확대할 X축 중심 위치
+   * @param cy 확대할 Y축 중심 위치
+   * @param scale 확대율
    */
   public adjustScale(cx: number, cy: number, scale: number): void {
     const maxScale: number = this.getMaxScale();
@@ -164,12 +163,12 @@ export class CubismViewMatrix extends CubismMatrix44 {
   }
 
   /**
-   * デバイスに対応する論理座養生の範囲の設定
+   * 디바이스에 대응하는 논리 좌표상의 범위 설정
    *
-   * @param left      左辺のX軸の位置
-   * @param right     右辺のX軸の位置
-   * @param bottom    下辺のY軸の位置
-   * @param top       上辺のY軸の位置
+   * @param left      왼쪽 X축 위치
+   * @param right     오른쪽 X축 위치
+   * @param bottom    아래쪽 Y축 위치
+   * @param top       위쪽 Y축 위치
    */
   public setScreenRect(
     left: number,
@@ -184,11 +183,11 @@ export class CubismViewMatrix extends CubismMatrix44 {
   }
 
   /**
-   * デバイスに対応する論理座標上の移動可能範囲の設定
-   * @param left      左辺のX軸の位置
-   * @param right     右辺のX軸の位置
-   * @param bottom    下辺のY軸の位置
-   * @param top       上辺のY軸の位置
+   * 디바이스에 대응하는 논리 좌표상의 이동 가능 범위 설정
+   * @param left      왼쪽 X축 위치
+   * @param right     오른쪽 X축 위치
+   * @param bottom    아래쪽 Y축 위치
+   * @param top       위쪽 Y축 위치
    */
   public setMaxScreenRect(
     left: number,
@@ -203,134 +202,134 @@ export class CubismViewMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 最大拡大率の設定
-   * @param maxScale 最大拡大率
+   * 최대 확대율 설정
+   * @param maxScale 최대 확대율
    */
   public setMaxScale(maxScale: number): void {
     this._maxScale = maxScale;
   }
 
   /**
-   * 最小拡大率の設定
-   * @param minScale 最小拡大率
+   * 최소 확대율 설정
+   * @param minScale 최소 확대율
    */
   public setMinScale(minScale: number): void {
     this._minScale = minScale;
   }
 
   /**
-   * 最大拡大率の取得
-   * @return 最大拡大率
+   * 최대 확대율 가져오기
+   * @return 최대 확대율
    */
   public getMaxScale(): number {
     return this._maxScale;
   }
 
   /**
-   * 最小拡大率の取得
-   * @return 最小拡大率
+   * 최소 확대율 가져오기
+   * @return 최소 확대율
    */
   public getMinScale(): number {
     return this._minScale;
   }
 
   /**
-   * 拡大率が最大になっているかを確認する
+   * 확대율이 최대인지 확인합니다.
    *
-   * @return true 拡大率は最大
-   * @return false 拡大率は最大ではない
+   * @return true 확대율이 최대임
+   * @return false 확대율이 최대가 아님
    */
   public isMaxScale(): boolean {
     return this.getScaleX() >= this._maxScale;
   }
 
   /**
-   * 拡大率が最小になっているかを確認する
+   * 확대율이 최소인지 확인합니다.
    *
-   * @return true 拡大率は最小
-   * @return false 拡大率は最小ではない
+   * @return true 확대율이 최소임
+   * @return false 확대율이 최소가 아님
    */
   public isMinScale(): boolean {
     return this.getScaleX() <= this._minScale;
   }
 
   /**
-   * デバイスに対応する論理座標の左辺のＸ軸位置を取得する
-   * @return デバイスに対応する論理座標の左辺のX軸位置
+   * 디바이스에 대응하는 논리 좌표의 왼쪽 X축 위치를 가져옵니다.
+   * @return 디바이스에 대응하는 논리 좌표의 왼쪽 X축 위치
    */
   public getScreenLeft(): number {
     return this._screenLeft;
   }
 
   /**
-   * デバイスに対応する論理座標の右辺のＸ軸位置を取得する
-   * @return デバイスに対応する論理座標の右辺のX軸位置
+   * 디바이스에 대응하는 논리 좌표의 오른쪽 X축 위치를 가져옵니다.
+   * @return 디바이스에 대응하는 논리 좌표의 오른쪽 X축 위치
    */
   public getScreenRight(): number {
     return this._screenRight;
   }
 
   /**
-   * デバイスに対応する論理座標の下辺のY軸位置を取得する
-   * @return デバイスに対応する論理座標の下辺のY軸位置
+   * 디바이스에 대응하는 논리 좌표의 아래쪽 Y축 위치를 가져옵니다.
+   * @return 디바이스에 대응하는 논리 좌표의 아래쪽 Y축 위치
    */
   public getScreenBottom(): number {
     return this._screenBottom;
   }
 
   /**
-   * デバイスに対応する論理座標の上辺のY軸位置を取得する
-   * @return デバイスに対応する論理座標の上辺のY軸位置
+   * 디바이스에 대응하는 논리 좌표의 위쪽 Y축 위치를 가져옵니다.
+   * @return 디바이스에 대응하는 논리 좌표의 위쪽 Y축 위치
    */
   public getScreenTop(): number {
     return this._screenTop;
   }
 
   /**
-   * 左辺のX軸位置の最大値の取得
-   * @return 左辺のX軸位置の最大値
+   * 왼쪽 X축 위치의 최대값 가져오기
+   * @return 왼쪽 X축 위치의 최대값
    */
   public getMaxLeft(): number {
     return this._maxLeft;
   }
 
   /**
-   * 右辺のX軸位置の最大値の取得
-   * @return 右辺のX軸位置の最大値
+   * 오른쪽 X축 위치의 최대값 가져오기
+   * @return 오른쪽 X축 위치의 최대값
    */
   public getMaxRight(): number {
     return this._maxRight;
   }
 
   /**
-   * 下辺のY軸位置の最大値の取得
-   * @return 下辺のY軸位置の最大値
+   * 아래쪽 Y축 위치의 최대값 가져오기
+   * @return 아래쪽 Y축 위치의 최대값
    */
   public getMaxBottom(): number {
     return this._maxBottom;
   }
 
   /**
-   * 上辺のY軸位置の最大値の取得
-   * @return 上辺のY軸位置の最大値
+   * 위쪽 Y축 위치의 최대값 가져오기
+   * @return 위쪽 Y축 위치의 최대값
    */
   public getMaxTop(): number {
     return this._maxTop;
   }
 
-  private _screenLeft: number; // デバイスに対応する論理座標上の範囲（左辺X軸位置）
-  private _screenRight: number; // デバイスに対応する論理座標上の範囲（右辺X軸位置）
-  private _screenTop: number; // デバイスに対応する論理座標上の範囲（上辺Y軸位置）
-  private _screenBottom: number; // デバイスに対応する論理座標上の範囲（下辺Y軸位置）
-  private _maxLeft: number; // 論理座標上の移動可能範囲（左辺X軸位置）
-  private _maxRight: number; // 論理座標上の移動可能範囲（右辺X軸位置）
-  private _maxTop: number; // 論理座標上の移動可能範囲（上辺Y軸位置）
-  private _maxBottom: number; // 論理座標上の移動可能範囲（下辺Y軸位置）
-  private _maxScale: number; // 拡大率の最大値
-  private _minScale: number; // 拡大率の最小値
+  private _screenLeft: number; // 디바이스에 대응하는 논리 좌표상의 범위 (왼쪽 X축 위치)
+  private _screenRight: number; // 디바이스에 대응하는 논리 좌표상의 범위 (오른쪽 X축 위치)
+  private _screenTop: number; // 디바이스에 대응하는 논리 좌표상의 범위 (위쪽 Y축 위치)
+  private _screenBottom: number; // 디바이스에 대응하는 논리 좌표상의 범위 (아래쪽 Y축 위치)
+  private _maxLeft: number; // 논리 좌표상의 이동 가능 범위 (왼쪽 X축 위치)
+  private _maxRight: number; // 논리 좌표상의 이동 가능 범위 (오른쪽 X축 위치)
+  private _maxTop: number; // 논리 좌표상의 이동 가능 범위 (위쪽 Y축 위치)
+  private _maxBottom: number; // 논리 좌표상의 이동 가능 범위 (아래쪽 Y축 위치)
+  private _maxScale: number; // 확대율의 최대값
+  private _minScale: number; // 확대율의 최소값
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismviewmatrix';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {
