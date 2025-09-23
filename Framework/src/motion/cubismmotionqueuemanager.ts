@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { ACubismMotion } from './acubismmotion';
@@ -12,17 +11,17 @@ import { CubismModel } from '../model/cubismmodel';
 import { csmString } from '../type/csmstring';
 
 /**
- * モーション再生の管理
+ * 모션 재생 관리
  *
- * モーション再生の管理用クラス。CubismMotionモーションなどACubismMotionのサブクラスを再生するために使用する。
+ * 모션 재생 관리용 클래스. CubismMotion 모션 등 ACubismMotion의 서브 클래스를 재생하기 위해 사용합니다.
  *
- * @note 再生中に別のモーションが StartMotion()された場合は、新しいモーションに滑らかに変化し旧モーションは中断する。
- *       表情用モーション、体用モーションなどを分けてモーション化した場合など、
- *       複数のモーションを同時に再生させる場合は、複数のCubismMotionQueueManagerインスタンスを使用する。
+ * @note 재생 중에 다른 모션이 StartMotion()되면 새 모션으로 부드럽게 전환되고 이전 모션은 중단됩니다.
+ *       표정용 모션, 몸용 모션 등을 별도로 모션화한 경우 등,
+ *       여러 모션을 동시에 재생하려면 여러 CubismMotionQueueManager 인스턴스를 사용합니다.
  */
 export class CubismMotionQueueManager {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._userTimeSeconds = 0.0;
@@ -32,7 +31,7 @@ export class CubismMotionQueueManager {
   }
 
   /**
-   * デストラクタ
+   * 소멸자
    */
   public release(): void {
     for (let i = 0; i < this._motions.getSize(); ++i) {
@@ -46,14 +45,14 @@ export class CubismMotionQueueManager {
   }
 
   /**
-   * 指定したモーションの開始
+   * 지정한 모션 시작
    *
-   * 指定したモーションを開始する。同じタイプのモーションが既にある場合は、既存のモーションに終了フラグを立て、フェードアウトを開始させる。
+   * 지정한 모션을 시작합니다. 동일한 타입의 모션이 이미 있는 경우, 기존 모션에 종료 플래그를 설정하고 페이드 아웃을 시작합니다.
    *
-   * @param   motion          開始するモーション
-   * @param   autoDelete      再生が終了したモーションのインスタンスを削除するなら true
-   * @param   userTimeSeconds Deprecated: デルタ時間の積算値[秒] 関数内で参照していないため使用は非推奨。
-   * @return                      開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するIsFinished()の引数で使用する。開始できない時は「-1」
+   * @param   motion          시작할 모션
+   * @param   autoDelete      재생이 종료된 모션의 인스턴스를 삭제하려면 true
+   * @param   userTimeSeconds Deprecated: 델타 시간의 누적 값 [초] 함수 내에서 참조하지 않으므로 사용은 권장하지 않습니다.
+   * @return                      시작한 모션의 식별 번호를 반환합니다. 개별 모션이 종료되었는지 여부를 판정하는 IsFinished()의 인수로 사용합니다. 시작할 수 없으면 "-1"
    */
   public startMotion(
     motion: ACubismMotion,
@@ -66,17 +65,17 @@ export class CubismMotionQueueManager {
 
     let motionQueueEntry: CubismMotionQueueEntry = null;
 
-    // 既にモーションがあれば終了フラグを立てる
+    // 이미 모션이 있으면 종료 플래그를 설정
     for (let i = 0; i < this._motions.getSize(); ++i) {
       motionQueueEntry = this._motions.at(i);
       if (motionQueueEntry == null) {
         continue;
       }
 
-      motionQueueEntry.setFadeOut(motionQueueEntry._motion.getFadeOutTime()); // フェードアウト設定
+      motionQueueEntry.setFadeOut(motionQueueEntry._motion.getFadeOutTime()); // 페이드 아웃 설정
     }
 
-    motionQueueEntry = new CubismMotionQueueEntry(); // 終了時に破棄する
+    motionQueueEntry = new CubismMotionQueueEntry(); // 종료 시 파기
     motionQueueEntry._autoDelete = autoDelete;
     motionQueueEntry._motion = motion;
 
@@ -86,13 +85,13 @@ export class CubismMotionQueueManager {
   }
 
   /**
-   * 全てのモーションの終了の確認
-   * @return true 全て終了している
-   * @return false 終了していない
+   * 모든 모션 종료 확인
+   * @return true 모두 종료됨
+   * @return false 종료되지 않음
    */
   public isFinished(): boolean {
-    // ------- 処理を行う -------
-    // 既にモーションがあれば終了フラグを立てる
+    // ------- 처리 수행 -------
+    // 이미 모션이 있으면 종료 플래그를 설정
 
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
@@ -102,7 +101,7 @@ export class CubismMotionQueueManager {
       let motionQueueEntry: CubismMotionQueueEntry = ite.ptr();
 
       if (motionQueueEntry == null) {
-        ite = this._motions.erase(ite); // 削除
+        ite = this._motions.erase(ite); // 삭제
         continue;
       }
 
@@ -111,11 +110,11 @@ export class CubismMotionQueueManager {
       if (motion == null) {
         motionQueueEntry.release();
         motionQueueEntry = null;
-        ite = this._motions.erase(ite); // 削除
+        ite = this._motions.erase(ite); // 삭제
         continue;
       }
 
-      // ----- 終了済みの処理があれば削除する ------
+      // ----- 종료된 처리가 있으면 삭제 -----
       if (!motionQueueEntry.isFinished()) {
         return false;
       } else {
@@ -127,10 +126,10 @@ export class CubismMotionQueueManager {
   }
 
   /**
-   * 指定したモーションの終了の確認
-   * @param motionQueueEntryNumber モーションの識別番号
-   * @return true 全て終了している
-   * @return false 終了していない
+   * 지정한 모션 종료 확인
+   * @param motionQueueEntryNumber 모션의 식별 번호
+   * @return true 모두 종료됨
+   * @return false 종료되지 않음
    */
   public isFinishedByHandle(
     motionQueueEntryNumber: CubismMotionQueueEntryHandle
@@ -157,11 +156,11 @@ export class CubismMotionQueueManager {
   }
 
   /**
-   * 全てのモーションを停止する
+   * 모든 모션 정지
    */
   public stopAllMotions(): void {
-    // ------- 処理を行う -------
-    // 既にモーションがあれば終了フラグを立てる
+    // ------- 처리 수행 -------
+    // 이미 모션이 있으면 종료 플래그를 설정
 
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
@@ -176,36 +175,36 @@ export class CubismMotionQueueManager {
         continue;
       }
 
-      // ----- 終了済みの処理があれば削除する ------
+      // ----- 종료된 처리가 있으면 삭제 -----
       motionQueueEntry.release();
       motionQueueEntry = null;
-      ite = this._motions.erase(ite); // 削除
+      ite = this._motions.erase(ite); // 삭제
     }
   }
 
   /**
-   * @brief CubismMotionQueueEntryの配列の取得
+   * @brief CubismMotionQueueEntry 배열 가져오기
    *
-   * CubismMotionQueueEntryの配列を取得する。
+   * CubismMotionQueueEntry의 배열을 가져옵니다.
    *
-   * @return  CubismMotionQueueEntryの配列へのポインタ
-   * @retval  NULL   見つからなかった
+   * @return  CubismMotionQueueEntry의 배열에 대한 포인터
+   * @retval  NULL   찾을 수 없음
    */
   public getCubismMotionQueueEntries(): csmVector<CubismMotionQueueEntry> {
     return this._motions;
   }
 
   /**
-   * 指定したCubismMotionQueueEntryの取得
+   * 지정한 CubismMotionQueueEntry 가져오기
 
-   * @param   motionQueueEntryNumber  モーションの識別番号
-   * @return  指定したCubismMotionQueueEntry
-   * @return  null   見つからなかった
+   * @param   motionQueueEntryNumber  모션의 식별 번호
+   * @return  지정한 CubismMotionQueueEntry
+   * @return  null   찾을 수 없음
    */
   public getCubismMotionQueueEntry(
     motionQueueEntryNumber: any
   ): CubismMotionQueueEntry {
-    //------- 処理を行う -------
+    //------- 처리 수행 -------
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
       ite.notEqual(this._motions.end());
@@ -226,10 +225,10 @@ export class CubismMotionQueueManager {
   }
 
   /**
-   * イベントを受け取るCallbackの登録
+   * 이벤트를 수신할 콜백 등록
    *
-   * @param callback コールバック関数
-   * @param customData コールバックに返されるデータ
+   * @param callback 콜백 함수
+   * @param customData 콜백으로 반환될 데이터
    */
   public setEventCallback(
     callback: CubismMotionEventFunction,
@@ -240,18 +239,18 @@ export class CubismMotionQueueManager {
   }
 
   /**
-   * モーションを更新して、モデルにパラメータ値を反映する。
+   * 모션을 업데이트하고 모델에 파라미터 값을 반영합니다.
    *
-   * @param   model   対象のモデル
-   * @param   userTimeSeconds   デルタ時間の積算値[秒]
-   * @return  true    モデルへパラメータ値の反映あり
-   * @return  false   モデルへパラメータ値の反映なし(モーションの変化なし)
+   * @param   model   대상 모델
+   * @param   userTimeSeconds   델타 시간의 누적 값 [초]
+   * @return  true    모델에 파라미터 값 반영 있음
+   * @return  false   모델에 파라미터 값 반영 없음 (모션 변화 없음)
    */
   public doUpdateMotion(model: CubismModel, userTimeSeconds: number): boolean {
     let updated = false;
 
-    // ------- 処理を行う --------
-    // 既にモーションがあれば終了フラグを立てる
+    // ------- 처리 수행 --------
+    // 이미 모션이 있으면 종료 플래그를 설정
 
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
@@ -261,7 +260,7 @@ export class CubismMotionQueueManager {
       let motionQueueEntry: CubismMotionQueueEntry = ite.ptr();
 
       if (motionQueueEntry == null) {
-        ite = this._motions.erase(ite); // 削除
+        ite = this._motions.erase(ite); // 삭제
         continue;
       }
 
@@ -270,16 +269,16 @@ export class CubismMotionQueueManager {
       if (motion == null) {
         motionQueueEntry.release();
         motionQueueEntry = null;
-        ite = this._motions.erase(ite); // 削除
+        ite = this._motions.erase(ite); // 삭제
 
         continue;
       }
 
-      // ------ 値を反映する ------
+      // ------ 값 반영 ------
       motion.updateParameters(model, motionQueueEntry, userTimeSeconds);
       updated = true;
 
-      // ------ ユーザトリガーイベントを検査する ----
+      // ------ 사용자 트리거 이벤트 검사 ----
       const firedList: csmVector<csmString> = motion.getFiredEvent(
         motionQueueEntry.getLastCheckEventSeconds() -
           motionQueueEntry.getStartTime(),
@@ -292,11 +291,11 @@ export class CubismMotionQueueManager {
 
       motionQueueEntry.setLastCheckEventSeconds(userTimeSeconds);
 
-      // ------ 終了済みの処理があれば削除する ------
+      // ------ 종료된 처리가 있으면 삭제 -----
       if (motionQueueEntry.isFinished()) {
         motionQueueEntry.release();
         motionQueueEntry = null;
-        ite = this._motions.erase(ite); // 削除
+        ite = this._motions.erase(ite); // 삭제
       } else {
         if (motionQueueEntry.isTriggeredFadeOut()) {
           motionQueueEntry.startFadeOut(
@@ -310,20 +309,20 @@ export class CubismMotionQueueManager {
 
     return updated;
   }
-  _userTimeSeconds: number; // デルタ時間の積算値[秒]
+  _userTimeSeconds: number; // 델타 시간의 누적 값 [초]
 
-  _motions: csmVector<CubismMotionQueueEntry>; // モーション
-  _eventCallBack: CubismMotionEventFunction; // コールバック関数
-  _eventCustomData: any; // コールバックに戻されるデータ
+  _motions: csmVector<CubismMotionQueueEntry>; // 모션
+  _eventCallBack: CubismMotionEventFunction; // 콜백 함수
+  _eventCustomData: any; // 콜백으로 반환되는 데이터
 }
 
 /**
- * イベントのコールバック関数を定義
+ * 이벤트 콜백 함수 정의
  *
- * イベントのコールバックに登録できる関数の型情報
- * @param caller        発火したイベントを再生させたCubismMotionQueueManager
- * @param eventValue    発火したイベントの文字列データ
- * @param customData   コールバックに返される登録時に指定されたデータ
+ * 이벤트 콜백에 등록할 수 있는 함수의 타입 정보
+ * @param caller        발생한 이벤트를 재생시킨 CubismMotionQueueManager
+ * @param eventValue    발생한 이벤트의 문자열 데이터
+ * @param customData   콜백으로 반환될 등록 시 지정된 데이터
  */
 export interface CubismMotionEventFunction {
   (
@@ -334,15 +333,15 @@ export interface CubismMotionEventFunction {
 }
 
 /**
- * モーションの識別番号
+ * 모션 식별 번호
  *
- * モーションの識別番号の定義
+ * 모션 식별 번호의 정의
  */
 export declare type CubismMotionQueueEntryHandle = any;
 export const InvalidMotionQueueEntryHandleValue: CubismMotionQueueEntryHandle =
   -1;
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmotionqueuemanager';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

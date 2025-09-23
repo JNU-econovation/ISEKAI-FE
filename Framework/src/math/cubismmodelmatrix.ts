@@ -1,24 +1,23 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { csmMap, iterator } from '../type/csmmap';
 import { CubismMatrix44 } from './cubismmatrix44';
 
 /**
- * モデル座標設定用の4x4行列
+ * 모델 좌표 설정용 4x4 행렬
  *
- * モデル座標設定用の4x4行列クラス
+ * 모델 좌표 설정용 4x4 행렬 클래스
  */
 export class CubismModelMatrix extends CubismMatrix44 {
   /**
-   * コンストラクタ
+   * 생성자
    *
-   * @param w 横幅
-   * @param h 縦幅
+   * @param w 너비
+   * @param h 높이
    */
   constructor(w?: number, h?: number) {
     super();
@@ -30,9 +29,9 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 横幅を設定
+   * 너비 설정
    *
-   * @param w 横幅
+   * @param w 너비
    */
   public setWidth(w: number): void {
     const scaleX: number = w / this._width;
@@ -41,8 +40,8 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 縦幅を設定
-   * @param h 縦幅
+   * 높이 설정
+   * @param h 높이
    */
   public setHeight(h: number): void {
     const scaleX: number = h / this._height;
@@ -51,22 +50,22 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 位置を設定
+   * 위치 설정
    *
-   * @param x X軸の位置
-   * @param y Y軸の位置
+   * @param x X축 위치
+   * @param y Y축 위치
    */
   public setPosition(x: number, y: number): void {
     this.translate(x, y);
   }
 
   /**
-   * 中心位置を設定
+   * 중심 위치 설정
    *
-   * @param x X軸の中心位置
-   * @param y Y軸の中心位置
+   * @param x X축 중심 위치
+   * @param y Y축 중심 위치
    *
-   * @note widthかheightを設定したあとでないと、拡大率が正しく取得できないためずれる。
+   * @note 너비 또는 높이를 설정한 후가 아니면 확대율을 올바르게 가져올 수 없어 어긋납니다.
    */
   public setCenterPosition(x: number, y: number) {
     this.centerX(x);
@@ -74,18 +73,18 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 上辺の位置を設定する
+   * 윗변 위치 설정
    *
-   * @param y 上辺のY軸位置
+   * @param y 윗변의 Y축 위치
    */
   public top(y: number): void {
     this.setY(y);
   }
 
   /**
-   * 下辺の位置を設定する
+   * 아랫변 위치 설정
    *
-   * @param y 下辺のY軸位置
+   * @param y 아랫변의 Y축 위치
    */
   public bottom(y: number) {
     const h: number = this._height * this.getScaleY();
@@ -94,18 +93,18 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * 左辺の位置を設定
+   * 왼쪽 변 위치 설정
    *
-   * @param x 左辺のX軸位置
+   * @param x 왼쪽 변의 X축 위치
    */
   public left(x: number): void {
     this.setX(x);
   }
 
   /**
-   * 右辺の位置を設定
+   * 오른쪽 변 위치 설정
    *
-   * @param x 右辺のX軸位置
+   * @param x 오른쪽 변의 X축 위치
    */
   public right(x: number): void {
     const w = this._width * this.getScaleX();
@@ -114,9 +113,9 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * X軸の中心位置を設定
+   * X축 중심 위치 설정
    *
-   * @param x X軸の中心位置
+   * @param x X축 중심 위치
    */
   public centerX(x: number): void {
     const w = this._width * this.getScaleX();
@@ -125,18 +124,18 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * X軸の位置を設定
+   * X축 위치 설정
    *
-   * @param x X軸の位置
+   * @param x X축 위치
    */
   public setX(x: number): void {
     this.translateX(x);
   }
 
   /**
-   * Y軸の中心位置を設定
+   * Y축 중심 위치 설정
    *
-   * @param y Y軸の中心位置
+   * @param y Y축 중심 위치
    */
   public centerY(y: number): void {
     const h: number = this._height * this.getScaleY();
@@ -145,18 +144,18 @@ export class CubismModelMatrix extends CubismMatrix44 {
   }
 
   /**
-   * Y軸の位置を設定する
+   * Y축 위치 설정
    *
-   * @param y Y軸の位置
+   * @param y Y축 위치
    */
   public setY(y: number): void {
     this.translateY(y);
   }
 
   /**
-   * レイアウト情報から位置を設定
+   * 레이아웃 정보에서 위치 설정
    *
-   * @param layout レイアウト情報
+   * @param layout 레이아웃 정보
    */
   public setupFromLayout(layout: csmMap<string, number>): void {
     const keyWidth = 'width';
@@ -213,11 +212,11 @@ export class CubismModelMatrix extends CubismMatrix44 {
     }
   }
 
-  private _width: number; // 横幅
-  private _height: number; // 縦幅
+  private _width: number; // 너비
+  private _height: number; // 높이
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmodelmatrix';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

@@ -1,20 +1,19 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 /**
- * 矩形形状（座標・長さはfloat値）を定義するクラス
+ * 사각형 모양(좌표, 길이는 float 값)을 정의하는 클래스
  */
 export class csmRect {
   /**
-   * コンストラクタ
-   * @param x 左端X座標
-   * @param y 上端Y座標
-   * @param w 幅
-   * @param h 高さ
+   * 생성자
+   * @param x 왼쪽 끝 X좌표
+   * @param y 위쪽 끝 Y좌표
+   * @param w 너비
+   * @param h 높이
    */
   public constructor(x?: number, y?: number, w?: number, h?: number) {
     this.x = x;
@@ -24,36 +23,36 @@ export class csmRect {
   }
 
   /**
-   * 矩形中央のX座標を取得する
+   * 사각형 중앙의 X좌표를 가져옵니다.
    */
   public getCenterX(): number {
     return this.x + 0.5 * this.width;
   }
 
   /**
-   * 矩形中央のY座標を取得する
+   * 사각형 중앙의 Y좌표를 가져옵니다.
    */
   public getCenterY(): number {
     return this.y + 0.5 * this.height;
   }
 
   /**
-   * 右側のX座標を取得する
+   * 오른쪽 X좌표를 가져옵니다.
    */
   public getRight(): number {
     return this.x + this.width;
   }
 
   /**
-   * 下端のY座標を取得する
+   * 아래쪽 끝의 Y좌표를 가져옵니다.
    */
   public getBottom(): number {
     return this.y + this.height;
   }
 
   /**
-   * 矩形に値をセットする
-   * @param r 矩形のインスタンス
+   * 사각형에 값을 설정합니다.
+   * @param r 사각형의 인스턴스
    */
   public setRect(r: csmRect): void {
     this.x = r.x;
@@ -63,9 +62,9 @@ export class csmRect {
   }
 
   /**
-   * 矩形中央を軸にして縦横を拡縮する
-   * @param w 幅方向に拡縮する量
-   * @param h 高さ方向に拡縮する量
+   * 사각형 중앙을 축으로 가로, 세로를 확대/축소합니다.
+   * @param w 너비 방향으로 확대/축소할 양
+   * @param h 높이 방향으로 확대/축소할 양
    */
   public expand(w: number, h: number) {
     this.x -= w;
@@ -74,13 +73,13 @@ export class csmRect {
     this.height += h * 2.0;
   }
 
-  public x: number; // 左端X座標
-  public y: number; // 上端Y座標
-  public width: number; // 幅
-  public height: number; // 高さ
+  public x: number; // 왼쪽 끝 X좌표
+  public y: number; // 위쪽 끝 Y좌표
+  public width: number; // 너비
+  public height: number; // 높이
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './csmrectf';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

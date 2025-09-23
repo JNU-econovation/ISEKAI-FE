@@ -1,16 +1,15 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 export class CubismString {
   /**
-   * 標準出力の書式を適用した文字列を取得する。
-   * @param format    標準出力の書式指定文字列
-   * @param ...args   書式指定文字列に渡す文字列
-   * @return 書式を適用した文字列
+   * 표준 출력 서식을 적용한 문자열을 가져옵니다.
+   * @param format    표준 출력 서식 지정 문자열
+   * @param ...args   서식 지정 문자열에 전달할 문자열
+   * @return 서식을 적용한 문자열
    */
   public static getFormatedString(format: string, ...args: any[]): string {
     const ret: string = format;
@@ -26,11 +25,11 @@ export class CubismString {
   }
 
   /**
-   * textがstartWordで始まっているかどうかを返す
-   * @param test 検査対象の文字列
-   * @param startWord 比較対象の文字列
-   * @return true textがstartWordで始まっている
-   * @return false textがstartWordで始まっていない
+   * text가 startWord로 시작하는지 여부를 반환합니다.
+   * @param text      검사할 문자열
+   * @param startWord 비교할 문자열
+   * @return true     text가 startWord로 시작하는 경우
+   * @return false    text가 startWord로 시작하지 않는 경우
    */
   public static isStartWith(text: string, startWord: string): boolean {
     let textIndex = 0;
@@ -47,13 +46,13 @@ export class CubismString {
   }
 
   /**
-   * position位置の文字から数字を解析する。
+   * position 위치의 문자부터 숫자를 분석합니다.
    *
-   * @param string 文字列
-   * @param length 文字列の長さ
-   * @param position 解析したい文字の位置
-   * @param outEndPos 一文字も読み込まなかった場合はエラー値(-1)が入る
-   * @return 解析結果の数値
+   * @param string    문자열
+   * @param length    문자열 길이
+   * @param position  분석하려는 문자의 위치
+   * @param outEndPos 한 글자도 읽지 않은 경우 오류 값(-1)이 들어갑니다.
+   * @return          분석 결과 숫자
    */
   public static stringToFloat(
     string: string,
@@ -62,18 +61,18 @@ export class CubismString {
     outEndPos: number[]
   ): number {
     let i: number = position;
-    let minus = false; // マイナスフラグ
+    let minus = false; // 마이너스 플래그
     let period = false;
     let v1 = 0;
 
-    //負号の確認
+    // 음수 부호 확인
     let c: number = parseInt(string[i]);
     if (c < 0) {
       minus = true;
       i++;
     }
 
-    //整数部の確認
+    // 정수 부분 확인
     for (; i < length; i++) {
       const c = string[i];
       if (0 <= parseInt(c) && parseInt(c) <= 9) {
@@ -87,7 +86,7 @@ export class CubismString {
       }
     }
 
-    //小数部の確認
+    // 소수 부분 확인
     if (period) {
       let mul = 0.1;
       for (; i < length; i++) {
@@ -97,14 +96,14 @@ export class CubismString {
         } else {
           break;
         }
-        mul *= 0.1; //一桁下げる
+        mul *= 0.1; // 한 자릿수 내림
         if (!c) break;
       }
     }
 
     if (i == position) {
-      //一文字も読み込まなかった場合
-      outEndPos[0] = -1; //エラー値が入るので呼び出し元で適切な処理を行う
+      // 한 글자도 읽지 않은 경우
+      outEndPos[0] = -1; // 오류 값이 들어가므로 호출 측에서 적절한 처리를 수행해야 합니다.
       return 0;
     }
 
@@ -115,12 +114,12 @@ export class CubismString {
   }
 
   /**
-   * コンストラクタ呼び出し不可な静的クラスにする。
+   * 생성자 호출이 불가능한 정적 클래스로 만듭니다.
    */
   private constructor() {}
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismstring';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

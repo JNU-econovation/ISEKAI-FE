@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -44,7 +43,7 @@ const TargetNamePartOpacity = 'PartOpacity';
 const IdNameOpacity = 'Opacity';
 
 /**
- * Cubism SDK R2 以前のモーションを再現させるなら true 、アニメータのモーションを正しく再現するなら false 。
+ * Cubism SDK R2 이전 모션을 재현하려면 true, 애니메이터 모션을 올바르게 재현하려면 false.
  */
 const UseOldBeziersCurveMotion = false;
 
@@ -251,7 +250,7 @@ function evaluateCurve(
 }
 
 /**
- * 終点から始点への補正処理
+ * 종점에서 시작점으로의 보정 처리
  * @param motionData
  * @param segmentIndex
  * @param beginIndex
@@ -298,8 +297,8 @@ function correctEndPoint(
 }
 
 /**
- * Enumerator for version control of Motion Behavior.
- * For details, see the SDK Manual.
+ * 모션 동작의 버전 관리를 위한 열거자.
+ * 자세한 내용은 SDK 설명서를 참조하십시오.
  */
 export enum MotionBehavior {
   MotionBehavior_V1,
@@ -307,20 +306,20 @@ export enum MotionBehavior {
 }
 
 /**
- * モーションクラス
+ * 모션 클래스
  *
- * モーションのクラス。
+ * 모션의 클래스.
  */
 export class CubismMotion extends ACubismMotion {
   /**
-   * インスタンスを作成する
+   * 인스턴스를 생성합니다.
    *
-   * @param buffer motion3.jsonが読み込まれているバッファ
-   * @param size バッファのサイズ
-   * @param onFinishedMotionHandler モーション再生終了時に呼び出されるコールバック関数
-   * @param onBeganMotionHandler モーション再生開始時に呼び出されるコールバック関数
-   * @param shouldCheckMotionConsistency motion3.json整合性チェックするかどうか
-   * @return 作成されたインスタンス
+   * @param buffer motion3.json이 로드된 버퍼
+   * @param size 버퍼의 크기
+   * @param onFinishedMotionHandler 모션 재생 종료 시 호출되는 콜백 함수
+   * @param onBeganMotionHandler 모션 재생 시작 시 호출되는 콜백 함수
+   * @param shouldCheckMotionConsistency motion3.json 무결성 확인 여부
+   * @return 생성된 인스턴스
    */
   public static create(
     buffer: ArrayBuffer,
@@ -342,17 +341,17 @@ export class CubismMotion extends ACubismMotion {
       return null;
     }
 
-    // NOTE: Editorではループありのモーション書き出しは非対応
+    // 참고: Editor에서는 루프가 있는 모션 내보내기를 지원하지 않습니다.
     // ret->_loop = (ret->_motionData->Loop > 0);
     return ret;
   }
 
   /**
-   * モデルのパラメータの更新の実行
-   * @param model             対象のモデル
-   * @param userTimeSeconds   現在の時刻[秒]
-   * @param fadeWeight        モーションの重み
-   * @param motionQueueEntry  CubismMotionQueueManagerで管理されているモーション
+   * 모델 파라미터 업데이트 실행
+   * @param model             대상 모델
+   * @param userTimeSeconds   현재 시간 [초]
+   * @param fadeWeight        모션 가중치
+   * @param motionQueueEntry  CubismMotionQueueManager에서 관리하는 모션
    */
   public doUpdateParameters(
     model: CubismModel,
@@ -377,7 +376,7 @@ export class CubismMotion extends ACubismMotion {
 
     if (this._motionBehavior === MotionBehavior.MotionBehavior_V2) {
       if (this._previousLoopState !== this._isLoop) {
-        // 終了時間を計算する
+        // 종료 시간을 계산합니다.
         this.adjustEndTime(motionQueueEntry);
         this._previousLoopState = this._isLoop;
       }
@@ -387,18 +386,18 @@ export class CubismMotion extends ACubismMotion {
       userTimeSeconds - motionQueueEntry.getStartTime();
 
     if (timeOffsetSeconds < 0.0) {
-      timeOffsetSeconds = 0.0; // エラー回避
+      timeOffsetSeconds = 0.0; // 오류 회피
     }
 
     let lipSyncValue: number = Number.MAX_VALUE;
     let eyeBlinkValue: number = Number.MAX_VALUE;
 
-    //まばたき、リップシンクのうちモーションの適用を検出するためのビット（maxFlagCount個まで
+    // 눈 깜박임, 립싱크 중 모션 적용을 감지하기 위한 비트 (최대 maxFlagCount개)
     const maxTargetSize = 64;
     let lipSyncFlags = 0;
     let eyeBlinkFlags = 0;
 
-    //瞬き、リップシンクのターゲット数が上限を超えている場合
+    // 눈 깜박임, 립싱크 대상 수가 상한을 초과하는 경우
     if (this._eyeBlinkParameterIds.getSize() > maxTargetSize) {
       CubismLogDebug(
         'too many eye blink targets : {0}',
@@ -528,12 +527,12 @@ export class CubismMotion extends ACubismMotion {
 
       let v: number;
 
-      // パラメータごとのフェード
+      // 파라미터별 페이드
       if (curves.at(c).fadeInTime < 0.0 && curves.at(c).fadeOutTime < 0.0) {
-        // モーションのフェードを適用
+        // 모션 페이드 적용
         v = sourceValue + (value - sourceValue) * fadeWeight;
       } else {
-        // パラメータに対してフェードインかフェードアウトが設定してある場合はそちらを適用
+        // 파라미터에 페이드인 또는 페이드아웃이 설정되어 있으면 그것을 적용
         let fin: number;
         let fout: number;
 
@@ -564,7 +563,7 @@ export class CubismMotion extends ACubismMotion {
 
         const paramWeight: number = this._weight * fin * fout;
 
-        // パラメータごとのフェードを適用
+        // 파라미터별 페이드 적용
         v = sourceValue + (value - sourceValue) * paramWeight;
       }
 
@@ -582,7 +581,7 @@ export class CubismMotion extends ACubismMotion {
             this._eyeBlinkParameterIds.at(i)
           );
 
-          // モーションでの上書きがあった時にはまばたきは適用しない
+          // 모션으로 덮어쓴 경우 눈 깜박임은 적용하지 않음
           if ((eyeBlinkFlags >> i) & 0x01) {
             continue;
           }
@@ -604,7 +603,7 @@ export class CubismMotion extends ACubismMotion {
             this._lipSyncParameterIds.at(i)
           );
 
-          // モーションでの上書きがあった時にはリップシンクは適用しない
+          // 모션으로 덮어쓴 경우 립싱크는 적용하지 않음
           if ((lipSyncFlags >> i) & 0x01) {
             continue;
           }
@@ -653,8 +652,8 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * ループ情報の設定
-   * @param loop ループ情報
+   * 루프 정보 설정
+   * @param loop 루프 정보
    */
   public setIsLoop(loop: boolean): void {
     CubismLogWarning(
@@ -664,9 +663,9 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * ループ情報の取得
-   * @return true ループする
-   * @return false ループしない
+   * 루프 정보 가져오기
+   * @return true 루프함
+   * @return false 루프하지 않음
    */
   public isLoop(): boolean {
     CubismLogWarning(
@@ -676,8 +675,8 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * ループ時のフェードイン情報の設定
-   * @param loopFadeIn  ループ時のフェードイン情報
+   * 루프 시 페이드인 정보 설정
+   * @param loopFadeIn  루프 시 페이드인 정보
    */
   public setIsLoopFadeIn(loopFadeIn: boolean): void {
     CubismLogWarning(
@@ -687,10 +686,10 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * ループ時のフェードイン情報の取得
+   * 루프 시 페이드인 정보 가져오기
    *
-   * @return  true    する
-   * @return  false   しない
+   * @return  true    함
+   * @return  false   하지 않음
    */
   public isLoopFadeIn(): boolean {
     CubismLogWarning(
@@ -700,7 +699,7 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * Sets the version of the Motion Behavior.
+   * 모션 동작의 버전을 설정합니다.
    *
    * @param Specifies the version of the Motion Behavior.
    */
@@ -709,7 +708,7 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * Gets the version of the Motion Behavior.
+   * 모션 동작의 버전을 가져옵니다.
    *
    * @return Returns the version of the Motion Behavior.
    */
@@ -718,28 +717,28 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * モーションの長さを取得する。
+   * 모션 길이를 가져옵니다.
    *
-   * @return  モーションの長さ[秒]
+   * @return  모션 길이 [초]
    */
   public getDuration(): number {
     return this._isLoop ? -1.0 : this._loopDurationSeconds;
   }
 
   /**
-   * モーションのループ時の長さを取得する。
+   * 모션 루프 시 길이를 가져옵니다.
    *
-   * @return  モーションのループ時の長さ[秒]
+   * @return  모션 루프 시 길이 [초]
    */
   public getLoopDuration(): number {
     return this._loopDurationSeconds;
   }
 
   /**
-   * パラメータに対するフェードインの時間を設定する。
+   * 파라미터에 대한 페이드인 시간을 설정합니다.
    *
-   * @param parameterId     パラメータID
-   * @param value           フェードインにかかる時間[秒]
+   * @param parameterId     파라미터 ID
+   * @param value           페이드인에 걸리는 시간 [초]
    */
   public setParameterFadeInTime(
     parameterId: CubismIdHandle,
@@ -756,9 +755,9 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * パラメータに対するフェードアウトの時間の設定
-   * @param parameterId     パラメータID
-   * @param value           フェードアウトにかかる時間[秒]
+   * 파라미터에 대한 페이드아웃 시간 설정
+   * @param parameterId     파라미터 ID
+   * @param value           페이드아웃에 걸리는 시간 [초]
    */
   public setParameterFadeOutTime(
     parameterId: CubismIdHandle,
@@ -775,9 +774,9 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * パラメータに対するフェードインの時間の取得
-   * @param    parameterId     パラメータID
-   * @return   フェードインにかかる時間[秒]
+   * 파라미터에 대한 페이드인 시간 가져오기
+   * @param    parameterId     파라미터 ID
+   * @return   페이드인에 걸리는 시간 [초]
    */
   public getParameterFadeInTime(parameterId: CubismIdHandle): number {
     const curves: csmVector<CubismMotionCurve> = this._motionData.curves;
@@ -792,10 +791,10 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * パラメータに対するフェードアウトの時間を取得
+   * 파라미터에 대한 페이드아웃 시간 가져오기
    *
-   * @param   parameterId     パラメータID
-   * @return   フェードアウトにかかる時間[秒]
+   * @param   parameterId     파라미터 ID
+   * @return   페이드아웃에 걸리는 시간 [초]
    */
   public getParameterFadeOutTime(parameterId: CubismIdHandle): number {
     const curves: csmVector<CubismMotionCurve> = this._motionData.curves;
@@ -810,9 +809,9 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * 自動エフェクトがかかっているパラメータIDリストの設定
-   * @param eyeBlinkParameterIds    自動まばたきがかかっているパラメータIDのリスト
-   * @param lipSyncParameterIds     リップシンクがかかっているパラメータIDのリスト
+   * 자동 효과가 적용된 파라미터 ID 목록 설정
+   * @param eyeBlinkParameterIds    자동 눈 깜박임이 적용된 파라미터 ID 목록
+   * @param lipSyncParameterIds     립싱크가 적용된 파라미터 ID 목록
    */
   public setEffectIds(
     eyeBlinkParameterIds: csmVector<CubismIdHandle>,
@@ -823,14 +822,14 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     super();
     this._sourceFrameRate = 30.0;
     this._loopDurationSeconds = -1.0;
-    this._isLoop = false; // trueから false へデフォルトを変更
-    this._isLoopFadeIn = true; // ループ時にフェードインが有効かどうかのフラグ
+    this._isLoop = false; // true에서 false로 기본값 변경
+    this._isLoopFadeIn = true; // 루프 시 페이드인이 활성화되었는지 여부 플래그
     this._lastWeight = 0.0;
     this._motionData = null;
     this._modelCurveIdEyeBlink = null;
@@ -843,7 +842,7 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     this._motionData = void 0;
@@ -864,9 +863,9 @@ export class CubismMotion extends ACubismMotion {
     switch (this._motionBehavior) {
       case MotionBehavior.MotionBehavior_V2:
       default:
-        motionQueueEntry.setStartTime(userTimeSeconds - time); // 最初の状態へ
+        motionQueueEntry.setStartTime(userTimeSeconds - time); // 초기 상태로
         if (this._isLoopFadeIn) {
-          // ループ中でループ用フェードインが有効のときは、フェードイン設定し直し
+          // 루프 중 루프용 페이드인이 활성화된 경우 페이드인 재설정
           motionQueueEntry.setFadeInStartTime(userTimeSeconds - time);
         }
 
@@ -875,10 +874,10 @@ export class CubismMotion extends ACubismMotion {
         }
         break;
       case MotionBehavior.MotionBehavior_V1:
-        // 旧ループ処理
-        motionQueueEntry.setStartTime(userTimeSeconds); // 最初の状態へ
+        // 이전 루프 처리
+        motionQueueEntry.setStartTime(userTimeSeconds); // 초기 상태로
         if (this._isLoopFadeIn) {
-          // ループ中でループ用フェードインが有効のときは、フェードイン設定し直し
+          // 루프 중 루프용 페이드인이 활성화된 경우 페이드인 재설정
           motionQueueEntry.setFadeInStartTime(userTimeSeconds);
         }
         break;
@@ -886,11 +885,11 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * motion3.jsonをパースする。
+   * motion3.json을 파싱합니다.
    *
-   * @param motionJson  motion3.jsonが読み込まれているバッファ
-   * @param size        バッファのサイズ
-   * @param shouldCheckMotionConsistency motion3.json整合性チェックするかどうか
+   * @param motionJson  motion3.json이 로드된 버퍼
+   * @param size        버퍼의 크기
+   * @param shouldCheckMotionConsistency motion3.json 무결성 확인 여부
    */
   public parse(
     motionJson: ArrayBuffer,
@@ -1141,13 +1140,13 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * モデルのパラメータ更新
+   * 모델 파라미터 업데이트
    *
-   * イベント発火のチェック。
-   * 入力する時間は呼ばれるモーションタイミングを０とした秒数で行う。
+   * 이벤트 발생 확인.
+   * 입력하는 시간은 호출되는 모션 타이밍을 0으로 한 초 단위로 수행합니다.
    *
-   * @param beforeCheckTimeSeconds   前回のイベントチェック時間[秒]
-   * @param motionTimeSeconds        今回の再生時間[秒]
+   * @param beforeCheckTimeSeconds   이전 이벤트 확인 시간 [초]
+   * @param motionTimeSeconds        이번 재생 시간 [초]
    */
   public getFiredEvent(
     beforeCheckTimeSeconds: number,
@@ -1155,7 +1154,7 @@ export class CubismMotion extends ACubismMotion {
   ): csmVector<csmString> {
     this._firedEventValues.updateSize(0);
 
-    // イベントの発火チェック
+    // 이벤트 발생 확인
     for (let u = 0; u < this._motionData.eventCount; ++u) {
       if (
         this._motionData.events.at(u).fireTime > beforeCheckTimeSeconds &&
@@ -1171,10 +1170,10 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * 透明度のカーブが存在するかどうかを確認する
+   * 불투명도 커브 존재 여부 확인
    *
-   * @returns true  -> キーが存在する
-   *          false -> キーが存在しない
+   * @returns true  -> 키가 존재함
+   *          false -> 키가 존재하지 않음
    */
   public isExistModelOpacity(): boolean {
     for (let i = 0; i < this._motionData.curveCount; i++) {
@@ -1193,9 +1192,9 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * 透明度のカーブのインデックスを返す
+   * 불투명도 커브의 인덱스를 반환합니다.
    *
-   * @returns success:透明度のカーブのインデックス
+   * @returns success:불투명도 커브의 인덱스
    */
   public getModelOpacityIndex(): number {
     if (this.isExistModelOpacity()) {
@@ -1217,10 +1216,10 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * 透明度のIdを返す
+   * 불투명도 ID를 반환합니다.
    *
-   * @param index モーションカーブのインデックス
-   * @returns success:透明度のカーブのインデックス
+   * @param index 모션 커브의 인덱스
+   * @returns success:불투명도 커브의 인덱스
    */
   public getModelOpacityId(index: number): CubismIdHandle {
     if (index != -1) {
@@ -1237,43 +1236,43 @@ export class CubismMotion extends ACubismMotion {
   }
 
   /**
-   * 現在時間の透明度の値を返す
+   * 현재 시간의 불투명도 값을 반환합니다.
    *
-   * @returns success:モーションの当該時間におけるOpacityの値
+   * @returns success:모션의 해당 시간에서의 Opacity 값
    */
   public getModelOpacityValue(): number {
     return this._modelOpacity;
   }
 
   /**
-   * デバッグ用フラグを設定する
+   * 디버그용 플래그를 설정합니다.
    *
-   * @param debugMode デバッグモードの有効・無効
+   * @param debugMode 디버그 모드 활성화/비활성화
    */
   public setDebugMode(debugMode: boolean): void {
     this._debugMode = debugMode;
   }
 
-  public _sourceFrameRate: number; // ロードしたファイルのFPS。記述が無ければデフォルト値15fpsとなる
-  public _loopDurationSeconds: number; // mtnファイルで定義される一連のモーションの長さ
+  public _sourceFrameRate: number; // 로드한 파일의 FPS. 기술이 없으면 기본값 15fps가 됨
+  public _loopDurationSeconds: number; // mtn 파일에 정의된 일련의 모션 길이
   public _motionBehavior: MotionBehavior = MotionBehavior.MotionBehavior_V2;
-  public _lastWeight: number; // 最後に設定された重み
+  public _lastWeight: number; // 마지막으로 설정된 가중치
 
-  public _motionData: CubismMotionData; // 実際のモーションデータ本体
+  public _motionData: CubismMotionData; // 실제 모션 데이터 본체
 
-  public _eyeBlinkParameterIds: csmVector<CubismIdHandle>; // 自動まばたきを適用するパラメータIDハンドルのリスト。  モデル（モデルセッティング）とパラメータを対応付ける。
-  public _lipSyncParameterIds: csmVector<CubismIdHandle>; // リップシンクを適用するパラメータIDハンドルのリスト。  モデル（モデルセッティング）とパラメータを対応付ける。
+  public _eyeBlinkParameterIds: csmVector<CubismIdHandle>; // 자동 눈 깜박임을 적용할 파라미터 ID 핸들 목록. 모델(모델 설정)과 파라미터를 연결합니다.
+  public _lipSyncParameterIds: csmVector<CubismIdHandle>; // 립싱크를 적용할 파라미터 ID 핸들 목록. 모델(모델 설정)과 파라미터를 연결합니다.
 
-  public _modelCurveIdEyeBlink: CubismIdHandle; // モデルが持つ自動まばたき用パラメータIDのハンドル。  モデルとモーションを対応付ける。
-  public _modelCurveIdLipSync: CubismIdHandle; // モデルが持つリップシンク用パラメータIDのハンドル。  モデルとモーションを対応付ける。
-  public _modelCurveIdOpacity: CubismIdHandle; // モデルが持つ不透明度用パラメータIDのハンドル。  モデルとモーションを対応付ける。
+  public _modelCurveIdEyeBlink: CubismIdHandle; // 모델이 가진 자동 눈 깜박임용 파라미터 ID 핸들. 모델과 모션을 연결합니다.
+  public _modelCurveIdLipSync: CubismIdHandle; // 모델이 가진 립싱크용 파라미터 ID 핸들. 모델과 모션을 연결합니다.
+  public _modelCurveIdOpacity: CubismIdHandle; // 모델이 가진 불투명도용 파라미터 ID 핸들. 모델과 모션을 연결합니다.
 
-  public _modelOpacity: number; // モーションから取得した不透明度
+  public _modelOpacity: number; // 모션에서 가져온 불투명도
 
-  private _debugMode: boolean; // デバッグモードかどうか
+  private _debugMode: boolean; // 디버그 모드 여부
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmotion';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

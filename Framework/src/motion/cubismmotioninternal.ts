@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -10,58 +9,58 @@ import { csmString } from '../type/csmstring';
 import { csmVector } from '../type/csmvector';
 
 /**
- * @brief モーションカーブの種類
+ * @brief 모션 커브 종류
  *
- * モーションカーブの種類。
+ * 모션 커브의 종류.
  */
 export enum CubismMotionCurveTarget {
-  CubismMotionCurveTarget_Model, // モデルに対して
-  CubismMotionCurveTarget_Parameter, // パラメータに対して
-  CubismMotionCurveTarget_PartOpacity // パーツの不透明度に対して
+  CubismMotionCurveTarget_Model, // 모델에 대해
+  CubismMotionCurveTarget_Parameter, // 파라미터에 대해
+  CubismMotionCurveTarget_PartOpacity // 파츠의 불투명도에 대해
 }
 
 /**
- * @brief モーションカーブのセグメントの種類
+ * @brief 모션 커브 세그먼트 종류
  *
- * モーションカーブのセグメントの種類。
+ * 모션 커브의 세그먼트 종류.
  */
 export enum CubismMotionSegmentType {
-  CubismMotionSegmentType_Linear = 0, // リニア
-  CubismMotionSegmentType_Bezier = 1, // ベジェ曲線
-  CubismMotionSegmentType_Stepped = 2, // ステップ
-  CubismMotionSegmentType_InverseStepped = 3 // インバースステップ
+  CubismMotionSegmentType_Linear = 0, // 리니어
+  CubismMotionSegmentType_Bezier = 1, // 베지어 곡선
+  CubismMotionSegmentType_Stepped = 2, // 스텝
+  CubismMotionSegmentType_InverseStepped = 3 // 인버스 스텝
 }
 
 /**
- * @brief モーションカーブの制御点
+ * @brief 모션 커브의 제어점
  *
- * モーションカーブの制御点。
+ * 모션 커브의 제어점.
  */
 export class CubismMotionPoint {
-  time = 0.0; // 時間[秒]
-  value = 0.0; // 値
+  time = 0.0; // 시간 [초]
+  value = 0.0; // 값
 }
 
 /**
- * モーションカーブのセグメントの評価関数
+ * 모션 커브 세그먼트의 평가 함수
  *
- * @param   points      モーションカーブの制御点リスト
- * @param   time        評価する時間[秒]
+ * @param   points      모션 커브의 제어점 목록
+ * @param   time        평가할 시간 [초]
  */
 export interface csmMotionSegmentEvaluationFunction {
   (points: CubismMotionPoint[], time: number): number;
 }
 
 /**
- * @brief モーションカーブのセグメント
+ * @brief 모션 커브의 세그먼트
  *
- * モーションカーブのセグメント。
+ * 모션 커브의 세그먼트.
  */
 export class CubismMotionSegment {
   /**
-   * @brief コンストラクタ
+   * @brief 생성자
    *
-   * コンストラクタ。
+   * 생성자.
    */
   public constructor() {
     this.evaluate = null;
@@ -69,15 +68,15 @@ export class CubismMotionSegment {
     this.segmentType = 0;
   }
 
-  evaluate: csmMotionSegmentEvaluationFunction; // 使用する評価関数
-  basePointIndex: number; // 最初のセグメントへのインデックス
-  segmentType: number; // セグメントの種類
+  evaluate: csmMotionSegmentEvaluationFunction; // 사용할 평가 함수
+  basePointIndex: number; // 첫 세그먼트에 대한 인덱스
+  segmentType: number; // 세그먼트 종류
 }
 
 /**
- * @brief モーションカーブ
+ * @brief 모션 커브
  *
- * モーションカーブ。
+ * 모션 커브.
  */
 export class CubismMotionCurve {
   public constructor() {
@@ -88,16 +87,16 @@ export class CubismMotionCurve {
     this.fadeOutTime = 0.0;
   }
 
-  type: CubismMotionCurveTarget; // カーブの種類
-  id: CubismIdHandle; // カーブのID
-  segmentCount: number; // セグメントの個数
-  baseSegmentIndex: number; // 最初のセグメントのインデックス
-  fadeInTime: number; // フェードインにかかる時間[秒]
-  fadeOutTime: number; // フェードアウトにかかる時間[秒]
+  type: CubismMotionCurveTarget; // 커브 종류
+  id: CubismIdHandle; // 커브 ID
+  segmentCount: number; // 세그먼트 개수
+  baseSegmentIndex: number; // 첫 세그먼트의 인덱스
+  fadeInTime: number; // 페이드인에 걸리는 시간 [초]
+  fadeOutTime: number; // 페이드아웃에 걸리는 시간 [초]
 }
 
 /**
- * イベント。
+ * 이벤트.
  */
 export class CubismMotionEvent {
   fireTime = 0.0;
@@ -105,9 +104,9 @@ export class CubismMotionEvent {
 }
 
 /**
- * @brief モーションデータ
+ * @brief 모션 데이터
  *
- * モーションデータ。
+ * 모션 데이터.
  */
 export class CubismMotionData {
   public constructor() {
@@ -123,18 +122,18 @@ export class CubismMotionData {
     this.events = new csmVector<CubismMotionEvent>();
   }
 
-  duration: number; // モーションの長さ[秒]
-  loop: boolean; // ループするかどうか
-  curveCount: number; // カーブの個数
-  eventCount: number; // UserDataの個数
-  fps: number; // フレームレート
-  curves: csmVector<CubismMotionCurve>; // カーブのリスト
-  segments: csmVector<CubismMotionSegment>; // セグメントのリスト
-  points: csmVector<CubismMotionPoint>; // ポイントのリスト
-  events: csmVector<CubismMotionEvent>; // イベントのリスト
+  duration: number; // 모션 길이 [초]
+  loop: boolean; // 루프 여부
+  curveCount: number; // 커브 개수
+  eventCount: number; // UserData 개수
+  fps: number; // 프레임레이트
+  curves: csmVector<CubismMotionCurve>; // 커브 목록
+  segments: csmVector<CubismMotionSegment>; // 세그먼트 목록
+  points: csmVector<CubismMotionPoint>; // 포인트 목록
+  events: csmVector<CubismMotionEvent>; // 이벤트 목록
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmotioninternal';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

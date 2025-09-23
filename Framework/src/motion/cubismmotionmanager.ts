@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismModel } from '../model/cubismmodel';
@@ -13,13 +12,13 @@ import {
 } from './cubismmotionqueuemanager';
 
 /**
- * モーションの管理
+ * 모션 관리
  *
- * モーションの管理を行うクラス
+ * 모션을 관리하는 클래스
  */
 export class CubismMotionManager extends CubismMotionQueueManager {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     super();
@@ -28,36 +27,36 @@ export class CubismMotionManager extends CubismMotionQueueManager {
   }
 
   /**
-   * 再生中のモーションの優先度の取得
-   * @return  モーションの優先度
+   * 재생 중인 모션의 우선순위 가져오기
+   * @return  모션의 우선순위
    */
   public getCurrentPriority(): number {
     return this._currentPriority;
   }
 
   /**
-   * 予約中のモーションの優先度を取得する。
-   * @return  モーションの優先度
+   * 예약 중인 모션의 우선순위를 가져옵니다.
+   * @return  모션의 우선순위
    */
   public getReservePriority(): number {
     return this._reservePriority;
   }
 
   /**
-   * 予約中のモーションの優先度を設定する。
-   * @param   val     優先度
+   * 예약 중인 모션의 우선순위를 설정합니다.
+   * @param   val     우선순위
    */
   public setReservePriority(val: number): void {
     this._reservePriority = val;
   }
 
   /**
-   * 優先度を設定してモーションを開始する。
+   * 우선순위를 설정하고 모션을 시작합니다.
    *
-   * @param motion          モーション
-   * @param autoDelete      再生が狩猟したモーションのインスタンスを削除するならtrue
-   * @param priority        優先度
-   * @return                開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するIsFinished()の引数で使用する。開始できない時は「-1」
+   * @param motion          모션
+   * @param autoDelete      재생이 종료된 모션의 인스턴스를 삭제하려면 true
+   * @param priority        우선순위
+   * @return                시작한 모션의 식별 번호를 반환합니다. 개별 모션이 종료되었는지 여부를 판정하는 IsFinished()의 인수로 사용합니다. 시작할 수 없으면 "-1"
    */
   public startMotionPriority(
     motion: ACubismMotion,
@@ -65,21 +64,21 @@ export class CubismMotionManager extends CubismMotionQueueManager {
     priority: number
   ): CubismMotionQueueEntryHandle {
     if (priority == this._reservePriority) {
-      this._reservePriority = 0; // 予約を解除
+      this._reservePriority = 0; // 예약 해제
     }
 
-    this._currentPriority = priority; // 再生中モーションの優先度を設定
+    this._currentPriority = priority; // 재생 중인 모션의 우선순위 설정
 
     return super.startMotion(motion, autoDelete);
   }
 
   /**
-   * モーションを更新して、モデルにパラメータ値を反映する。
+   * 모션을 업데이트하고 모델에 파라미터 값을 반영합니다.
    *
-   * @param model   対象のモデル
-   * @param deltaTimeSeconds    デルタ時間[秒]
-   * @return  true    更新されている
-   * @return  false   更新されていない
+   * @param model   대상 모델
+   * @param deltaTimeSeconds    델타 시간[초]
+   * @return  true    업데이트됨
+   * @return  false   업데이트되지 않음
    */
   public updateMotion(model: CubismModel, deltaTimeSeconds: number): boolean {
     this._userTimeSeconds += deltaTimeSeconds;
@@ -87,18 +86,18 @@ export class CubismMotionManager extends CubismMotionQueueManager {
     const updated: boolean = super.doUpdateMotion(model, this._userTimeSeconds);
 
     if (this.isFinished()) {
-      this._currentPriority = 0; // 再生中のモーションの優先度を解除
+      this._currentPriority = 0; // 재생 중인 모션의 우선순위 해제
     }
 
     return updated;
   }
 
   /**
-   * モーションを予約する。
+   * 모션을 예약합니다.
    *
-   * @param   priority    優先度
-   * @return  true    予約できた
-   * @return  false   予約できなかった
+   * @param   priority    우선순위
+   * @return  true    예약됨
+   * @return  false   예약되지 않음
    */
   public reserveMotion(priority: number): boolean {
     if (
@@ -113,11 +112,11 @@ export class CubismMotionManager extends CubismMotionQueueManager {
     return true;
   }
 
-  _currentPriority: number; // 現在再生中のモーションの優先度
-  _reservePriority: number; // 再生予定のモーションの優先度。再生中は0になる。モーションファイルを別スレッドで読み込むときの機能。
+  _currentPriority: number; // 현재 재생 중인 모션의 우선순위
+  _reservePriority: number; // 재생 예정인 모션의 우선순위. 재생 중에는 0이 됩니다. 모션 파일을 다른 스레드에서 로드할 때의 기능。
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmotionmanager';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

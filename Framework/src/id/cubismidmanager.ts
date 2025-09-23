@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { csmString } from '../type/csmstring';
@@ -10,20 +9,20 @@ import { csmVector } from '../type/csmvector';
 import { CubismId } from './cubismid';
 
 /**
- * ID名の管理
+ * ID 이름 관리
  *
- * ID名を管理する。
+ * ID 이름을 관리합니다.
  */
 export class CubismIdManager {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._ids = new csmVector<CubismId>();
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     for (let i = 0; i < this._ids.getSize(); ++i) {
@@ -33,10 +32,10 @@ export class CubismIdManager {
   }
 
   /**
-   * ID名をリストから登録
+   * ID 이름을 목록에서 등록
    *
-   * @param ids ID名リスト
-   * @param count IDの個数
+   * @param ids ID 이름 목록
+   * @param count ID 개수
    */
   public registerIds(ids: string[] | csmString[]): void {
     for (let i = 0; i < ids.length; i++) {
@@ -45,9 +44,9 @@ export class CubismIdManager {
   }
 
   /**
-   * ID名を登録
+   * ID 이름 등록
    *
-   * @param id ID名
+   * @param id ID 이름
    */
   public registerId(id: string | csmString): CubismId {
     let result: CubismId = null;
@@ -67,19 +66,19 @@ export class CubismIdManager {
   }
 
   /**
-   * ID名からIDを取得する
+   * ID 이름으로 ID 가져오기
    *
-   * @param id ID名
+   * @param id ID 이름
    */
   public getId(id: csmString | string): CubismId {
     return this.registerId(id);
   }
 
   /**
-   * ID名からIDの確認
+   * ID 이름으로 ID 확인
    *
-   * @return true 存在する
-   * @return false 存在しない
+   * @return true 존재함
+   * @return false 존재하지 않음
    */
   public isExist(id: csmString | string): boolean {
     if ('string' == typeof id) {
@@ -89,10 +88,10 @@ export class CubismIdManager {
   }
 
   /**
-   * ID名からIDを検索する。
+   * ID 이름으로 ID 검색.
    *
-   * @param id ID名
-   * @return 登録されているID。なければNULL。
+   * @param id ID 이름
+   * @return 등록된 ID. 없으면 NULL.
    */
   private findId(id: string): CubismId {
     for (let i = 0; i < this._ids.getSize(); ++i) {
@@ -104,10 +103,10 @@ export class CubismIdManager {
     return null;
   }
 
-  private _ids: csmVector<CubismId>; // 登録されているIDのリスト
+  private _ids: csmVector<CubismId>; // 등록된 ID 목록
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismidmanager';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

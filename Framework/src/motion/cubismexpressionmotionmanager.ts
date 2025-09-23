@@ -12,23 +12,23 @@ import {
 import { CubismLogInfo } from '../utils/cubismdebug';
 
 /**
- * @brief パラメータに適用する表情の値を持たせる構造体
+ * @brief 파라미터에 적용할 표정 값을 가지는 구조체
  */
 export class ExpressionParameterValue {
-  parameterId: CubismIdHandle; // パラメーターID
-  additiveValue: number; // 加算値
-  multiplyValue: number; // 乗算値
-  overwriteValue: number; // 上書き値
+  parameterId: CubismIdHandle; // 파라미터 ID
+  additiveValue: number; // 덧셈 값
+  multiplyValue: number; // 곱셈 값
+  overwriteValue: number; // 덮어쓰기 값
 }
 
 /**
- * @brief 表情モーションの管理
+ * @brief 표정 모션 관리
  *
- * 表情モーションの管理をおこなうクラス。
+ * 표정 모션의 관리를 수행하는 클래스.
  */
 export class CubismExpressionMotionManager extends CubismMotionQueueManager {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     super();
@@ -39,7 +39,7 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     if (this._expressionParameterValues) {
@@ -55,13 +55,13 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
 
   /**
    * @deprecated
-   * ExpressionではPriorityを使用していないため、この関数は非推奨となりました。
+   * Expression에서는 Priority를 사용하지 않으므로 이 함수는 더 이상 사용되지 않습니다.
    *
-   * @brief 再生中のモーションの優先度の取得
+   * @brief 재생 중인 모션의 우선순위 가져오기
    *
-   * 再生中のモーションの優先度を取得する。
+   * 재생 중인 모션의 우선순위를 가져옵니다.
    *
-   * @returns モーションの優先度
+   * @returns 모션의 우선순위
    */
   public getCurrentPriority(): number {
     CubismLogInfo(
@@ -72,13 +72,13 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
 
   /**
    * @deprecated
-   * ExpressionではPriorityを使用していないため、この関数は非推奨となりました。
+   * Expression에서는 Priority를 사용하지 않으므로 이 함수는 더 이상 사용되지 않습니다.
    *
-   * @brief 予約中のモーションの優先度の取得
+   * @brief 예약 중인 모션의 우선순위 가져오기
    *
-   * 予約中のモーションの優先度を取得する。
+   * 예약 중인 모션의 우선순위를 가져옵니다.
    *
-   * @return  モーションの優先度
+   * @return  모션의 우선순위
    */
   public getReservePriority(): number {
     CubismLogInfo(
@@ -88,10 +88,10 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
   }
 
   /**
-   * @brief 再生中のモーションのウェイトを取得する。
+   * @brief 재생 중인 모션의 가중치를 가져옵니다.
    *
-   * @param[in]    index    表情のインデックス
-   * @returns               表情モーションのウェイト
+   * @param[in]    index    표정의 인덱스
+   * @returns               표정 모션의 가중치
    */
   public getFadeWeight(index: number): number {
     if (
@@ -109,10 +109,10 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
   }
 
   /**
-   * @brief モーションのウェイトの設定。
+   * @brief 모션의 가중치 설정.
    *
-   * @param[in]    index    表情のインデックス
-   * @param[in]    index    表情モーションのウェイト
+   * @param[in]    index    표정의 인덱스
+   * @param[in]    index    표정 모션의 가중치
    */
   public setFadeWeight(index: number, expressionFadeWeight: number): void {
     if (
@@ -131,13 +131,13 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
 
   /**
    * @deprecated
-   * ExpressionではPriorityを使用していないため、この関数は非推奨となりました。
+   * Expression에서는 Priority를 사용하지 않으므로 이 함수는 더 이상 사용되지 않습니다.
    *
-   * @brief 予約中のモーションの優先度の設定
+   * @brief 예약 중인 모션의 우선순위 설정
    *
-   * 予約中のモーションの優先度を設定する。
+   * 예약 중인 모션의 우선순위를 설정합니다.
    *
-   * @param[in]   priority     優先度
+   * @param[in]   priority     우선순위
    */
   public setReservePriority(priority: number) {
     CubismLogInfo(
@@ -148,17 +148,17 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
 
   /**
    * @deprecated
-   * ExpressionではPriorityを使用していないため、この関数は非推奨となりました。
-   * CubismExpressionMotionManager.startMotion() を使用してください。
+   * Expression에서는 Priority를 사용하지 않으므로 이 함수는 더 이상 사용되지 않습니다.
+   * CubismExpressionMotionManager.startMotion()을 사용하십시오.
    *
-   * @brief 優先度を設定してモーションの開始
+   * @brief 우선순위를 설정하고 모션 시작
    *
-   * 優先度を設定してモーションを開始する。
+   * 우선순위를 설정하고 모션을 시작합니다.
    *
-   * @param[in]   motion          モーション
-   * @param[in]   autoDelete      再生が終了したモーションのインスタンスを削除するならtrue
-   * @param[in]   priority        優先度
-   * @return                      開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するIsFinished()の引数で使用する。開始できない時は「-1」
+   * @param[in]   motion          모션
+   * @param[in]   autoDelete      재생이 종료된 모션의 인스턴스를 삭제하려면 true
+   * @param[in]   priority        우선순위
+   * @return                      시작한 모션의 식별 번호를 반환합니다. 개별 모션이 종료되었는지 여부를 판정하는 IsFinished()의 인수로 사용합니다. 시작할 수 없으면 "-1"
    */
   public startMotionPriority(
     motion: ACubismMotion,
@@ -177,14 +177,14 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
   }
 
   /**
-   * @brief モーションの更新
+   * @brief 모션 업데이트
    *
-   * モーションを更新して、モデルにパラメータ値を反映する。
+   * 모션을 업데이트하고 모델에 파라미터 값을 반영합니다.
    *
-   * @param[in]   model   対象のモデル
-   * @param[in]   deltaTimeSeconds    デルタ時間[秒]
-   * @retval  true    更新されている
-   * @retval  false   更新されていない
+   * @param[in]   model   대상 모델
+   * @param[in]   deltaTimeSeconds    델타 시간[초]
+   * @retval  true    업데이트됨
+   * @retval  false   업데이트되지 않음
    */
   public updateMotion(model: CubismModel, deltaTimeSeconds: number): boolean {
     this._userTimeSeconds += deltaTimeSeconds;
@@ -201,8 +201,8 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
       }
     }
 
-    // ------- 処理を行う --------
-    // 既にモーションがあれば終了フラグを立てる
+    // ------- 처리 수행 --------
+    // 이미 모션이 있으면 종료 플래그를 설정
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
       ite.notEqual(this._motions.end());
@@ -211,7 +211,7 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
       const motionQueueEntry = ite.ptr();
 
       if (motionQueueEntry == null) {
-        ite = motions.erase(ite); //削除
+        ite = motions.erase(ite); //삭제
         continue;
       }
 
@@ -221,21 +221,21 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
 
       if (expressionMotion == null) {
         csmDelete(motionQueueEntry);
-        ite = motions.erase(ite); //削除
+        ite = motions.erase(ite); //삭제
         continue;
       }
 
       const expressionParameters = expressionMotion.getExpressionParameters();
 
       if (motionQueueEntry.isAvailable()) {
-        // 再生中のExpressionが参照しているパラメータをすべてリストアップ
+        // 재생 중인 Expression이 참조하는 파라미터를 모두 나열
         for (let i = 0; i < expressionParameters.getSize(); ++i) {
           if (expressionParameters.at(i).parameterId == null) {
             continue;
           }
 
           let index = -1;
-          // リストにパラメータIDが存在するか検索
+          // 목록에 파라미터 ID가 있는지 검색
           for (let j = 0; j < this._expressionParameterValues.getSize(); ++j) {
             if (
               this._expressionParameterValues.at(j).parameterId !=
@@ -252,7 +252,7 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
             continue;
           }
 
-          // パラメータがリストに存在しないなら新規追加
+          // 파라미터가 목록에 없으면 새로 추가
           const item: ExpressionParameterValue = new ExpressionParameterValue();
           item.parameterId = expressionParameters.at(i).parameterId;
           item.additiveValue = CubismExpressionMotion.DefaultAdditiveValue;
@@ -262,7 +262,7 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
         }
       }
 
-      // ------ 値を計算する ------
+      // ------ 값 계산 ------
       expressionMotion.setupMotionQueueEntry(
         motionQueueEntry,
         this._userTimeSeconds
@@ -294,7 +294,7 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
       updated = true;
 
       if (motionQueueEntry.isTriggeredFadeOut()) {
-        // フェードアウト開始
+        // 페이드 아웃 시작
         motionQueueEntry.startFadeOut(
           motionQueueEntry.getFadeOutSeconds(),
           this._userTimeSeconds
@@ -305,13 +305,13 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
       ++expressionIndex;
     }
 
-    // ----- 最新のExpressionのフェードが完了していればそれ以前を削除する ------
+    // ----- 최신 Expression의 페이드가 완료되면 그 이전 항목 삭제 ------
     if (motions.getSize() > 1) {
       const latestFadeWeight: number = this.getFadeWeight(
         this._fadeWeights.getSize() - 1
       );
       if (latestFadeWeight >= 1.0) {
-        // 配列の最後の要素は削除しない
+        // 배열의 마지막 요소는 삭제하지 않음
         for (let i = motions.getSize() - 2; i >= 0; --i) {
           const motionQueueEntry = motions.at(i);
           csmDelete(motionQueueEntry);
@@ -325,7 +325,7 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
       expressionWeight = 1.0;
     }
 
-    // モデルに各値を適用
+    // 모델에 각 값 적용
     for (let i = 0; i < this._expressionParameterValues.getSize(); ++i) {
       const expressionParameterValue = this._expressionParameterValues.at(i);
       model.setParameterValueById(
@@ -345,14 +345,14 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
     return updated;
   }
 
-  private _expressionParameterValues: csmVector<ExpressionParameterValue>; ///< モデルに適用する各パラメータの値
-  private _fadeWeights: csmVector<number>; ///< 再生中の表情のウェイト
-  private _currentPriority: number; ///< @deprecated 現在再生中のモーションの優先度。Expressionでは使用しないため非推奨。
-  private _reservePriority: number; ///< @deprecated 再生予定のモーションの優先度。再生中は0になる。モーションファイルを別スレッドで読み込むときの機能。Expressionでは使用しないため非推奨。
-  private _startExpressionTime: number; ///< 表情の再生開始時刻
+  private _expressionParameterValues: csmVector<ExpressionParameterValue>; ///< 모델에 적용할 각 파라미터 값
+  private _fadeWeights: csmVector<number>; ///< 재생 중인 표정의 가중치
+  private _currentPriority: number; ///< @deprecated 현재 재생 중인 모션의 우선순위. Expression에서는 사용하지 않으므로 더 이상 사용되지 않습니다.
+  private _reservePriority: number; ///< @deprecated 재생 예정인 모션의 우선순위. 재생 중에는 0이 됩니다. 모션 파일을 다른 스레드에서 로드할 때의 기능. Expression에서는 사용하지 않으므로 더 이상 사용되지 않습니다。
+  private _startExpressionTime: number; ///< 표정 재생 시작 시간
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismexpressionmotionmanager';
 import { CubismMath } from '../math/cubismmath';
 import { CubismDebug, CubismLogError } from '../utils/cubismdebug';

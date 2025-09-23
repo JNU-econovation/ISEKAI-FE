@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -17,14 +16,14 @@ import { csmVector } from '../type/csmvector';
 import { CSM_ASSERT, CubismLogWarning } from '../utils/cubismdebug';
 
 /**
- * Structure for managing the override of parameter repetition settings
+ * 파라미터 반복 설정의 덮어쓰기를 관리하기 위한 구조체
  */
 export class ParameterRepeatData {
   /**
-   * Constructor
+   * 생성자
    *
-   * @param isOverridden whether to be overriden
-   * @param isParameterRepeated override flag for settings
+   * @param isOverridden 덮어쓸지 여부
+   * @param isParameterRepeated 설정 덮어쓰기 플래그
    */
   public constructor(
     isOverridden: boolean = false,
@@ -35,19 +34,19 @@ export class ParameterRepeatData {
   }
 
   /**
-   * Whether to be overridden
+   * 덮어쓸지 여부
    */
   public isOverridden: boolean;
 
   /**
-   * Override flag for settings
+   * 설정 덮어쓰기 플래그
    */
   public isParameterRepeated: boolean;
 }
 
 /**
- * SDK側から与えられたDrawableの乗算色・スクリーン色上書きフラグと
- * その色を保持する構造体
+ * SDK에서 주어진 Drawable의 곱셈색·스크린색 덮어쓰기 플래그와
+ * 그 색을 유지하는 구조체
  */
 export class DrawableColorData {
   constructor(
@@ -66,7 +65,7 @@ export class DrawableColorData {
   }
 }
 /**
- * @brief テクスチャの色をRGBAで扱うための構造体
+ * @brief 텍스처 색상을 RGBA로 다루기 위한 구조체
  */
 export class PartColorData {
   constructor(
@@ -86,11 +85,11 @@ export class PartColorData {
 }
 
 /**
- * テクスチャのカリング設定を管理するための構造体
+ * 텍스처의 컬링 설정을 관리하기 위한 구조체
  */
 export class DrawableCullingData {
   /**
-   * コンストラクタ
+   * 생성자
    *
    * @param isOverridden
    * @param isCulling
@@ -109,13 +108,13 @@ export class DrawableCullingData {
 }
 
 /**
- * モデル
+ * 모델
  *
- * Mocデータから生成されるモデルのクラス。
+ * Moc 데이터에서 생성되는 모델 클래스.
  */
 export class CubismModel {
   /**
-   * モデルのパラメータの更新
+   * 모델 파라미터 업데이트
    */
   public update(): void {
     // Update model
@@ -125,7 +124,7 @@ export class CubismModel {
   }
 
   /**
-   * PixelsPerUnitを取得する
+   * PixelsPerUnit 가져오기
    * @returns PixelsPerUnit
    */
   public getPixelsPerUnit(): number {
@@ -137,7 +136,7 @@ export class CubismModel {
   }
 
   /**
-   * キャンバスの幅を取得する
+   * 캔버스 너비 가져오기
    */
   public getCanvasWidth(): number {
     if (this._model == null) {
@@ -150,7 +149,7 @@ export class CubismModel {
   }
 
   /**
-   * キャンバスの高さを取得する
+   * 캔버스 높이 가져오기
    */
   public getCanvasHeight(): number {
     if (this._model == null) {
@@ -163,7 +162,7 @@ export class CubismModel {
   }
 
   /**
-   * パラメータを保存する
+   * 파라미터 저장
    */
   public saveParameters(): void {
     const parameterCount: number = this._model.parameters.count;
@@ -179,12 +178,12 @@ export class CubismModel {
   }
 
   /**
-   * 乗算色を取得する
-   * @param index Drawablesのインデックス
-   * @returns 指定したdrawableの乗算色(RGBA)
+   * 곱셈색 가져오기
+   * @param index Drawables의 인덱스
+   * @returns 지정한 drawable의 곱셈색(RGBA)
    */
   public getMultiplyColor(index: number): CubismTextureColor {
-    // Drawableとモデル全体の乗算色上書きフラグがどちらもtrueな場合、モデル全体の上書きフラグが優先される
+    // Drawable과 모델 전체의 곱셈색 덮어쓰기 플래그가 모두 true인 경우, 모델 전체의 덮어쓰기 플래그가 우선됩니다.
     if (
       this.getOverrideFlagForModelMultiplyColors() ||
       this.getOverrideFlagForDrawableMultiplyColors(index)
@@ -197,12 +196,12 @@ export class CubismModel {
   }
 
   /**
-   * スクリーン色を取得する
-   * @param index Drawablesのインデックス
-   * @returns 指定したdrawableのスクリーン色(RGBA)
+   * 스크린색 가져오기
+   * @param index Drawables의 인덱스
+   * @returns 지정한 drawable의 스크린색(RGBA)
    */
   public getScreenColor(index: number): CubismTextureColor {
-    // Drawableとモデル全体のスクリーン色上書きフラグがどちらもtrueな場合、モデル全体の上書きフラグが優先される
+    // Drawable과 모델 전체의 스크린색 덮어쓰기 플래그가 모두 true인 경우, 모델 전체의 덮어쓰기 플래그가 우선됩니다.
     if (
       this.getOverrideFlagForModelScreenColors() ||
       this.getOverrideFlagForDrawableScreenColors(index)
@@ -215,9 +214,9 @@ export class CubismModel {
   }
 
   /**
-   * 乗算色をセットする
-   * @param index Drawablesのインデックス
-   * @param color 設定する乗算色(CubismTextureColor)
+   * 곱셈색 설정
+   * @param index Drawables의 인덱스
+   * @param color 설정할 곱셈색(CubismTextureColor)
    */
   public setMultiplyColorByTextureColor(
     index: number,
@@ -227,12 +226,12 @@ export class CubismModel {
   }
 
   /**
-   * 乗算色をセットする
-   * @param index Drawablesのインデックス
-   * @param r 設定する乗算色のR値
-   * @param g 設定する乗算色のG値
-   * @param b 設定する乗算色のB値
-   * @param a 設定する乗算色のA値
+   * 곱셈색 설정
+   * @param index Drawables의 인덱스
+   * @param r 설정할 곱셈색의 R값
+   * @param g 설정할 곱셈색의 G값
+   * @param b 설정할 곱셈색의 B값
+   * @param a 설정할 곱셈색의 A값
    */
   public setMultiplyColorByRGBA(
     index: number,
@@ -248,9 +247,9 @@ export class CubismModel {
   }
 
   /**
-   * スクリーン色をセットする
-   * @param index Drawablesのインデックス
-   * @param color 設定するスクリーン色(CubismTextureColor)
+   * 스크린색 설정
+   * @param index Drawables의 인덱스
+   * @param color 설정할 스크린색(CubismTextureColor)
    */
   public setScreenColorByTextureColor(
     index: number,
@@ -260,12 +259,12 @@ export class CubismModel {
   }
 
   /**
-   * スクリーン色をセットする
-   * @param index Drawablesのインデックス
-   * @param r 設定するスクリーン色のR値
-   * @param g 設定するスクリーン色のG値
-   * @param b 設定するスクリーン色のB値
-   * @param a 設定するスクリーン色のA値
+   * 스크린색 설정
+   * @param index Drawables의 인덱스
+   * @param r 설정할 스크린색의 R값
+   * @param g 설정할 스크린색의 G값
+   * @param b 설정할 스크린색의 B값
+   * @param a 설정할 스크린색의 A값
    */
   public setScreenColorByRGBA(
     index: number,
@@ -280,32 +279,32 @@ export class CubismModel {
     this._userScreenColors.at(index).color.a = a;
   }
   /**
-   * partの乗算色を取得する
-   * @param partIndex partのインデックス
-   * @returns 指定したpartの乗算色
+   * part의 곱셈색 가져오기
+   * @param partIndex part의 인덱스
+   * @returns 지정한 part의 곱셈색
    */
   public getPartMultiplyColor(partIndex: number): CubismTextureColor {
     return this._userPartMultiplyColors.at(partIndex).color;
   }
 
   /**
-   * partのスクリーン色を取得する
-   * @param partIndex partのインデックス
-   * @returns 指定したpartのスクリーン色
+   * part의 스크린색 가져오기
+   * @param partIndex part의 인덱스
+   * @returns 지정한 part의 스크린색
    */
   public getPartScreenColor(partIndex: number): CubismTextureColor {
     return this._userPartScreenColors.at(partIndex).color;
   }
 
   /**
-   * partのOverrideColor setter関数
-   * @param partIndex partのインデックス
-   * @param r 設定する色のR値
-   * @param g 設定する色のG値
-   * @param b 設定する色のB値
-   * @param a 設定する色のA値
-   * @param partColors 設定するpartのカラーデータ配列
-   * @param drawableColors partに関連するDrawableのカラーデータ配列
+   * part의 OverrideColor setter 함수
+   * @param partIndex part의 인덱스
+   * @param r 설정할 색의 R값
+   * @param g 설정할 색의 G값
+   * @param b 설정할 색의 B값
+   * @param a 설정할 색의 A값
+   * @param partColors 설정할 part의 컬러 데이터 배열
+   * @param drawableColors part에 관련된 Drawable의 컬러 데이터 배열
    */
   public setPartColor(
     partIndex: number,
@@ -337,9 +336,9 @@ export class CubismModel {
   }
 
   /**
-   * 乗算色をセットする
-   * @param partIndex partのインデックス
-   * @param color 設定する乗算色(CubismTextureColor)
+   * 곱셈색 설정
+   * @param partIndex part의 인덱스
+   * @param color 설정할 곱셈색(CubismTextureColor)
    */
   public setPartMultiplyColorByTextureColor(
     partIndex: number,
@@ -355,12 +354,12 @@ export class CubismModel {
   }
 
   /**
-   * 乗算色をセットする
-   * @param partIndex partのインデックス
-   * @param r 設定する乗算色のR値
-   * @param g 設定する乗算色のG値
-   * @param b 設定する乗算色のB値
-   * @param a 設定する乗算色のA値
+   * 곱셈색 설정
+   * @param partIndex part의 인덱스
+   * @param r 설정할 곱셈색의 R값
+   * @param g 설정할 곱셈색의 G값
+   * @param b 설정할 곱셈색의 B값
+   * @param a 설정할 곱셈색의 A값
    */
   public setPartMultiplyColorByRGBA(
     partIndex: number,
@@ -381,9 +380,9 @@ export class CubismModel {
   }
 
   /**
-   * スクリーン色をセットする
-   * @param partIndex partのインデックス
-   * @param color 設定するスクリーン色(CubismTextureColor)
+   * 스크린색 설정
+   * @param partIndex part의 인덱스
+   * @param color 설정할 스크린색(CubismTextureColor)
    */
   public setPartScreenColorByTextureColor(
     partIndex: number,
@@ -399,12 +398,12 @@ export class CubismModel {
   }
 
   /**
-   * スクリーン色をセットする
-   * @param partIndex partのインデックス
-   * @param r 設定するスクリーン色のR値
-   * @param g 設定するスクリーン色のG値
-   * @param b 設定するスクリーン色のB値
-   * @param a 設定するスクリーン色のA値
+   * 스크린색 설정
+   * @param partIndex part의 인덱스
+   * @param r 설정할 스크린색의 R값
+   * @param g 설정할 스크린색의 G값
+   * @param b 설정할 스크린색의 B값
+   * @param a 설정할 스크린색의 A값
    */
   public setPartScreenColorByRGBA(
     partIndex: number,
@@ -425,38 +424,38 @@ export class CubismModel {
   }
 
   /**
-   * Checks whether parameter repetition is performed for the entire model.
+   * 모델 전체에 대해 파라미터 반복이 수행되는지 확인합니다.
    *
-   * @return true if parameter repetition is performed for the entire model; otherwise returns false.
+   * @return true인 경우 모델 전체에 대해 파라미터 반복이 수행되고, 그렇지 않으면 false를 반환합니다.
    */
   public getOverrideFlagForModelParameterRepeat(): boolean {
     return this._isOverriddenParameterRepeat;
   }
 
   /**
-   * Sets whether parameter repetition is performed for the entire model.
-   * Use true to perform parameter repetition for the entire model, or false to not perform it.
+   * 모델 전체에 대해 파라미터 반복을 수행할지 설정합니다.
+   * 모델 전체에 대해 파라미터 반복을 수행하려면 true, 그렇지 않으면 false를 사용합니다.
    */
   public setOverrideFlagForModelParameterRepeat(isRepeat: boolean): void {
     this._isOverriddenParameterRepeat = isRepeat;
   }
 
   /**
-   * Returns the flag indicating whether to override the parameter repeat.
+   * 파라미터 반복을 덮어쓸지 여부를 나타내는 플래그를 반환합니다.
    *
-   * @param parameterIndex Parameter index
+   * @param parameterIndex 파라미터 인덱스
    *
-   * @return true if the parameter repeat is overridden, false otherwise.
+   * @return true인 경우 파라미터 반복이 덮어쓰기되고, 그렇지 않으면 false를 반환합니다.
    */
   public getOverrideFlagForParameterRepeat(parameterIndex: number): boolean {
     return this._userParameterRepeatDataList.at(parameterIndex).isOverridden;
   }
 
   /**
-   * Sets the flag indicating whether to override the parameter repeat.
+   * 파라미터 반복을 덮어쓸지 여부를 나타내는 플래그를 설정합니다.
    *
-   * @param parameterIndex Parameter index
-   * @param value true if it is to be overridden; otherwise, false.
+   * @param parameterIndex 파라미터 인덱스
+   * @param value 덮어쓸 경우 true, 그렇지 않으면 false.
    */
   public setOverrideFlagForParameterRepeat(
     parameterIndex: number,
@@ -466,11 +465,11 @@ export class CubismModel {
   }
 
   /**
-   * Returns the repeat flag.
+   * 반복 플래그를 반환합니다.
    *
-   * @param parameterIndex Parameter index
+   * @param parameterIndex 파라미터 인덱스
    *
-   * @return true if repeating, false otherwise.
+   * @return 반복하는 경우 true, 그렇지 않으면 false.
    */
   public getRepeatFlagForParameterRepeat(parameterIndex: number): boolean {
     return this._userParameterRepeatDataList.at(parameterIndex)
@@ -478,10 +477,10 @@ export class CubismModel {
   }
 
   /**
-   * Sets the repeat flag.
+   * 반복 플래그를 설정합니다.
    *
-   * @param parameterIndex Parameter index
-   * @param value true to enable repeating, false otherwise.
+   * @param parameterIndex 파라미터 인덱스
+   * @param value 반복을 활성화하려면 true, 그렇지 않으면 false.
    */
   public setRepeatFlagForParameterRepeat(
     parameterIndex: number,
@@ -492,12 +491,12 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したモデルの乗算色を上書きするか
+   * SDK에서 지정한 모델의 곱셈색을 덮어쓸지 여부
    *
-   * @deprecated 名称変更のため非推奨 getOverrideFlagForModelMultiplyColors() に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideFlagForModelMultiplyColors()로 대체
    *
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverwriteFlagForModelMultiplyColors(): boolean {
     CubismLogWarning(
@@ -507,21 +506,21 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したモデルの乗算色を上書きするか
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 모델의 곱셈색을 덮어쓸지 여부
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverrideFlagForModelMultiplyColors(): boolean {
     return this._isOverriddenModelMultiplyColors;
   }
 
   /**
-   * SDKから指定したモデルのスクリーン色を上書きするか
+   * SDK에서 지정한 모델의 스크린색을 덮어쓸지 여부
    *
-   * @deprecated 名称変更のため非推奨 getOverrideFlagForModelScreenColors() に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideFlagForModelScreenColors()로 대체
    *
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverwriteFlagForModelScreenColors(): boolean {
     CubismLogWarning(
@@ -531,21 +530,21 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したモデルのスクリーン色を上書きするか
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 모델의 스크린색을 덮어쓸지 여부
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverrideFlagForModelScreenColors(): boolean {
     return this._isOverriddenModelScreenColors;
   }
 
   /**
-   * SDKから指定したモデルの乗算色を上書きするかセットする
+   * SDK에서 지정한 모델의 곱셈색을 덮어쓸지 설정합니다.
    *
-   * @deprecated 名称変更のため非推奨 setOverrideFlagForModelMultiplyColors(value: boolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideFlagForModelMultiplyColors(value: boolean)로 대체
    *
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverwriteFlagForModelMultiplyColors(value: boolean) {
     CubismLogWarning(
@@ -555,21 +554,21 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したモデルの乗算色を上書きするかセットする
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 모델의 곱셈색을 덮어쓸지 설정합니다.
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverrideFlagForModelMultiplyColors(value: boolean) {
     this._isOverriddenModelMultiplyColors = value;
   }
 
   /**
-   * SDKから指定したモデルのスクリーン色を上書きするかセットする
+   * SDK에서 지정한 모델의 스크린색을 덮어쓸지 설정합니다.
    *
-   * @deprecated 名称変更のため非推奨 setOverrideFlagForModelScreenColors(value: boolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideFlagForModelScreenColors(value: boolean)로 대체
    *
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverwriteFlagForModelScreenColors(value: boolean) {
     CubismLogWarning(
@@ -579,21 +578,21 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したモデルのスクリーン色を上書きするかセットする
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 모델의 스크린색을 덮어쓸지 설정합니다.
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverrideFlagForModelScreenColors(value: boolean) {
     this._isOverriddenModelScreenColors = value;
   }
 
   /**
-   * SDKから指定したDrawableIndexの乗算色を上書きするか
+   * SDK에서 지정한 DrawableIndex의 곱셈색을 덮어쓸지 여부
    *
-   * @deprecated 名称変更のため非推奨 getOverrideFlagForDrawableMultiplyColors(drawableindex: number) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideFlagForDrawableMultiplyColors(drawableindex: number)로 대체
    *
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverwriteFlagForDrawableMultiplyColors(
     drawableindex: number
@@ -605,9 +604,9 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したDrawableIndexの乗算色を上書きするか
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 DrawableIndex의 곱셈색을 덮어쓸지 여부
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverrideFlagForDrawableMultiplyColors(
     drawableindex: number
@@ -616,12 +615,12 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したDrawableIndexのスクリーン色を上書きするか
+   * SDK에서 지정한 DrawableIndex의 스크린색을 덮어쓸지 여부
    *
-   * @deprecated 名称変更のため非推奨 getOverrideFlagForDrawableScreenColors(drawableindex: number) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideFlagForDrawableScreenColors(drawableindex: number)로 대체
    *
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverwriteFlagForDrawableScreenColors(
     drawableindex: number
@@ -633,9 +632,9 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したDrawableIndexのスクリーン色を上書きするか
-   * @returns true -> SDKからの情報を優先する
-   *          false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 DrawableIndex의 스크린색을 덮어쓸지 여부
+   * @returns true -> SDK의 정보를 우선함
+   *          false -> 모델에 설정된 색상 정보 사용
    */
   public getOverrideFlagForDrawableScreenColors(
     drawableindex: number
@@ -644,12 +643,12 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したDrawableIndexの乗算色を上書きするかセットする
+   * SDK에서 지정한 DrawableIndex의 곱셈색을 덮어쓸지 설정합니다.
    *
-   * @deprecated 名称変更のため非推奨 setOverrideFlagForDrawableMultiplyColors(drawableindex: number, value: boolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideFlagForDrawableMultiplyColors(drawableindex: number, value: boolean)로 대체
    *
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverwriteFlagForDrawableMultiplyColors(
     drawableindex: number,
@@ -662,9 +661,9 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したDrawableIndexの乗算色を上書きするかセットする
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 DrawableIndex의 곱셈색을 덮어쓸지 설정합니다.
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverrideFlagForDrawableMultiplyColors(
     drawableindex: number,
@@ -674,12 +673,12 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したDrawableIndexのスクリーン色を上書きするかセットする
+   * SDK에서 지정한 DrawableIndex의 스크린색을 덮어쓸지 설정합니다.
    *
-   * @deprecated 名称変更のため非推奨 setOverrideFlagForDrawableScreenColors(drawableindex: number, value: boolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideFlagForDrawableScreenColors(drawableindex: number, value: boolean)로 대체
    *
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverwriteFlagForDrawableScreenColors(
     drawableindex: number,
@@ -692,9 +691,9 @@ export class CubismModel {
   }
 
   /**
-   * SDKから指定したDrawableIndexのスクリーン色を上書きするかセットする
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * SDK에서 지정한 DrawableIndex의 스크린색을 덮어쓸지 설정합니다.
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverrideFlagForDrawableScreenColors(
     drawableindex: number,
@@ -704,13 +703,13 @@ export class CubismModel {
   }
 
   /**
-   * SDKからpartの乗算色を上書きするか
+   * SDK에서 part의 곱셈색을 덮어쓸지 여부
    *
-   * @deprecated 名称変更のため非推奨 getOverrideColorForPartMultiplyColors(partIndex: number) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideColorForPartMultiplyColors(partIndex: number)로 대체
    *
-   * @param partIndex partのインデックス
-   * @returns true    ->  SDKからの情報を優先する
-   *          false   ->  モデルに設定されている色情報を使用
+   * @param partIndex part의 인덱스
+   * @returns true    ->  SDK의 정보를 우선함
+   *          false   ->  모델에 설정된 색상 정보 사용
    */
   public getOverwriteColorForPartMultiplyColors(partIndex: number) {
     CubismLogWarning(
@@ -720,23 +719,23 @@ export class CubismModel {
   }
 
   /**
-   * SDKからpartの乗算色を上書きするか
-   * @param partIndex partのインデックス
-   * @returns true    ->  SDKからの情報を優先する
-   *          false   ->  モデルに設定されている色情報を使用
+   * SDK에서 part의 곱셈색을 덮어쓸지 여부
+   * @param partIndex part의 인덱스
+   * @returns true    ->  SDK의 정보를 우선함
+   *          false   ->  모델에 설정된 색상 정보 사용
    */
   public getOverrideColorForPartMultiplyColors(partIndex: number) {
     return this._userPartMultiplyColors.at(partIndex).isOverridden;
   }
 
   /**
-   * SDKからpartのスクリーン色を上書きするか
+   * SDK에서 part의 스크린색을 덮어쓸지 여부
    *
-   * @deprecated 名称変更のため非推奨 getOverrideColorForPartScreenColors(partIndex: number) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideColorForPartScreenColors(partIndex: number)로 대체
    *
-   * @param partIndex partのインデックス
-   * @returns true    ->  SDKからの情報を優先する
-   *          false   ->  モデルに設定されている色情報を使用
+   * @param partIndex part의 인덱스
+   * @returns true    ->  SDK의 정보를 우선함
+   *          false   ->  모델에 설정된 색상 정보 사용
    */
   public getOverwriteColorForPartScreenColors(partIndex: number) {
     CubismLogWarning(
@@ -746,29 +745,29 @@ export class CubismModel {
   }
 
   /**
-   * SDKからpartのスクリーン色を上書きするか
-   * @param partIndex partのインデックス
-   * @returns true    ->  SDKからの情報を優先する
-   *          false   ->  モデルに設定されている色情報を使用
+   * SDK에서 part의 스크린색을 덮어쓸지 여부
+   * @param partIndex part의 인덱스
+   * @returns true    ->  SDK의 정보를 우선함
+   *          false   ->  모델에 설정된 색상 정보 사용
    */
   public getOverrideColorForPartScreenColors(partIndex: number) {
     return this._userPartScreenColors.at(partIndex).isOverridden;
   }
 
   /**
-   * partのOverrideFlag setter関数
+   * part의 OverrideFlag setter 함수
    *
-   * @deprecated 名称変更のため非推奨 setOverrideColorForPartColors(
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideColorForPartColors(
    * partIndex: number,
    * value: boolean,
    * partColors: csmVector<PartColorData>,
-   * drawableColors: csmVector<DrawableColorData>) に置き換え
+   * drawableColors: csmVector<DrawableColorData>)로 대체
    *
-   * @param partIndex partのインデックス
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
-   * @param partColors 設定するpartのカラーデータ配列
-   * @param drawableColors partに関連するDrawableのカラーデータ配列
+   * @param partIndex part의 인덱스
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
+   * @param partColors 설정할 part의 컬러 데이터 배열
+   * @param drawableColors part에 관련된 Drawable의 컬러 데이터 배열
    */
   public setOverwriteColorForPartColors(
     partIndex: number,
@@ -788,12 +787,12 @@ export class CubismModel {
   }
 
   /**
-   * partのOverrideFlag setter関数
-   * @param partIndex partのインデックス
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
-   * @param partColors 設定するpartのカラーデータ配列
-   * @param drawableColors partに関連するDrawableのカラーデータ配列
+   * part의 OverrideFlag setter 함수
+   * @param partIndex part의 인덱스
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
+   * @param partColors 설정할 part의 컬러 데이터 배열
+   * @param drawableColors part에 관련된 Drawable의 컬러 데이터 배열
    */
   public setOverrideColorForPartColors(
     partIndex: number,
@@ -821,13 +820,13 @@ export class CubismModel {
   }
 
   /**
-   * SDKからpartのスクリーン色を上書きするかをセットする
+   * SDK에서 part의 스크린색을 덮어쓸지 설정합니다.
    *
-   * @deprecated 名称変更のため非推奨 setOverrideColorForPartMultiplyColors(partIndex: number, value: boolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideColorForPartMultiplyColors(partIndex: number, value: boolean)로 대체
    *
-   * @param partIndex partのインデックス
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * @param partIndex part의 인덱스
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverwriteColorForPartMultiplyColors(
     partIndex: number,
@@ -840,10 +839,10 @@ export class CubismModel {
   }
 
   /**
-   * SDKからpartのスクリーン色を上書きするかをセットする
-   * @param partIndex partのインデックス
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * SDK에서 part의 스크린색을 덮어쓸지 설정합니다.
+   * @param partIndex part의 인덱스
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverrideColorForPartMultiplyColors(
     partIndex: number,
@@ -859,13 +858,13 @@ export class CubismModel {
   }
 
   /**
-   * SDKからpartのスクリーン色を上書きするかをセットする
+   * SDK에서 part의 스크린색을 덮어쓸지 설정합니다.
    *
-   * @deprecated 名称変更のため非推奨 setOverrideColorForPartScreenColors(partIndex: number, value: boolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideColorForPartScreenColors(partIndex: number, value: boolean)로 대체
    *
-   * @param partIndex partのインデックス
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * @param partIndex part의 인덱스
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverwriteColorForPartScreenColors(
     partIndex: number,
@@ -878,10 +877,10 @@ export class CubismModel {
   }
 
   /**
-   * SDKからpartのスクリーン色を上書きするかをセットする
-   * @param partIndex partのインデックス
-   * @param value true -> SDKからの情報を優先する
-   *              false -> モデルに設定されている色情報を使用
+   * SDK에서 part의 스크린색을 덮어쓸지 설정합니다.
+   * @param partIndex part의 인덱스
+   * @param value true -> SDK의 정보를 우선함
+   *              false -> 모델에 설정된 색상 정보 사용
    */
   public setOverrideColorForPartScreenColors(
     partIndex: number,
@@ -897,10 +896,10 @@ export class CubismModel {
   }
 
   /**
-   * Drawableのカリング情報を取得する。
+   * Drawable의 컬링 정보를 가져옵니다.
    *
-   * @param   drawableIndex   Drawableのインデックス
-   * @return  Drawableのカリング情報
+   * @param   drawableIndex   Drawable의 인덱스
+   * @return  Drawable의 컬링 정보
    */
   public getDrawableCulling(drawableIndex: number): boolean {
     if (
@@ -917,22 +916,22 @@ export class CubismModel {
   }
 
   /**
-   * Drawableのカリング情報を設定する。
+   * Drawable의 컬링 정보를 설정합니다.
    *
-   * @param drawableIndex Drawableのインデックス
-   * @param isCulling カリング情報
+   * @param drawableIndex Drawable의 인덱스
+   * @param isCulling 컬링 정보
    */
   public setDrawableCulling(drawableIndex: number, isCulling: boolean): void {
     this._userCullings.at(drawableIndex).isCulling = isCulling;
   }
 
   /**
-   * SDKからモデル全体のカリング設定を上書きするか。
+   * SDK에서 모델 전체의 컬링 설정을 덮어쓸지 여부.
    *
-   * @deprecated 名称変更のため非推奨 getOverrideFlagForModelCullings() に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideFlagForModelCullings()로 대체
    *
-   * @retval  true    ->  SDK上のカリング設定を使用
-   * @retval  false   ->  モデルのカリング設定を使用
+   * @retval  true    ->  SDK상의 컬링 설정 사용
+   * @retval  false   ->  모델의 컬링 설정 사용
    */
   public getOverwriteFlagForModelCullings(): boolean {
     CubismLogWarning(
@@ -942,21 +941,21 @@ export class CubismModel {
   }
 
   /**
-   * SDKからモデル全体のカリング設定を上書きするか。
+   * SDK에서 모델 전체의 컬링 설정을 덮어쓸지 여부.
    *
-   * @retval  true    ->  SDK上のカリング設定を使用
-   * @retval  false   ->  モデルのカリング設定を使用
+   * @retval  true    ->  SDK상의 컬링 설정 사용
+   * @retval  false   ->  모델의 컬링 설정 사용
    */
   public getOverrideFlagForModelCullings(): boolean {
     return this._isOverriddenCullings;
   }
 
   /**
-   * SDKからモデル全体のカリング設定を上書きするかを設定する。
+   * SDK에서 모델 전체의 컬링 설정을 덮어쓸지 설정합니다.
    *
-   * @deprecated 名称変更のため非推奨 setOverrideFlagForModelCullings(isOverriddenCullings: boolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideFlagForModelCullings(isOverriddenCullings: boolean)로 대체
    *
-   * @param isOveriddenCullings SDK上のカリング設定を使うならtrue、モデルのカリング設定を使うならfalse
+   * @param isOveriddenCullings SDK상의 컬링 설정을 사용하려면 true, 모델의 컬링 설정을 사용하려면 false
    */
   public setOverwriteFlagForModelCullings(isOverriddenCullings: boolean): void {
     CubismLogWarning(
@@ -966,9 +965,9 @@ export class CubismModel {
   }
 
   /**
-   * SDKからモデル全体のカリング設定を上書きするかを設定する。
+   * SDK에서 모델 전체의 컬링 설정을 덮어쓸지 설정합니다.
    *
-   * @param isOverriddenCullings SDK上のカリング設定を使うならtrue、モデルのカリング設定を使うならfalse
+   * @param isOverriddenCullings SDK상의 컬링 설정을 사용하려면 true, 모델의 컬링 설정을 사용하려면 false
    */
   public setOverrideFlagForModelCullings(isOverriddenCullings: boolean): void {
     this._isOverriddenCullings = isOverriddenCullings;
@@ -976,11 +975,11 @@ export class CubismModel {
 
   /**
    *
-   * @deprecated 名称変更のため非推奨 getOverrideFlagForDrawableCullings(drawableIndex: number) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 getOverrideFlagForDrawableCullings(drawableIndex: number)로 대체
    *
-   * @param drawableIndex Drawableのインデックス
-   * @retval  true    ->  SDK上のカリング設定を使用
-   * @retval  false   ->  モデルのカリング設定を使用
+   * @param drawableIndex Drawable의 인덱스
+   * @retval  true    ->  SDK상의 컬링 설정 사용
+   * @retval  false   ->  모델의 컬링 설정 사용
    */
   public getOverwriteFlagForDrawableCullings(drawableIndex: number): boolean {
     CubismLogWarning(
@@ -991,9 +990,9 @@ export class CubismModel {
 
   /**
    *
-   * @param drawableIndex Drawableのインデックス
-   * @retval  true    ->  SDK上のカリング設定を使用
-   * @retval  false   ->  モデルのカリング設定を使用
+   * @param drawableIndex Drawable의 인덱스
+   * @retval  true    ->  SDK상의 컬링 설정 사용
+   * @retval  false   ->  모델의 컬링 설정 사용
    */
   public getOverrideFlagForDrawableCullings(drawableIndex: number): boolean {
     return this._userCullings.at(drawableIndex).isOverridden;
@@ -1001,10 +1000,10 @@ export class CubismModel {
 
   /**
    *
-   * @deprecated 名称変更のため非推奨 setOverrideFlagForDrawableCullings(drawableIndex: number, isOverriddenCullings: bolean) に置き換え
+   * @deprecated 이름 변경으로 인해 더 이상 사용되지 않음 setOverrideFlagForDrawableCullings(drawableIndex: number, isOverriddenCullings: bolean)로 대체
    *
-   * @param drawableIndex Drawableのインデックス
-   * @param isOverriddenCullings SDK上のカリング設定を使うならtrue、モデルのカリング設定を使うならfalse
+   * @param drawableIndex Drawable의 인덱스
+   * @param isOverriddenCullings SDK상의 컬링 설정을 사용하려면 true, 모델의 컬링 설정을 사용하려면 false
    */
   public setOverwriteFlagForDrawableCullings(
     drawableIndex: number,
@@ -1021,8 +1020,8 @@ export class CubismModel {
 
   /**
    *
-   * @param drawableIndex Drawableのインデックス
-   * @param isOverriddenCullings SDK上のカリング設定を使うならtrue、モデルのカリング設定を使うならfalse
+   * @param drawableIndex Drawable의 인덱스
+   * @param isOverriddenCullings SDK상의 컬링 설정을 사용하려면 true, 모델의 컬링 설정을 사용하려면 false
    */
   public setOverrideFlagForDrawableCullings(
     drawableIndex: number,
@@ -1032,34 +1031,34 @@ export class CubismModel {
   }
 
   /**
-   * モデルの不透明度を取得する
+   * 모델 불투명도 가져오기
    *
-   * @returns 不透明度の値
+   * @returns 불투명도 값
    */
   public getModelOapcity(): number {
     return this._modelOpacity;
   }
 
   /**
-   * モデルの不透明度を設定する
+   * 모델 불투명도 설정
    *
-   * @param value 不透明度の値
+   * @param value 불투명도 값
    */
   public setModelOapcity(value: number) {
     this._modelOpacity = value;
   }
 
   /**
-   * モデルを取得
+   * 모델 가져오기
    */
   public getModel(): Live2DCubismCore.Model {
     return this._model;
   }
 
   /**
-   * パーツのインデックスを取得
-   * @param partId パーツのID
-   * @return パーツのインデックス
+   * 파츠 인덱스 가져오기
+   * @param partId 파츠의 ID
+   * @return 파츠의 인덱스
    */
   public getPartIndex(partId: CubismIdHandle): number {
     let partIndex: number;
@@ -1071,12 +1070,12 @@ export class CubismModel {
       }
     }
 
-    // モデルに存在していない場合、非存在パーツIDリスト内にあるかを検索し、そのインデックスを返す
+    // 모델에 존재하지 않는 경우, 비존재 파츠 ID 목록에 있는지 검색하여 해당 인덱스를 반환
     if (this._notExistPartId.isExist(partId)) {
       return this._notExistPartId.getValue(partId);
     }
 
-    // 非存在パーツIDリストにない場合、新しく要素を追加する
+    // 비존재 파츠 ID 목록에 없는 경우, 새 요소를 추가
     partIndex = partCount + this._notExistPartId.getSize();
     this._notExistPartId.setValue(partId, partIndex);
     this._notExistPartOpacities.appendKey(partIndex);
@@ -1085,10 +1084,10 @@ export class CubismModel {
   }
 
   /**
-   * パーツのIDを取得する。
+   * 파츠 ID를 가져옵니다.
    *
-   * @param partIndex 取得するパーツのインデックス
-   * @return パーツのID
+   * @param partIndex 가져올 파츠의 인덱스
+   * @return 파츠의 ID
    */
   public getPartId(partIndex: number): CubismIdHandle {
     const partId = this._model.parts.ids[partIndex];
@@ -1096,8 +1095,8 @@ export class CubismModel {
   }
 
   /**
-   * パーツの個数の取得
-   * @return パーツの個数
+   * 파츠 개수 가져오기
+   * @return 파츠 개수
    */
   public getPartCount(): number {
     const partCount: number = this._model.parts.count;
@@ -1105,9 +1104,9 @@ export class CubismModel {
   }
 
   /**
-   * パーツの親パーツインデックスのリストを取得
+   * 파츠의 부모 파츠 인덱스 목록 가져오기
    *
-   * @returns パーツの親パーツインデックスのリスト
+   * @returns 파츠의 부모 파츠 인덱스 목록
    */
   public getPartParentPartIndices(): Int32Array {
     const parentIndices = this._model.parts.parentIndices;
@@ -1115,9 +1114,9 @@ export class CubismModel {
   }
 
   /**
-   * パーツの不透明度の設定(Index)
-   * @param partIndex パーツのインデックス
-   * @param opacity 不透明度
+   * 파츠 불투명도 설정(Index)
+   * @param partIndex 파츠의 인덱스
+   * @param opacity 불투명도
    */
   public setPartOpacityByIndex(partIndex: number, opacity: number): void {
     if (this._notExistPartOpacities.isExist(partIndex)) {
@@ -1125,65 +1124,65 @@ export class CubismModel {
       return;
     }
 
-    // インデックスの範囲内検知
+    // 인덱스 범위 내 감지
     CSM_ASSERT(0 <= partIndex && partIndex < this.getPartCount());
 
     this._partOpacities[partIndex] = opacity;
   }
 
   /**
-   * パーツの不透明度の設定(Id)
-   * @param partId パーツのID
-   * @param opacity パーツの不透明度
+   * 파츠 불투명도 설정(Id)
+   * @param partId 파츠의 ID
+   * @param opacity 파츠의 불투명도
    */
   public setPartOpacityById(partId: CubismIdHandle, opacity: number): void {
-    // 高速化のためにPartIndexを取得できる機構になっているが、外部からの設定の時は呼び出し頻度が低いため不要
+    // 고속화를 위해 PartIndex를 가져올 수 있는 구조이지만, 외부에서 설정할 때는 호출 빈도가 낮으므로 불필요
     const index: number = this.getPartIndex(partId);
 
     if (index < 0) {
-      return; // パーツがないのでスキップ
+      return; // 파츠가 없으므로 건너뛰기
     }
 
     this.setPartOpacityByIndex(index, opacity);
   }
 
   /**
-   * パーツの不透明度の取得(index)
-   * @param partIndex パーツのインデックス
-   * @return パーツの不透明度
+   * 파츠 불투명도 가져오기(index)
+   * @param partIndex 파츠의 인덱스
+   * @return 파츠의 불투명도
    */
   public getPartOpacityByIndex(partIndex: number): number {
     if (this._notExistPartOpacities.isExist(partIndex)) {
-      // モデルに存在しないパーツIDの場合、非存在パーツリストから不透明度を返す。
+      // 모델에 존재하지 않는 파츠 ID인 경우, 비존재 파츠 목록에서 불투명도를 반환합니다.
       return this._notExistPartOpacities.getValue(partIndex);
     }
 
-    // インデックスの範囲内検知
+    // 인덱스 범위 내 감지
     CSM_ASSERT(0 <= partIndex && partIndex < this.getPartCount());
 
     return this._partOpacities[partIndex];
   }
 
   /**
-   * パーツの不透明度の取得(id)
-   * @param partId パーツのＩｄ
-   * @return パーツの不透明度
+   * 파츠 불투명도 가져오기(id)
+   * @param partId 파츠의 ID
+   * @return 파츠의 불투명도
    */
   public getPartOpacityById(partId: CubismIdHandle): number {
-    // 高速化のためにPartIndexを取得できる機構になっているが、外部からの設定の時は呼び出し頻度が低いため不要
+    // 고속화를 위해 PartIndex를 가져올 수 있는 구조이지만, 외부에서 설정할 때는 호출 빈도가 낮으므로 불필요
     const index: number = this.getPartIndex(partId);
 
     if (index < 0) {
-      return 0; // パーツが無いのでスキップ
+      return 0; // 파츠가 없으므로 건너뛰기
     }
 
     return this.getPartOpacityByIndex(index);
   }
 
   /**
-   * パラメータのインデックスの取得
-   * @param パラメータID
-   * @return パラメータのインデックス
+   * 파라미터 인덱스 가져오기
+   * @param 파라미터 ID
+   * @return 파라미터의 인덱스
    */
   public getParameterIndex(parameterId: CubismIdHandle): number {
     let parameterIndex: number;
@@ -1197,12 +1196,12 @@ export class CubismModel {
       return parameterIndex;
     }
 
-    // モデルに存在していない場合、非存在パラメータIDリスト内を検索し、そのインデックスを返す
+    // 모델에 존재하지 않는 경우, 비존재 파라미터 ID 목록에서 검색하여 해당 인덱스를 반환
     if (this._notExistParameterId.isExist(parameterId)) {
       return this._notExistParameterId.getValue(parameterId);
     }
 
-    // 非存在パラメータIDリストにない場合新しく要素を追加する
+    // 비존재 파라미터 ID 목록에 없는 경우 새 요소를 추가
     parameterIndex =
       this._model.parameters.count + this._notExistParameterId.getSize();
 
@@ -1213,18 +1212,18 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの個数の取得
-   * @return パラメータの個数
+   * 파라미터 개수 가져오기
+   * @return 파라미터 개수
    */
   public getParameterCount(): number {
     return this._model.parameters.count;
   }
 
   /**
-   * パラメータの種類の取得
-   * @param parameterIndex パラメータのインデックス
-   * @return csmParameterType_Normal -> 通常のパラメータ
-   *          csmParameterType_BlendShape -> ブレンドシェイプパラメータ
+   * 파라미터 종류 가져오기
+   * @param parameterIndex 파라미터의 인덱스
+   * @return csmParameterType_Normal -> 일반 파라미터
+   *          csmParameterType_BlendShape -> 블렌드 셰이프 파라미터
    */
   public getParameterType(
     parameterIndex: number
@@ -1233,37 +1232,37 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの最大値の取得
-   * @param parameterIndex パラメータのインデックス
-   * @return パラメータの最大値
+   * 파라미터 최대값 가져오기
+   * @param parameterIndex 파라미터의 인덱스
+   * @return 파라미터의 최대값
    */
   public getParameterMaximumValue(parameterIndex: number): number {
     return this._model.parameters.maximumValues[parameterIndex];
   }
 
   /**
-   * パラメータの最小値の取得
-   * @param parameterIndex パラメータのインデックス
-   * @return パラメータの最小値
+   * 파라미터 최소값 가져오기
+   * @param parameterIndex 파라미터의 인덱스
+   * @return 파라미터의 최소값
    */
   public getParameterMinimumValue(parameterIndex: number): number {
     return this._model.parameters.minimumValues[parameterIndex];
   }
 
   /**
-   * パラメータのデフォルト値の取得
-   * @param parameterIndex パラメータのインデックス
-   * @return パラメータのデフォルト値
+   * 파라미터 기본값 가져오기
+   * @param parameterIndex 파라미터의 인덱스
+   * @return 파라미터의 기본값
    */
   public getParameterDefaultValue(parameterIndex: number): number {
     return this._model.parameters.defaultValues[parameterIndex];
   }
 
   /**
-   * 指定したパラメータindexのIDを取得
+   * 지정한 파라미터 index의 ID 가져오기
    *
-   * @param parameterIndex パラメータのインデックス
-   * @returns パラメータID
+   * @param parameterIndex 파라미터의 인덱스
+   * @returns 파라미터 ID
    */
   public getParameterId(parameterIndex: number): CubismIdHandle {
     return CubismFramework.getIdManager().getId(
@@ -1272,16 +1271,16 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの値の取得
-   * @param parameterIndex    パラメータのインデックス
-   * @return パラメータの値
+   * 파라미터 값 가져오기
+   * @param parameterIndex    파라미터의 인덱스
+   * @return 파라미터 값
    */
   public getParameterValueByIndex(parameterIndex: number): number {
     if (this._notExistParameterValues.isExist(parameterIndex)) {
       return this._notExistParameterValues.getValue(parameterIndex);
     }
 
-    // インデックスの範囲内検知
+    // 인덱스 범위 내 감지
     CSM_ASSERT(
       0 <= parameterIndex && parameterIndex < this.getParameterCount()
     );
@@ -1290,21 +1289,21 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの値の取得
-   * @param parameterId    パラメータのID
-   * @return パラメータの値
+   * 파라미터 값 가져오기
+   * @param parameterId    파라미터의 ID
+   * @return 파라미터 값
    */
   public getParameterValueById(parameterId: CubismIdHandle): number {
-    // 高速化のためにparameterIndexを取得できる機構になっているが、外部からの設定の時は呼び出し頻度が低いため不要
+    // 고속화를 위해 parameterIndex를 가져올 수 있는 구조이지만, 외부에서 설정할 때는 호출 빈도가 낮으므로 불필요
     const parameterIndex: number = this.getParameterIndex(parameterId);
     return this.getParameterValueByIndex(parameterIndex);
   }
 
   /**
-   * パラメータの値の設定
-   * @param parameterIndex パラメータのインデックス
-   * @param value パラメータの値
-   * @param weight 重み
+   * 파라미터 값 설정
+   * @param parameterIndex 파라미터의 인덱스
+   * @param value 파라미터 값
+   * @param weight 가중치
    */
   public setParameterValueByIndex(
     parameterIndex: number,
@@ -1324,7 +1323,7 @@ export class CubismModel {
       return;
     }
 
-    // インデックスの範囲内検知
+    // 인덱스 범위 내 감지
     CSM_ASSERT(
       0 <= parameterIndex && parameterIndex < this.getParameterCount()
     );
@@ -1344,10 +1343,10 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの値の設定
-   * @param parameterId パラメータのID
-   * @param value パラメータの値
-   * @param weight 重み
+   * 파라미터 값 설정
+   * @param parameterId 파라미터의 ID
+   * @param value 파라미터 값
+   * @param weight 가중치
    */
   public setParameterValueById(
     parameterId: CubismIdHandle,
@@ -1359,10 +1358,10 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの値の加算(index)
-   * @param parameterIndex パラメータインデックス
-   * @param value 加算する値
-   * @param weight 重み
+   * 파라미터 값 덧셈(index)
+   * @param parameterIndex 파라미터 인덱스
+   * @param value 덧셈할 값
+   * @param weight 가중치
    */
   public addParameterValueByIndex(
     parameterIndex: number,
@@ -1376,10 +1375,10 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの値の加算(id)
-   * @param parameterId パラメータＩＤ
-   * @param value 加算する値
-   * @param weight 重み
+   * 파라미터 값 덧셈(id)
+   * @param parameterId 파라미터 ID
+   * @param value 덧셈할 값
+   * @param weight 가중치
    */
   public addParameterValueById(
     parameterId: any,
@@ -1391,11 +1390,11 @@ export class CubismModel {
   }
 
   /**
-   * Gets whether the parameter has the repeat setting.
+   * 파라미터에 반복 설정이 있는지 가져옵니다.
    *
-   * @param parameterIndex Parameter index
+   * @param parameterIndex 파라미터 인덱스
    *
-   * @return true if it is set, otherwise returns false.
+   * @return true인 경우 설정되어 있고, 그렇지 않으면 false를 반환합니다.
    */
   public isRepeat(parameterIndex: number): boolean {
     if (this._notExistParameterValues.isExist(parameterIndex)) {
@@ -1428,12 +1427,12 @@ export class CubismModel {
   }
 
   /**
-   * Returns the calculated result ensuring the value falls within the parameter's range.
+   * 값이 파라미터 범위 내에 있도록 계산된 결과를 반환합니다.
    *
-   * @param parameterIndex Parameter index
-   * @param value Parameter value
+   * @param parameterIndex 파라미터 인덱스
+   * @param value 파라미터 값
    *
-   * @return a value that falls within the parameter’s range. If the parameter does not exist, returns it as is.
+   * @return 파라미터 범위 내에 있는 값. 파라미터가 없으면 그대로 반환합니다.
    */
   public getParameterRepeatValue(
     parameterIndex: number,
@@ -1475,12 +1474,12 @@ export class CubismModel {
   }
 
   /**
-   * Returns the result of clamping the value to ensure it falls within the parameter's range.
+   * 값이 파라미터 범위 내에 있도록 클램핑된 결과를 반환합니다.
    *
-   * @param parameterIndex Parameter index
-   * @param value Parameter value
+   * @param parameterIndex 파라미터 인덱스
+   * @param value 파라미터 값
    *
-   * @return the clamped value. If the parameter does not exist, returns it as is.
+   * @return 클램핑된 값. 파라미터가 없으면 그대로 반환합니다.
    */
   public getParameterClampValue(parameterIndex: number, value: number): number {
     if (this._notExistParameterValues.isExist(parameterIndex)) {
@@ -1501,21 +1500,21 @@ export class CubismModel {
   }
 
   /**
-   * Returns the repeat of the parameter.
+   * 파라미터의 반복을 반환합니다.
    *
-   * @param parameterIndex Parameter index
+   * @param parameterIndex 파라미터 인덱스
    *
-   * @return the raw data parameter repeat from the Cubism Core.
+   * @return Cubism Core의 원시 데이터 파라미터 반복.
    */
   public getParameterRepeats(parameterIndex: number): boolean {
     return this._model.parameters.repeats[parameterIndex] != 0;
   }
 
   /**
-   * パラメータの値の乗算
-   * @param parameterId パラメータのID
-   * @param value 乗算する値
-   * @param weight 重み
+   * 파라미터 값 곱셈
+   * @param parameterId 파라미터의 ID
+   * @param value 곱셈할 값
+   * @param weight 가중치
    */
   public multiplyParameterValueById(
     parameterId: CubismIdHandle,
@@ -1527,10 +1526,10 @@ export class CubismModel {
   }
 
   /**
-   * パラメータの値の乗算
-   * @param parameterIndex パラメータのインデックス
-   * @param value 乗算する値
-   * @param weight 重み
+   * 파라미터 값 곱셈
+   * @param parameterIndex 파라미터의 인덱스
+   * @param value 곱셈할 값
+   * @param weight 가중치
    */
   public multiplyParameterValueByIndex(
     parameterIndex: number,
@@ -1545,9 +1544,9 @@ export class CubismModel {
   }
 
   /**
-   * Drawableのインデックスの取得
-   * @param drawableId DrawableのID
-   * @return Drawableのインデックス
+   * Drawable 인덱스 가져오기
+   * @param drawableId Drawable의 ID
+   * @return Drawable의 인덱스
    */
   public getDrawableIndex(drawableId: CubismIdHandle): number {
     const drawableCount = this._model.drawables.count;
@@ -1566,8 +1565,8 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの個数の取得
-   * @return drawableの個数
+   * Drawable 개수 가져오기
+   * @return drawable의 개수
    */
   public getDrawableCount(): number {
     const drawableCount = this._model.drawables.count;
@@ -1575,9 +1574,9 @@ export class CubismModel {
   }
 
   /**
-   * DrawableのIDを取得する
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableのID
+   * Drawable ID 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 ID
    */
   public getDrawableId(drawableIndex: number): CubismIdHandle {
     const parameterIds: string[] = this._model.drawables.ids;
@@ -1585,8 +1584,8 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの描画順リストの取得
-   * @return Drawableの描画順リスト
+   * Drawable 그리기 순서 목록 가져오기
+   * @return Drawable의 그리기 순서 목록
    */
   public getDrawableRenderOrders(): Int32Array {
     const renderOrders: Int32Array = this._model.drawables.renderOrders;
@@ -1595,20 +1594,20 @@ export class CubismModel {
 
   /**
    * @deprecated
-   * 関数名が誤っていたため、代替となる getDrawableTextureIndex を追加し、この関数は非推奨となりました。
+   * 함수명이 잘못되어 대체 함수인 getDrawableTextureIndex를 추가하고 이 함수는 더 이상 사용되지 않습니다.
    *
-   * Drawableのテクスチャインデックスリストの取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableのテクスチャインデックスリスト
+   * Drawable의 텍스처 인덱스 목록 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 텍스처 인덱스 목록
    */
   public getDrawableTextureIndices(drawableIndex: number): number {
     return this.getDrawableTextureIndex(drawableIndex);
   }
 
   /**
-   * Drawableのテクスチャインデックスの取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableのテクスチャインデックス
+   * Drawable 텍스처 인덱스 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 텍스처 인덱스
    */
   public getDrawableTextureIndex(drawableIndex: number): number {
     const textureIndices: Int32Array = this._model.drawables.textureIndices;
@@ -1616,13 +1615,13 @@ export class CubismModel {
   }
 
   /**
-   * DrawableのVertexPositionsの変化情報の取得
+   * Drawable의 VertexPositions 변경 정보 가져오기
    *
-   * 直近のCubismModel.update関数でDrawableの頂点情報が変化したかを取得する。
+   * 최근 CubismModel.update 함수에서 Drawable의 정점 정보가 변경되었는지 가져옵니다.
    *
-   * @param   drawableIndex   Drawableのインデックス
-   * @retval  true    Drawableの頂点情報が直近のCubismModel.update関数で変化した
-   * @retval  false   Drawableの頂点情報が直近のCubismModel.update関数で変化していない
+   * @param   drawableIndex   Drawable의 인덱스
+   * @retval  true    Drawable의 정점 정보가 최근 CubismModel.update 함수에서 변경됨
+   * @retval  false   Drawable의 정점 정보가 최근 CubismModel.update 함수에서 변경되지 않음
    */
   public getDrawableDynamicFlagVertexPositionsDidChange(
     drawableIndex: number
@@ -1634,9 +1633,9 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの頂点インデックスの個数の取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの頂点インデックスの個数
+   * Drawable의 정점 인덱스 개수 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 정점 인덱스 개수
    */
   public getDrawableVertexIndexCount(drawableIndex: number): number {
     const indexCounts: Int32Array = this._model.drawables.indexCounts;
@@ -1644,9 +1643,9 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの頂点の個数の取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの頂点の個数
+   * Drawable의 정점 개수 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 정점 개수
    */
   public getDrawableVertexCount(drawableIndex: number): number {
     const vertexCounts = this._model.drawables.vertexCounts;
@@ -1654,18 +1653,18 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの頂点リストの取得
-   * @param drawableIndex drawableのインデックス
-   * @return drawableの頂点リスト
+   * Drawable의 정점 목록 가져오기
+   * @param drawableIndex drawable의 인덱스
+   * @return drawable의 정점 목록
    */
   public getDrawableVertices(drawableIndex: number): Float32Array {
     return this.getDrawableVertexPositions(drawableIndex);
   }
 
   /**
-   * Drawableの頂点インデックスリストの取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの頂点インデックスリスト
+   * Drawable의 정점 인덱스 목록 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 정점 인덱스 목록
    */
   public getDrawableVertexIndices(drawableIndex: number): Uint16Array {
     const indicesArray: Uint16Array[] = this._model.drawables.indices;
@@ -1673,9 +1672,9 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの頂点リストの取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの頂点リスト
+   * Drawable의 정점 목록 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 정점 목록
    */
   public getDrawableVertexPositions(drawableIndex: number): Float32Array {
     const verticesArray: Float32Array[] = this._model.drawables.vertexPositions;
@@ -1683,9 +1682,9 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの頂点のUVリストの取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの頂点UVリスト
+   * Drawable의 정점 UV 목록 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 정점 UV 목록
    */
   public getDrawableVertexUvs(drawableIndex: number): Float32Array {
     const uvsArray: Float32Array[] = this._model.drawables.vertexUvs;
@@ -1693,9 +1692,9 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの不透明度の取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの不透明度
+   * Drawable의 불투명도 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 불투명도
    */
   public getDrawableOpacity(drawableIndex: number): number {
     const opacities: Float32Array = this._model.drawables.opacities;
@@ -1703,10 +1702,10 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの乗算色の取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの乗算色(RGBA)
-   * スクリーン色はRGBAで取得されるが、Aは必ず0
+   * Drawable의 곱셈색 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 곱셈색(RGBA)
+   * 스크린색은 RGBA로 가져오지만, A는 항상 0
    */
   public getDrawableMultiplyColor(drawableIndex: number): CubismTextureColor {
     const multiplyColors: Float32Array = this._model.drawables.multiplyColors;
@@ -1720,10 +1719,10 @@ export class CubismModel {
   }
 
   /**
-   * Drawableのスクリーン色の取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableのスクリーン色(RGBA)
-   * スクリーン色はRGBAで取得されるが、Aは必ず0
+   * Drawable의 스크린색 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 스크린색(RGBA)
+   * 스크린색은 RGBA로 가져오지만, A는 항상 0
    */
   public getDrawableScreenColor(drawableIndex: number): CubismTextureColor {
     const screenColors: Float32Array = this._model.drawables.screenColors;
@@ -1737,18 +1736,18 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの親パーツのインデックスの取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableの親パーツのインデックス
+   * Drawable의 부모 파츠 인덱스 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 부모 파츠 인덱스
    */
   public getDrawableParentPartIndex(drawableIndex: number): number {
     return this._model.drawables.parentPartIndices[drawableIndex];
   }
 
   /**
-   * Drawableのブレンドモードを取得
-   * @param drawableIndex Drawableのインデックス
-   * @return drawableのブレンドモード
+   * Drawable의 블렌드 모드 가져오기
+   * @param drawableIndex Drawable의 인덱스
+   * @return drawable의 블렌드 모드
    */
   public getDrawableBlendMode(drawableIndex: number): CubismBlendMode {
     const constantFlags = this._model.drawables.constantFlags;
@@ -1765,13 +1764,13 @@ export class CubismModel {
   }
 
   /**
-   * Drawableのマスクの反転使用の取得
+   * Drawable의 마스크 반전 사용 가져오기
    *
-   * Drawableのマスク使用時の反転設定を取得する。
-   * マスクを使用しない場合は無視される。
+   * Drawable의 마스크 사용 시 반전 설정을 가져옵니다.
+   * 마스크를 사용하지 않으면 무시됩니다.
    *
-   * @param drawableIndex Drawableのインデックス
-   * @return Drawableの反転設定
+   * @param drawableIndex Drawable의 인덱스
+   * @return Drawable의 반전 설정
    */
   public getDrawableInvertedMaskBit(drawableIndex: number): boolean {
     const constantFlags: Uint8Array = this._model.drawables.constantFlags;
@@ -1782,8 +1781,8 @@ export class CubismModel {
   }
 
   /**
-   * Drawableのクリッピングマスクリストの取得
-   * @return Drawableのクリッピングマスクリスト
+   * Drawable의 클리핑 마스크 목록 가져오기
+   * @return Drawable의 클리핑 마스크 목록
    */
   public getDrawableMasks(): Int32Array[] {
     const masks: Int32Array[] = this._model.drawables.masks;
@@ -1791,8 +1790,8 @@ export class CubismModel {
   }
 
   /**
-   * Drawableのクリッピングマスクの個数リストの取得
-   * @return Drawableのクリッピングマスクの個数リスト
+   * Drawable의 클리핑 마스크 개수 목록 가져오기
+   * @return Drawable의 클리핑 마스크 개수 목록
    */
   public getDrawableMaskCounts(): Int32Array {
     const maskCounts: Int32Array = this._model.drawables.maskCounts;
@@ -1800,10 +1799,10 @@ export class CubismModel {
   }
 
   /**
-   * クリッピングマスクの使用状態
+   * 클리핑 마스크 사용 상태
    *
-   * @return true クリッピングマスクを使用している
-   * @return false クリッピングマスクを使用していない
+   * @return true 클리핑 마스크 사용 중
+   * @return false 클리핑 마스크 사용 안 함
    */
   public isUsingMasking(): boolean {
     for (let d = 0; d < this._model.drawables.count; ++d) {
@@ -1816,11 +1815,11 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの表示情報を取得する
+   * Drawable의 표시 정보 가져오기
    *
-   * @param drawableIndex Drawableのインデックス
-   * @return true Drawableが表示
-   * @return false Drawableが非表示
+   * @param drawableIndex Drawable의 인덱스
+   * @return true Drawable이 표시됨
+   * @return false Drawable이 숨겨짐
    */
   public getDrawableDynamicFlagIsVisible(drawableIndex: number): boolean {
     const dynamicFlags: Uint8Array = this._model.drawables.dynamicFlags;
@@ -1828,13 +1827,13 @@ export class CubismModel {
   }
 
   /**
-   * DrawableのDrawOrderの変化情報の取得
+   * Drawable의 DrawOrder 변경 정보 가져오기
    *
-   * 直近のCubismModel.update関数でdrawableのdrawOrderが変化したかを取得する。
-   * drawOrderはartMesh上で指定する0から1000の情報
-   * @param drawableIndex drawableのインデックス
-   * @return true drawableの不透明度が直近のCubismModel.update関数で変化した
-   * @return false drawableの不透明度が直近のCubismModel.update関数で変化している
+   * 최근 CubismModel.update 함수에서 drawable의 drawOrder가 변경되었는지 가져옵니다.
+   * drawOrder는 artMesh에서 지정하는 0에서 1000까지의 정보
+   * @param drawableIndex drawable의 인덱스
+   * @return true drawable의 불투명도가 최근 CubismModel.update 함수에서 변경됨
+   * @return false drawable의 불투명도가 최근 CubismModel.update 함수에서 변경되지 않음
    */
   public getDrawableDynamicFlagVisibilityDidChange(
     drawableIndex: number
@@ -1846,13 +1845,13 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの不透明度の変化情報の取得
+   * Drawable의 불투명도 변경 정보 가져오기
    *
-   * 直近のCubismModel.update関数でdrawableの不透明度が変化したかを取得する。
+   * 최근 CubismModel.update 함수에서 drawable의 불투명도가 변경되었는지 가져옵니다.
    *
-   * @param drawableIndex drawableのインデックス
-   * @return true Drawableの不透明度が直近のCubismModel.update関数で変化した
-   * @return false Drawableの不透明度が直近のCubismModel.update関数で変化してない
+   * @param drawableIndex drawable의 인덱스
+   * @return true Drawable의 불투명도가 최근 CubismModel.update 함수에서 변경됨
+   * @return false Drawable의 불투명도가 최근 CubismModel.update 함수에서 변경되지 않음
    */
   public getDrawableDynamicFlagOpacityDidChange(
     drawableIndex: number
@@ -1864,13 +1863,13 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの描画順序の変化情報の取得
+   * Drawable의 그리기 순서 변경 정보 가져오기
    *
-   * 直近のCubismModel.update関数でDrawableの描画の順序が変化したかを取得する。
+   * 최근 CubismModel.update 함수에서 Drawable의 그리기 순서가 변경되었는지 가져옵니다.
    *
-   * @param drawableIndex Drawableのインデックス
-   * @return true Drawableの描画の順序が直近のCubismModel.update関数で変化した
-   * @return false Drawableの描画の順序が直近のCubismModel.update関数で変化してない
+   * @param drawableIndex Drawable의 인덱스
+   * @return true Drawable의 그리기 순서가 최근 CubismModel.update 함수에서 변경됨
+   * @return false Drawable의 그리기 순서가 최근 CubismModel.update 함수에서 변경되지 않음
    */
   public getDrawableDynamicFlagRenderOrderDidChange(
     drawableIndex: number
@@ -1882,13 +1881,13 @@ export class CubismModel {
   }
 
   /**
-   * Drawableの乗算色・スクリーン色の変化情報の取得
+   * Drawable의 곱셈색·스크린색 변경 정보 가져오기
    *
-   * 直近のCubismModel.update関数でDrawableの乗算色・スクリーン色が変化したかを取得する。
+   * 최근 CubismModel.update 함수에서 Drawable의 곱셈색·스크린색이 변경되었는지 가져옵니다.
    *
-   * @param drawableIndex Drawableのインデックス
-   * @return true Drawableの乗算色・スクリーン色が直近のCubismModel.update関数で変化した
-   * @return false Drawableの乗算色・スクリーン色が直近のCubismModel.update関数で変化してない
+   * @param drawableIndex Drawable의 인덱스
+   * @return true Drawable의 곱셈색·스크린색이 최근 CubismModel.update 함수에서 변경됨
+   * @return false Drawable의 곱셈색·스크린색이 최근 CubismModel.update 함수에서 변경되지 않음
    */
   public getDrawableDynamicFlagBlendColorDidChange(
     drawableIndex: number
@@ -1900,7 +1899,7 @@ export class CubismModel {
   }
 
   /**
-   * 保存されたパラメータの読み込み
+   * 저장된 파라미터 로드
    */
   public loadParameters(): void {
     let parameterCount: number = this._model.parameters.count;
@@ -1916,7 +1915,7 @@ export class CubismModel {
   }
 
   /**
-   * 初期化する
+   * 초기화합니다.
    */
   public initialize(): void {
     CSM_ASSERT(this._model);
@@ -1966,7 +1965,7 @@ export class CubismModel {
       this._userMultiplyColors.prepareCapacity(drawableCount);
       this._userScreenColors.prepareCapacity(drawableCount);
 
-      // カリング設定
+      // 컬링 설정
       this._userCullings.prepareCapacity(drawableCount);
       const userCulling: DrawableCullingData = new DrawableCullingData(
         false,
@@ -2049,8 +2048,8 @@ export class CubismModel {
   }
 
   /**
-   * コンストラクタ
-   * @param model モデル
+   * 생성자
+   * @param model 모델
    */
   public constructor(model: Live2DCubismCore.Model) {
     this._model = model;
@@ -2083,59 +2082,59 @@ export class CubismModel {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     this._model.release();
     this._model = null;
   }
 
-  private _notExistPartOpacities: csmMap<number, number>; // 存在していないパーツの不透明度のリスト
-  private _notExistPartId: csmMap<CubismIdHandle, number>; // 存在していないパーツIDのリスト
+  private _notExistPartOpacities: csmMap<number, number>; // 존재하지 않는 파츠의 불투명도 목록
+  private _notExistPartId: csmMap<CubismIdHandle, number>; // 존재하지 않는 파츠 ID 목록
 
-  private _notExistParameterValues: csmMap<number, number>; // 存在していないパラメータの値のリスト
-  private _notExistParameterId: csmMap<CubismIdHandle, number>; // 存在していないパラメータIDのリスト
+  private _notExistParameterValues: csmMap<number, number>; // 존재하지 않는 파라미터 값 목록
+  private _notExistParameterId: csmMap<CubismIdHandle, number>; // 존재하지 않는 파라미터 ID 목록
 
-  private _savedParameters: csmVector<number>; // 保存されたパラメータ
+  private _savedParameters: csmVector<number>; // 저장된 파라미터
 
   /**
-   * Flag to determine whether to override model-wide parameter repeats on the SDK
+   * SDK에서 모델 전체 파라미터 반복을 덮어쓸지 결정하는 플래그
    */
   private _isOverriddenParameterRepeat: boolean;
 
-  private _isOverriddenModelMultiplyColors: boolean; // SDK上でモデル全体の乗算色を上書きするか判定するフラグ
-  private _isOverriddenModelScreenColors: boolean; // SDK上でモデル全体のスクリーン色を上書きするか判定するフラグ
+  private _isOverriddenModelMultiplyColors: boolean; // SDK에서 모델 전체의 곱셈색을 덮어쓸지 판정하는 플래그
+  private _isOverriddenModelScreenColors: boolean; // SDK에서 모델 전체의 스크린색을 덮어쓸지 판정하는 플래그
 
   /**
-   * List to manage ParameterRepeat and Override flag to be set for each Parameter
+   * 각 파라미터에 설정할 ParameterRepeat 및 Override 플래그를 관리하는 목록
    */
   private _userParameterRepeatDataList: csmVector<ParameterRepeatData>;
 
-  private _userMultiplyColors: csmVector<DrawableColorData>; // Drawableごとに設定する乗算色と上書きフラグを管理するリスト
-  private _userScreenColors: csmVector<DrawableColorData>; // Drawableごとに設定するスクリーン色と上書きフラグを管理するリスト
-  private _userPartScreenColors: csmVector<PartColorData>; // Part 乗算色の配列
-  private _userPartMultiplyColors: csmVector<PartColorData>; // Part スクリーン色の配列
-  private _partChildDrawables: csmVector<csmVector<number>>; // Partの子DrawableIndexの配列
+  private _userMultiplyColors: csmVector<DrawableColorData>; // Drawable별로 설정하는 곱셈색과 덮어쓰기 플래그를 관리하는 목록
+  private _userScreenColors: csmVector<DrawableColorData>; // Drawable별로 설정하는 스크린색과 덮어쓰기 플래그를 관리하는 목록
+  private _userPartScreenColors: csmVector<PartColorData>; // Part 곱셈색 배열
+  private _userPartMultiplyColors: csmVector<PartColorData>; // Part 스크린색 배열
+  private _partChildDrawables: csmVector<csmVector<number>>; // Part의 자식 DrawableIndex 배열
 
-  private _model: Live2DCubismCore.Model; // モデル
+  private _model: Live2DCubismCore.Model; // 모델
 
-  private _parameterValues: Float32Array; // パラメータの値のリスト
-  private _parameterMaximumValues: Float32Array; // パラメータの最大値のリスト
-  private _parameterMinimumValues: Float32Array; // パラメータの最小値のリスト
+  private _parameterValues: Float32Array; // 파라미터 값 목록
+  private _parameterMaximumValues: Float32Array; // 파라미터 최대값 목록
+  private _parameterMinimumValues: Float32Array; // 파라미터 최소값 목록
 
-  private _partOpacities: Float32Array; // パーツの不透明度のリスト
+  private _partOpacities: Float32Array; // 파츠 불투명도 목록
 
-  private _modelOpacity: number; // モデルの不透明度
+  private _modelOpacity: number; // 모델 불투명도
 
   private _parameterIds: csmVector<CubismIdHandle>;
   private _partIds: csmVector<CubismIdHandle>;
   private _drawableIds: csmVector<CubismIdHandle>;
 
-  private _isOverriddenCullings: boolean; // モデルのカリング設定をすべて上書きするか？
-  private _userCullings: csmVector<DrawableCullingData>; // カリング設定の配列
+  private _isOverriddenCullings: boolean; // 모델의 컬링 설정을 모두 덮어쓸까?
+  private _userCullings: csmVector<DrawableCullingData>; // 컬링 설정 배열
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmodel';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {
