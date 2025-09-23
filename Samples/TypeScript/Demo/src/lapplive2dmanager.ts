@@ -195,16 +195,15 @@ export class LAppLive2DManager {
     console.log(self);
   };
 
-
   /**
    * 키보드 입력 처리
    */
   public onKeyDown(key: string): void {
     const model: LAppModel = this._models.at(0);
-    
+
     if (!model) return;
 
-    switch(key.toLowerCase()) {
+    switch (key.toLowerCase()) {
       case 'e':
         // E키: 랜덤 표정
         model.setRandomExpression();
@@ -212,7 +211,7 @@ export class LAppLive2DManager {
           LAppPal.printMessage('[APP]Keyboard: Random Expression');
         }
         break;
-        
+
       case 'm':
         // M키: 랜덤 바디 모션
         model.startRandomMotion(
@@ -225,7 +224,7 @@ export class LAppLive2DManager {
           LAppPal.printMessage('[APP]Keyboard: Random Motion');
         }
         break;
-        
+
       case 'i':
         // I키: 아이들 모션
         model.startRandomMotion(
@@ -238,12 +237,12 @@ export class LAppLive2DManager {
           LAppPal.printMessage('[APP]Keyboard: Idle Motion');
         }
         break;
-        
+
       case 'n':
         // N키: 다음 모델
         this.nextScene();
         break;
-        
+
       default:
         // 기타 키는 무시
         break;
