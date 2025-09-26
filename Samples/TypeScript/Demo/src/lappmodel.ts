@@ -1,8 +1,8 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import { CubismDefaultParameterId } from '@framework/cubismdefaultparameterid';
@@ -72,14 +72,14 @@ enum LoadStep {
 }
 
 /**
- * ユーザーが実際に使用するモデルの実装クラス<br>
- * モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。
+ * 사용자가 실제로 사용할 모델의 구현 클래스
+ * 모델 생성, 기능 구성 요소 생성, 업데이트 처리 및 렌더링을 요구합니다.
  */
 export class LAppModel extends CubismUserModel {
   /**
-   * model3.jsonが置かれたディレクトリとファイルパスからモデルを生成する
+   * Model3.json이있는 디렉토리 및 파일 경로에서 모델을 생성합니다.
    * @param dir
-   * @param fileName
+   * @param filename
    */
   public loadAssets(dir: string, fileName: string): void {
     this._modelHomeDir = dir;
@@ -92,23 +92,23 @@ export class LAppModel extends CubismUserModel {
           arrayBuffer.byteLength
         );
 
-        // ステートを更新
+        // 상태를 업데이트합니다
         this._state = LoadStep.LoadModel;
 
-        // 結果を保存
+        // 결과 저장
         this.setupModel(setting);
       })
       .catch(error => {
-        // model3.json読み込みでエラーが発生した時点で描画は不可能なので、setupせずエラーをcatchして何もしない
+        // model33.json을로드 할 때 오류가 발생할 때 그리기가 불가능합니다. 설정하지 않고 오류를 잡고 아무것도하지 않습니다.
         CubismLogError(`Failed to load file ${this._modelHomeDir}${fileName}`);
       });
   }
 
   /**
-   * model3.jsonからモデルを生成する。
-   * model3.jsonの記述に従ってモデル生成、モーション、物理演算などのコンポーネント生成を行う。
+   * model3.json에서 모델을 생성합니다.
+   * Model3.json의 설명에 따라 모델, 모션, 물리 및 기타 구성 요소를 생성합니다.
    *
-   * @param setting ICubismModelSettingのインスタンス
+   * @Param 설정 ICubismModelSetting 인스턴스
    */
   private setupModel(setting: ICubismModelSetting): void {
     this._updating = true;
@@ -135,7 +135,7 @@ export class LAppModel extends CubismUserModel {
           this.loadModel(arrayBuffer, this._mocConsistency);
           this._state = LoadStep.LoadExpression;
 
-          // callback
+          // 콜백
           loadCubismExpression();
         });
 
@@ -144,7 +144,7 @@ export class LAppModel extends CubismUserModel {
       LAppPal.printMessage('Model data does not exist.');
     }
 
-    // Expression
+    // 표현
     const loadCubismExpression = (): void => {
       if (this._modelSetting.getExpressionCount() > 0) {
         const count: number = this._modelSetting.getExpressionCount();
@@ -162,7 +162,7 @@ export class LAppModel extends CubismUserModel {
                 CubismLogError(
                   `Failed to load file ${this._modelHomeDir}${expressionFileName}`
                 );
-                // ファイルが存在しなくてもresponseはnullを返却しないため、空のArrayBufferで対応する
+                // 파일이 존재하지 않더라도 응답은 null을 반환하지 않으므로 빈 배열 버퍼로 지원됩니다.
                 return new ArrayBuffer(0);
               }
             })
@@ -187,7 +187,7 @@ export class LAppModel extends CubismUserModel {
               if (this._expressionCount >= count) {
                 this._state = LoadStep.LoadPhysics;
 
-                // callback
+                // 콜백
                 loadCubismPhysics();
               }
             });
@@ -196,12 +196,12 @@ export class LAppModel extends CubismUserModel {
       } else {
         this._state = LoadStep.LoadPhysics;
 
-        // callback
+        // 콜백
         loadCubismPhysics();
       }
     };
 
-    // Physics
+    // 물리학
     const loadCubismPhysics = (): void => {
       if (this._modelSetting.getPhysicsFileName() != '') {
         const physicsFileName = this._modelSetting.getPhysicsFileName();
@@ -222,19 +222,19 @@ export class LAppModel extends CubismUserModel {
 
             this._state = LoadStep.LoadPose;
 
-            // callback
+            // 콜백
             loadCubismPose();
           });
         this._state = LoadStep.WaitLoadPhysics;
       } else {
         this._state = LoadStep.LoadPose;
 
-        // callback
+        // 콜백
         loadCubismPose();
       }
     };
 
-    // Pose
+    // 포즈
     const loadCubismPose = (): void => {
       if (this._modelSetting.getPoseFileName() != '') {
         const poseFileName = this._modelSetting.getPoseFileName();
@@ -255,14 +255,14 @@ export class LAppModel extends CubismUserModel {
 
             this._state = LoadStep.SetupEyeBlink;
 
-            // callback
+            // 콜백
             setupEyeBlink();
           });
         this._state = LoadStep.WaitLoadPose;
       } else {
         this._state = LoadStep.SetupEyeBlink;
 
-        // callback
+        // 콜백
         setupEyeBlink();
       }
     };
@@ -274,11 +274,11 @@ export class LAppModel extends CubismUserModel {
         this._state = LoadStep.SetupBreath;
       }
 
-      // callback
+      // 콜백
       setupBreath();
     };
 
-    // Breath
+    // 호흡
     const setupBreath = (): void => {
       this._breath = CubismBreath.create();
 
@@ -310,11 +310,11 @@ export class LAppModel extends CubismUserModel {
       this._breath.setParameters(breathParameters);
       this._state = LoadStep.LoadUserData;
 
-      // callback
+      // 콜백
       loadUserData();
     };
 
-    // UserData
+    // userData
     const loadUserData = (): void => {
       if (this._modelSetting.getUserDataFile() != '') {
         const userDataFile = this._modelSetting.getUserDataFile();
@@ -335,7 +335,7 @@ export class LAppModel extends CubismUserModel {
 
             this._state = LoadStep.SetupEyeBlinkIds;
 
-            // callback
+            // 콜백
             setupEyeBlinkIds();
           });
 
@@ -343,12 +343,12 @@ export class LAppModel extends CubismUserModel {
       } else {
         this._state = LoadStep.SetupEyeBlinkIds;
 
-        // callback
+        // 콜백
         setupEyeBlinkIds();
       }
     };
 
-    // EyeBlinkIds
+    // EyeBlinkids
     const setupEyeBlinkIds = (): void => {
       const eyeBlinkIdCount: number =
         this._modelSetting.getEyeBlinkParameterCount();
@@ -361,11 +361,11 @@ export class LAppModel extends CubismUserModel {
 
       this._state = LoadStep.SetupLipSyncIds;
 
-      // callback
+      // 콜백
       setupLipSyncIds();
     };
 
-    // LipSyncIds
+    // LipSyncids
     const setupLipSyncIds = (): void => {
       const lipSyncIdCount = this._modelSetting.getLipSyncParameterCount();
 
@@ -374,11 +374,11 @@ export class LAppModel extends CubismUserModel {
       }
       this._state = LoadStep.SetupLayout;
 
-      // callback
+      // 콜백
       setupLayout();
     };
 
-    // Layout
+    // 레이아웃
     const setupLayout = (): void => {
       const layout: csmMap<string, number> = new csmMap<string, number>();
 
@@ -391,11 +391,11 @@ export class LAppModel extends CubismUserModel {
       this._modelMatrix.setupFromLayout(layout);
       this._state = LoadStep.LoadMotion;
 
-      // callback
+      // 콜백
       loadCubismMotion();
     };
 
-    // Motion
+    // 모션
     const loadCubismMotion = (): void => {
       this._state = LoadStep.WaitLoadMotion;
       this._model.saveParameters();
@@ -405,22 +405,22 @@ export class LAppModel extends CubismUserModel {
 
       const motionGroupCount: number = this._modelSetting.getMotionGroupCount();
 
-      // モーションの総数を求める
+      // 총 동작 수를 찾습니다
       for (let i = 0; i < motionGroupCount; i++) {
         group[i] = this._modelSetting.getMotionGroupName(i);
         this._allMotionCount += this._modelSetting.getMotionCount(group[i]);
       }
 
-      // モーションの読み込み
+      // 동작을로드합니다
       for (let i = 0; i < motionGroupCount; i++) {
         this.preLoadMotionGroup(group[i]);
       }
 
-      // モーションがない場合
+      // 동작이없는 경우
       if (motionGroupCount == 0) {
         this._state = LoadStep.LoadTexture;
 
-        // 全てのモーションを停止する
+        // 모든 동작을 중지합니다
         this._motionManager.stopAllMotions();
 
         this._updating = false;
@@ -434,14 +434,14 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * テクスチャユニットにテクスチャをロードする
+   * 텍스처를 텍스처 단위로로드하십시오
    */
   private setupTextures(): void {
-    // iPhoneでのアルファ品質向上のためTypescriptではpremultipliedAlphaを採用
+    // TypeScript
     const usePremultiply = true;
 
     if (this._state == LoadStep.LoadTexture) {
-      // テクスチャ読み込み用
+      // 텍스처로드의 경우
       const textureCount: number = this._modelSetting.getTextureCount();
 
       for (
@@ -449,30 +449,30 @@ export class LAppModel extends CubismUserModel {
         modelTextureNumber < textureCount;
         modelTextureNumber++
       ) {
-        // テクスチャ名が空文字だった場合はロード・バインド処理をスキップ
+        // 텍스처 이름이 비어 있으면 부하 바인딩 건너 뛰기
         if (this._modelSetting.getTextureFileName(modelTextureNumber) == '') {
           console.log('getTextureFileName null');
           continue;
         }
 
-        // WebGLのテクスチャユニットにテクスチャをロードする
+        // WebGL의 텍스처 유닛에 텍스처를로드합니다
         let texturePath =
           this._modelSetting.getTextureFileName(modelTextureNumber);
         texturePath = this._modelHomeDir + texturePath;
 
-        // ロード完了時に呼び出すコールバック関数
+        // 부하 완료시 호출 할 콜백 함수
         const onLoad = (textureInfo: TextureInfo): void => {
           this.getRenderer().bindTexture(modelTextureNumber, textureInfo.id);
 
           this._textureCount++;
 
           if (this._textureCount >= textureCount) {
-            // ロード完了
+            // 완료된로드
             this._state = LoadStep.CompleteSetup;
           }
         };
 
-        // 読み込み
+        // 짐
         this._subdelegate
           .getTextureManager()
           .createTextureFromPngFile(texturePath, usePremultiply, onLoad);
@@ -484,7 +484,7 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * レンダラを再構築する
+   *렌더러를 재건하십시오
    */
   public reloadRenderer(): void {
     this.deleteRenderer();
@@ -493,7 +493,7 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * 更新
+   * 갱신
    */
   public update(): void {
     if (this._state != LoadStep.CompleteSetup) return;
@@ -505,13 +505,13 @@ export class LAppModel extends CubismUserModel {
     this._dragX = this._dragManager.getX();
     this._dragY = this._dragManager.getY();
 
-    // モーションによるパラメータ更新の有無
+    // 모션으로 인해 매개 변수가 업데이트되는지 여부
     let motionUpdated = false;
 
-    //--------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------
     this._model.loadParameters(); // 前回セーブされた状態をロード
     if (this._motionManager.isFinished()) {
-      // モーションの再生がない場合、待機モーションの中からランダムで再生する
+      // 움직임이 재생되지 않으면 대기 동작에서 무작위로 재생
       this.startRandomMotion(
         LAppDefine.MotionGroupIdle,
         LAppDefine.PriorityIdle
@@ -523,12 +523,12 @@ export class LAppModel extends CubismUserModel {
       ); // モーションを更新
     }
     this._model.saveParameters(); // 状態を保存
-    //--------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------
 
-    // まばたき
+    // 깜박임
     if (!motionUpdated) {
       if (this._eyeBlink != null) {
-        // メインモーションの更新がないとき
+        // 메인 모션의 업데이트가 없으면
         this._eyeBlink.updateParameters(this._model, deltaTimeSeconds); // 目パチ
       }
     }
@@ -537,8 +537,8 @@ export class LAppModel extends CubismUserModel {
       this._expressionManager.updateMotion(this._model, deltaTimeSeconds); // 表情でパラメータ更新（相対変化）
     }
 
-    // ドラッグによる変化
-    // ドラッグによる顔の向きの調整
+    // 약물로 인한 변경
+    // 드래그하여 얼굴 방향을 조정합니다
     this._model.addParameterValueById(this._idParamAngleX, this._dragX * 30); // -30から30の値を加える
     this._model.addParameterValueById(this._idParamAngleY, this._dragY * 30);
     this._model.addParameterValueById(
@@ -546,27 +546,27 @@ export class LAppModel extends CubismUserModel {
       this._dragX * this._dragY * -30
     );
 
-    // ドラッグによる体の向きの調整
+    // 드래그하여 신체 방향을 조정합니다
     this._model.addParameterValueById(
       this._idParamBodyAngleX,
       this._dragX * 10
     ); // -10から10の値を加える
 
-    // ドラッグによる目の向きの調整
+    // 드래그하여 눈의 방향을 조정합니다
     this._model.addParameterValueById(this._idParamEyeBallX, this._dragX); // -1から1の値を加える
     this._model.addParameterValueById(this._idParamEyeBallY, this._dragY);
 
-    // 呼吸など
+    // 호흡 등
     if (this._breath != null) {
       this._breath.updateParameters(this._model, deltaTimeSeconds);
     }
 
-    // 物理演算の設定
+    // 물리 계산 설정
     if (this._physics != null) {
       this._physics.evaluate(this._model, deltaTimeSeconds);
     }
 
-    // リップシンクの設定
+    // 립 동기화 설정
     if (this._lipsync) {
       let value = 0.0; // リアルタイムでリップシンクを行う場合、システムから音量を取得して、0~1の範囲で値を入力します。
 
@@ -578,7 +578,7 @@ export class LAppModel extends CubismUserModel {
       }
     }
 
-    // ポーズの設定
+    // 설정 설정
     if (this._pose != null) {
       this._pose.updateParameters(this._model, deltaTimeSeconds);
     }
@@ -587,12 +587,12 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * 引数で指定したモーションの再生を開始する
-   * @param group モーショングループ名
-   * @param no グループ内の番号
-   * @param priority 優先度
-   * @param onFinishedMotionHandler モーション再生終了時に呼び出されるコールバック関数
-   * @return 開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するisFinished()の引数で使用する。開始できない時は[-1]
+   * 인수에 의해 지정된 모션 재생 시작
+   * @param 그룹 모션 그룹 이름
+   * @param 그룹에 번호가 없습니다
+   * @param 우선 순위
+   * @param onfinishedMotionHandler 콜백 함수 모션 재생이 완료되었을 때 호출됩니다.
+   * @return은 시작된 동작의 식별 번호를 반환합니다. 개별 운동이 완료되었는지 여부를 결정하기 위해 isfinished ()의 주장으로 사용됩니다. 시작할 수 없다면 [-1]
    */
   public startMotion(
     group: string,
@@ -648,7 +648,7 @@ export class LAppModel extends CubismUserModel {
         autoDelete = true; // 終了時にメモリから削除
       } else {
         CubismLogError("Can't start motion {0} .", motionFileName);
-        // ロードできなかったモーションのReservePriorityをリセットする
+        //로드 할 수없는 동작에 대한 ReservePriority를 ​​재설정
         this._motionManager.setReservePriority(LAppDefine.PriorityNone);
         return InvalidMotionQueueEntryHandleValue;
       }
@@ -657,7 +657,7 @@ export class LAppModel extends CubismUserModel {
       motion.setFinishedMotionHandler(onFinishedMotionHandler);
     }
 
-    //voice
+    //목소리
     const voice = this._modelSetting.getMotionSoundFileName(group, no);
     if (voice.localeCompare('') != 0) {
       let path = voice;
@@ -676,11 +676,11 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * ランダムに選ばれたモーションの再生を開始する。
-   * @param group モーショングループ名
-   * @param priority 優先度
-   * @param onFinishedMotionHandler モーション再生終了時に呼び出されるコールバック関数
-   * @return 開始したモーションの識別番号を返す。個別のモーションが終了したか否かを判定するisFinished()の引数で使用する。開始できない時は[-1]
+   * 무작위로 선택된 동작을 시작합니다.
+   * @param 그룹 모션 그룹 이름
+   * @param 우선 순위
+   * @param onfinishedMotionHandler 콜백 함수 모션 재생이 완료되었을 때 호출됩니다.
+   * @return은 시작된 동작의 식별 번호를 반환합니다. 개별 운동이 완료되었는지 여부를 결정하기 위해 isfinished ()의 주장으로 사용됩니다. 시작할 수 없다면 [-1]
    */
   public startRandomMotion(
     group: string,
@@ -706,9 +706,9 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * 引数で指定した表情モーションをセットする
+   * 인수에 의해 지정된 얼굴 표정 운동 설정
    *
-   * @param expressionId 表情モーションのID
+   * @param expressionid 표현 모션 ID
    */
   public setExpression(expressionId: string): void {
     const motion: ACubismMotion = this._expressions.getValue(expressionId);
@@ -727,7 +727,7 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * ランダムに選ばれた表情モーションをセットする
+   * 무작위로 선택된 얼굴 운동을 설정합니다
    */
   public setRandomExpression(): void {
     if (this._expressions.getSize() == 0) {
@@ -746,22 +746,22 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * イベントの発火を受け取る
+   *이벤트 화재를 받으십시오
    */
   public motionEventFired(eventValue: csmString): void {
     CubismLogInfo('{0} is fired on LAppModel!!', eventValue.s);
   }
 
   /**
-   * 当たり判定テスト
-   * 指定ＩＤの頂点リストから矩形を計算し、座標をが矩形範囲内か判定する。
+   *도마 테스트
+   * 사각형은 지정된 ID의 정점 목록에서 계산되며 좌표가 사각형 범위 내에 있는지 확인합니다.
    *
-   * @param hitArenaName  当たり判定をテストする対象のID
-   * @param x             判定を行うX座標
-   * @param y             判定を行うY座標
+   * @param hitarenaname ID가 적중 감지를 테스트합니다
+   * @param x x는 판단을 내리기 위해 좌표를 조정합니다
+   * @param y y 판결을 내리기 위해 조정하십시오
    */
   public hitTest(hitArenaName: string, x: number, y: number): boolean {
-    // 透明時は当たり判定無し。
+    // 투명 할 때 히트 감지가 없습니다.
     if (this._opacity < 1) {
       return false;
     }
@@ -779,10 +779,10 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * モーションデータをグループ名から一括でロードする。
-   * モーションデータの名前は内部でModelSettingから取得する。
+   * 그룹 이름에서 모션 데이터를 대량으로로드합니다.
+   * 모션 데이터의 이름은 ModelSetting에서 내부적으로 얻습니다.
    *
-   * @param group モーションデータのグループ名
+   * @param 그룹 모션 데이터 그룹 이름
    */
   public preLoadMotionGroup(group: string): void {
     for (let i = 0; i < this._modelSetting.getMotionCount(group); i++) {
@@ -831,14 +831,14 @@ export class LAppModel extends CubismUserModel {
 
             this._motionCount++;
           } else {
-            // loadMotionできなかった場合はモーションの総数がずれるので1つ減らす
+            // loadMotion이 불가능한 경우 총 동작 수가 이동하므로 하나씩 줄입니다.
             this._allMotionCount--;
           }
 
           if (this._motionCount >= this._allMotionCount) {
             this._state = LoadStep.LoadTexture;
 
-            // 全てのモーションを停止する
+            // 모든 동작을 중지합니다
             this._motionManager.stopAllMotions();
 
             this._updating = false;
@@ -855,26 +855,26 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * すべてのモーションデータを解放する。
+   * 모든 모션 데이터를 자유롭게하십시오.
    */
   public releaseMotions(): void {
     this._motions.clear();
   }
 
   /**
-   * 全ての表情データを解放する。
+   * 모든 얼굴 표현 데이터를 해제합니다.
    */
   public releaseExpressions(): void {
     this._expressions.clear();
   }
 
   /**
-   * モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。
+   * 모델 그리기 프로세스. 모델을 그리려는 공간에 대한 뷰 프로젝션 매트릭스를 전달하십시오.
    */
   public doDraw(): void {
     if (this._model == null) return;
 
-    // キャンバスサイズを渡す
+    // 캔버스 크기를 전달합니다
     const canvas = this._subdelegate.getCanvas();
     const viewport: number[] = [0, 0, canvas.width, canvas.height];
 
@@ -886,14 +886,14 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。
+   * 모델 그리기 프로세스. 모델을 그리려는 공간에 대한 뷰 프로젝션 매트릭스를 전달하십시오.
    */
   public draw(matrix: CubismMatrix44): void {
     if (this._model == null) {
       return;
     }
 
-    // 各読み込み終了後
+    // 각 로딩이 완료된 후
     if (this._state == LoadStep.CompleteSetup) {
       matrix.multiplyByMatrix(this._modelMatrix);
 
@@ -932,7 +932,7 @@ export class LAppModel extends CubismUserModel {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     super();

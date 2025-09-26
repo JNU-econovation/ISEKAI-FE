@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -19,24 +18,24 @@ const Value = 'Value';
 
 export class CubismModelUserDataJson {
   /**
-   * コンストラクタ
-   * @param buffer    userdata3.jsonが読み込まれているバッファ
-   * @param size      バッファのサイズ
+   * 생성자
+   * @param buffer    userdata3.json이 로드된 버퍼
+   * @param size      버퍼 크기
    */
   public constructor(buffer: ArrayBuffer, size: number) {
     this._json = CubismJson.create(buffer, size);
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     CubismJson.delete(this._json);
   }
 
   /**
-   * ユーザーデータ個数の取得
-   * @return ユーザーデータの個数
+   * 사용자 데이터 개수 가져오기
+   * @return 사용자 데이터 개수
    */
   public getUserDataCount(): number {
     return this._json
@@ -47,9 +46,9 @@ export class CubismModelUserDataJson {
   }
 
   /**
-   * ユーザーデータ総文字列数の取得
+   * 사용자 데이터 총 문자열 수 가져오기
    *
-   * @return ユーザーデータ総文字列数
+   * @return 사용자 데이터 총 문자열 수
    */
   public getTotalUserDataSize(): number {
     return this._json
@@ -60,9 +59,9 @@ export class CubismModelUserDataJson {
   }
 
   /**
-   * ユーザーデータのタイプの取得
+   * 사용자 데이터 타입 가져오기
    *
-   * @return ユーザーデータのタイプ
+   * @return 사용자 데이터 타입
    */
   public getUserDataTargetType(i: number): string {
     return this._json
@@ -74,10 +73,10 @@ export class CubismModelUserDataJson {
   }
 
   /**
-   * ユーザーデータのターゲットIDの取得
+   * 사용자 데이터의 대상 ID 가져오기
    *
-   * @param i インデックス
-   * @return ユーザーデータターゲットID
+   * @param i 인덱스
+   * @return 사용자 데이터 대상 ID
    */
   public getUserDataId(i: number): CubismIdHandle {
     return CubismFramework.getIdManager().getId(
@@ -91,10 +90,10 @@ export class CubismModelUserDataJson {
   }
 
   /**
-   * ユーザーデータの文字列の取得
+   * 사용자 데이터의 문자열 가져오기
    *
-   * @param i インデックス
-   * @return ユーザーデータ
+   * @param i 인덱스
+   * @return 사용자 데이터
    */
   public getUserDataValue(i: number): string {
     return this._json
@@ -108,7 +107,7 @@ export class CubismModelUserDataJson {
   private _json: CubismJson;
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmodeluserdatajson';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

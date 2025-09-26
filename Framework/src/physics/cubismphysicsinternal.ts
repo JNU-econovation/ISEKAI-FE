@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -10,54 +9,54 @@ import { CubismVector2 } from '../math/cubismvector2';
 import { csmVector } from '../type/csmvector';
 
 /**
- * 物理演算の適用先の種類
+ * 물리 연산의 적용 대상 종류
  */
 export enum CubismPhysicsTargetType {
-  CubismPhysicsTargetType_Parameter // パラメータに対して適用
+  CubismPhysicsTargetType_Parameter // 파라미터에 적용
 }
 
 /**
- * 物理演算の入力の種類
+ * 물리 연산의 입력 종류
  */
 export enum CubismPhysicsSource {
-  CubismPhysicsSource_X, // X軸の位置から
-  CubismPhysicsSource_Y, // Y軸の位置から
-  CubismPhysicsSource_Angle // 角度から
+  CubismPhysicsSource_X, // X축 위치에서
+  CubismPhysicsSource_Y, // Y축 위치에서
+  CubismPhysicsSource_Angle // 각도에서
 }
 
 /**
- * @brief 物理演算で使用する外部の力
+ * @brief 물리 연산에 사용하는 외부 힘
  *
- * 物理演算で使用する外部の力。
+ * 물리 연산에 사용하는 외부 힘.
  */
 export class PhysicsJsonEffectiveForces {
   constructor() {
     this.gravity = new CubismVector2(0, 0);
     this.wind = new CubismVector2(0, 0);
   }
-  gravity: CubismVector2; // 重力
-  wind: CubismVector2; // 風
+  gravity: CubismVector2; // 중력
+  wind: CubismVector2; // 바람
 }
 
 /**
- * 物理演算のパラメータ情報
+ * 물리 연산의 파라미터 정보
  */
 export class CubismPhysicsParameter {
-  id: CubismIdHandle; // パラメータ
-  targetType: CubismPhysicsTargetType; // 適用先の種類
+  id: CubismIdHandle; // 파라미터
+  targetType: CubismPhysicsTargetType; // 적용 대상 종류
 }
 
 /**
- * 物理演算の正規化情報
+ * 물리 연산의 정규화 정보
  */
 export class CubismPhysicsNormalization {
-  minimum: number; // 最大値
-  maximum: number; // 最小値
-  defalut: number; // デフォルト値
+  minimum: number; // 최대값
+  maximum: number; // 최소값
+  defalut: number; // 기본값
 }
 
 /**
- * 物理演算の演算委使用する物理点の情報
+ * 물리 연산의 연산에 사용하는 물리점 정보
  */
 export class CubismPhysicsParticle {
   constructor() {
@@ -69,48 +68,48 @@ export class CubismPhysicsParticle {
     this.velocity = new CubismVector2(0, 0);
   }
 
-  initialPosition: CubismVector2; // 初期位置
-  mobility: number; // 動きやすさ
-  delay: number; // 遅れ
-  acceleration: number; // 加速度
-  radius: number; // 距離
-  position: CubismVector2; // 現在の位置
-  lastPosition: CubismVector2; // 最後の位置
-  lastGravity: CubismVector2; // 最後の重力
-  force: CubismVector2; // 現在かかっている力
-  velocity: CubismVector2; // 現在の速度
+  initialPosition: CubismVector2; // 초기 위치
+  mobility: number; // 움직임 용이성
+  delay: number; // 지연
+  acceleration: number; // 가속도
+  radius: number; // 거리
+  position: CubismVector2; // 현재 위치
+  lastPosition: CubismVector2; // 마지막 위치
+  lastGravity: CubismVector2; // 마지막 중력
+  force: CubismVector2; // 현재 가해지는 힘
+  velocity: CubismVector2; // 현재 속도
 }
 
 /**
- * 物理演算の物理点の管理
+ * 물리 연산의 물리점 관리
  */
 export class CubismPhysicsSubRig {
   constructor() {
     this.normalizationPosition = new CubismPhysicsNormalization();
     this.normalizationAngle = new CubismPhysicsNormalization();
   }
-  inputCount: number; // 入力の個数
-  outputCount: number; // 出力の個数
-  particleCount: number; // 物理点の個数
-  baseInputIndex: number; // 入力の最初のインデックス
-  baseOutputIndex: number; // 出力の最初のインデックス
-  baseParticleIndex: number; // 物理点の最初のインデックス
-  normalizationPosition: CubismPhysicsNormalization; // 正規化された位置
-  normalizationAngle: CubismPhysicsNormalization; // 正規化された角度
+  inputCount: number; // 입력 개수
+  outputCount: number; // 출력 개수
+  particleCount: number; // 물리점 개수
+  baseInputIndex: number; // 입력의 첫 인덱스
+  baseOutputIndex: number; // 출력의 첫 인덱스
+  baseParticleIndex: number; // 물리점의 첫 인덱스
+  normalizationPosition: CubismPhysicsNormalization; // 정규화된 위치
+  normalizationAngle: CubismPhysicsNormalization; // 정규화된 각도
 }
 
 /**
- * 正規化されたパラメータの取得関数の宣言
- * @param targetTranslation     // 演算結果の移動値
- * @param targetAngle           // 演算結果の角度
- * @param value                 // パラメータの値
- * @param parameterMinimunValue // パラメータの最小値
- * @param parameterMaximumValue // パラメータの最大値
- * @param parameterDefaultValue // パラメータのデフォルト値
- * @param normalizationPosition // 正規化された位置
- * @param normalizationAngle    // 正規化された角度
- * @param isInverted            // 値が反転されているか？
- * @param weight                // 重み
+ * 정규화된 파라미터 취득 함수 선언
+ * @param targetTranslation     // 연산 결과의 이동값
+ * @param targetAngle           // 연산 결과의 각도
+ * @param value                 // 파라미터 값
+ * @param parameterMinimunValue // 파라미터의 최소값
+ * @param parameterMaximumValue // 파라미터의 최대값
+ * @param parameterDefaultValue // 파라미터의 기본값
+ * @param normalizationPosition // 정규화된 위치
+ * @param normalizationAngle    // 정규화된 각도
+ * @param isInverted            // 값이 반전되었는지?
+ * @param weight                // 가중치
  */
 export interface normalizedPhysicsParameterValueGetter {
   (
@@ -128,12 +127,12 @@ export interface normalizedPhysicsParameterValueGetter {
 }
 
 /**
- * 物理演算の値の取得関数の宣言
- * @param translation 移動値
- * @param particles 物理点のリスト
- * @param isInverted 値が反映されているか
- * @param parentGravity 重力
- * @return 値
+ * 물리 연산 값 취득 함수 선언
+ * @param translation 이동값
+ * @param particles 물리점 목록
+ * @param isInverted 값이 반영되었는지
+ * @param parentGravity 중력
+ * @return 값
  */
 export interface physicsValueGetter {
   (
@@ -146,34 +145,34 @@ export interface physicsValueGetter {
 }
 
 /**
- * 物理演算のスケールの取得関数の宣言
- * @param translationScale 移動値のスケール
- * @param angleScale    角度のスケール
- * @return スケール値
+ * 물리 연산 스케일 취득 함수 선언
+ * @param translationScale 이동값의 스케일
+ * @param angleScale    각도의 스케일
+ * @return 스케일 값
  */
 export interface physicsScaleGetter {
   (translationScale: CubismVector2, angleScale: number): number;
 }
 
 /**
- * 物理演算の入力情報
+ * 물리 연산의 입력 정보
  */
 export class CubismPhysicsInput {
   constructor() {
     this.source = new CubismPhysicsParameter();
   }
-  source: CubismPhysicsParameter; // 入力元のパラメータ
-  sourceParameterIndex: number; // 入力元のパラメータのインデックス
-  weight: number; // 重み
-  type: number; // 入力の種類
-  reflect: boolean; // 値が反転されているかどうか
-  getNormalizedParameterValue: normalizedPhysicsParameterValueGetter; // 正規化されたパラメータ値の取得関数
+  source: CubismPhysicsParameter; // 입력 소스 파라미터
+  sourceParameterIndex: number; // 입력 소스 파라미터의 인덱스
+  weight: number; // 가중치
+  type: number; // 입력 종류
+  reflect: boolean; // 값이 반전되었는지 여부
+  getNormalizedParameterValue: normalizedPhysicsParameterValueGetter; // 정규화된 파라미터 값 취득 함수
 }
 
 /**
- * @brief 物理演算の出力情報
+ * @brief 물리 연산의 출력 정보
  *
- * 物理演算の出力情報。
+ * 물리 연산의 출력 정보.
  */
 export class CubismPhysicsOutput {
   constructor() {
@@ -181,24 +180,24 @@ export class CubismPhysicsOutput {
     this.translationScale = new CubismVector2(0, 0);
   }
 
-  destination: CubismPhysicsParameter; // 出力先のパラメータ
-  destinationParameterIndex: number; // 出力先のパラメータのインデックス
-  vertexIndex: number; // 振り子のインデックス
-  translationScale: CubismVector2; // 移動値のスケール
-  angleScale: number; // 角度のスケール
-  weight: number; // 重み
-  type: CubismPhysicsSource; // 出力の種類
-  reflect: boolean; // 値が反転されているかどうか
-  valueBelowMinimum: number; // 最小値を下回った時の値
-  valueExceededMaximum: number; // 最大値をこえた時の値
-  getValue: physicsValueGetter; // 物理演算の値の取得関数
-  getScale: physicsScaleGetter; // 物理演算のスケール値の取得関数
+  destination: CubismPhysicsParameter; // 출력 대상 파라미터
+  destinationParameterIndex: number; // 출력 대상 파라미터의 인덱스
+  vertexIndex: number; // 진자의 인덱스
+  translationScale: CubismVector2; // 이동값의 스케일
+  angleScale: number; // 각도의 스케일
+  weight: number; // 가중치
+  type: CubismPhysicsSource; // 출력의 종류
+  reflect: boolean; // 값이 반전되었는지 여부
+  valueBelowMinimum: number; // 최소값 미만일 때의 값
+  valueExceededMaximum: number; // 최대값을 초과했을 때의 값
+  getValue: physicsValueGetter; // 물리 연산 값 취득 함수
+  getScale: physicsScaleGetter; // 물리 연산 스케일 값 취득 함수
 }
 
 /**
- * @brief 物理演算のデータ
+ * @brief 물리 연산의 데이터
  *
- * 物理演算のデータ。
+ * 물리 연산의 데이터.
  */
 export class CubismPhysicsRig {
   constructor() {
@@ -211,17 +210,17 @@ export class CubismPhysicsRig {
     this.fps = 0.0;
   }
 
-  subRigCount: number; // 物理演算の物理点の個数
-  settings: csmVector<CubismPhysicsSubRig>; // 物理演算の物理点の管理のリスト
-  inputs: csmVector<CubismPhysicsInput>; // 物理演算の入力のリスト
-  outputs: csmVector<CubismPhysicsOutput>; // 物理演算の出力のリスト
-  particles: csmVector<CubismPhysicsParticle>; // 物理演算の物理点のリスト
-  gravity: CubismVector2; // 重力
-  wind: CubismVector2; // 風
-  fps: number; //物理演算動作FPS
+  subRigCount: number; // 물리 연산의 물리점 개수
+  settings: csmVector<CubismPhysicsSubRig>; // 물리 연산의 물리점 관리 목록
+  inputs: csmVector<CubismPhysicsInput>; // 물리 연산의 입력 목록
+  outputs: csmVector<CubismPhysicsOutput>; // 물리 연산의 출력 목록
+  particles: csmVector<CubismPhysicsParticle>; // 물리 연산의 물리점 목록
+  gravity: CubismVector2; // 중력
+  wind: CubismVector2; // 바람
+  fps: number; // 물리 연산 동작 FPS
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismphysicsinternal';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

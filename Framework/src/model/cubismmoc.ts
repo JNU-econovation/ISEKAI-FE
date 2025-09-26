@@ -1,21 +1,20 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CSM_ASSERT, CubismLogError } from '../utils/cubismdebug';
 import { CubismModel } from './cubismmodel';
 
 /**
- * Mocデータの管理
+ * Moc 데이터 관리
  *
- * Mocデータの管理を行うクラス。
+ * Moc 데이터의 관리를 수행하는 클래스.
  */
 export class CubismMoc {
   /**
-   * Mocデータの作成
+   * Moc 데이터 생성
    */
   public static create(
     mocBytes: ArrayBuffer,
@@ -24,11 +23,11 @@ export class CubismMoc {
     let cubismMoc: CubismMoc = null;
 
     if (shouldCheckMocConsistency) {
-      // .moc3の整合性を確認
+      // .moc3 무결성 확인
       const consistency = this.hasMocConsistency(mocBytes);
 
       if (!consistency) {
-        // 整合性が確認できなければ処理しない
+        // 무결성이 확인되지 않으면 처리하지 않음
         CubismLogError(`Inconsistent MOC3.`);
         return cubismMoc;
       }
@@ -49,9 +48,9 @@ export class CubismMoc {
   }
 
   /**
-   * Mocデータを削除
+   * Moc 데이터 삭제
    *
-   * Mocデータを削除する
+   * Moc 데이터를 삭제합니다.
    */
   public static delete(moc: CubismMoc): void {
     moc._moc._release();
@@ -60,9 +59,9 @@ export class CubismMoc {
   }
 
   /**
-   * モデルを作成する
+   * 모델 생성
    *
-   * @return Mocデータから作成されたモデル
+   * @return Moc 데이터에서 생성된 모델
    */
   createModel(): CubismModel {
     let cubismModel: CubismModel = null;
@@ -82,7 +81,7 @@ export class CubismMoc {
   }
 
   /**
-   * モデルを削除する
+   * 모델 삭제
    */
   deleteModel(model: CubismModel): void {
     if (model != null) {
@@ -93,7 +92,7 @@ export class CubismMoc {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   private constructor(moc: Live2DCubismCore.Moc) {
     this._moc = moc;
@@ -102,7 +101,7 @@ export class CubismMoc {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     CSM_ASSERT(this._modelCount == 0);
@@ -112,21 +111,21 @@ export class CubismMoc {
   }
 
   /**
-   * 最新の.moc3 Versionを取得
+   * 최신 .moc3 버전 가져오기
    */
   public getLatestMocVersion(): number {
     return Live2DCubismCore.Version.csmGetLatestMocVersion();
   }
 
   /**
-   * 読み込んだモデルの.moc3 Versionを取得
+   * 로드한 모델의 .moc3 버전 가져오기
    */
   public getMocVersion(): number {
     return this._mocVersion;
   }
 
   /**
-   * .moc3 の整合性を検証する
+   * .moc3 무결성 검증
    */
   public static hasMocConsistency(mocBytes: ArrayBuffer): boolean {
     const isConsistent =
@@ -134,12 +133,12 @@ export class CubismMoc {
     return isConsistent === 1 ? true : false;
   }
 
-  _moc: Live2DCubismCore.Moc; // Mocデータ
-  _modelCount: number; // Mocデータから作られたモデルの個数
-  _mocVersion: number; // 読み込んだモデルの.moc3 Version
+  _moc: Live2DCubismCore.Moc; // Moc 데이터
+  _modelCount: number; // Moc 데이터로 생성된 모델 수
+  _mocVersion: number; // 로드한 모델의 .moc3 버전
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmoc';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

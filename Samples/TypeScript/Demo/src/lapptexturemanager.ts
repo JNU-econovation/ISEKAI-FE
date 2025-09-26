@@ -1,27 +1,27 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import { csmVector, iterator } from '@framework/type/csmvector';
 import { LAppGlManager } from './lappglmanager';
 
 /**
- * テクスチャ管理クラス
- * 画像読み込み、管理を行うクラス。
+ * 텍스처 관리 클래스
+ * 이미지를로드하고 관리하는 클래스.
  */
 export class LAppTextureManager {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._textures = new csmVector<TextureInfo>();
   }
 
   /**
-   * 解放する。
+   * 풀어 주다.
    */
   public release(): void {
     for (
@@ -35,18 +35,18 @@ export class LAppTextureManager {
   }
 
   /**
-   * 画像読み込み
+   * 이미지 로딩
    *
-   * @param fileName 読み込む画像ファイルパス名
-   * @param usePremultiply Premult処理を有効にするか
-   * @return 画像情報、読み込み失敗時はnullを返す
+   * @param filename 이미지 파일 파일 경로로드
+   * @param usepremultiply 당신은 Pomult Processing을 활성화합니까?
+   * @return 이미지 정보, 로딩이 실패하면 NULL
    */
   public createTextureFromPngFile(
     fileName: string,
     usePremultiply: boolean,
     callback: (textureInfo: TextureInfo) => void
   ): void {
-    // search loaded texture already
+    // 이미로드 된 텍스처를 검색합니다
     for (
       let ite: iterator<TextureInfo> = this._textures.begin();
       ite.notEqual(this._textures.end());
@@ -56,9 +56,9 @@ export class LAppTextureManager {
         ite.ptr().fileName == fileName &&
         ite.ptr().usePremultply == usePremultiply
       ) {
-        // 2回目以降はキャッシュが使用される(待ち時間なし)
-        // WebKitでは同じImageのonloadを再度呼ぶには再インスタンスが必要
-        // 詳細：https://stackoverflow.com/a/5024181
+        // 두 번째로 캐시가 사용됩니다 (대기 시간 없음)
+        // WebKit은 동일한 이미지의 Onload를 다시 호출하려면 Re-Instance가 필요합니다.
+        // 詳細 ： https : //stackoverflow.com/a/5024181
         ite.ptr().img = new Image();
         ite
           .ptr()
@@ -70,20 +70,20 @@ export class LAppTextureManager {
       }
     }
 
-    // データのオンロードをトリガーにする
+    // 데이터 온로드 트리거
     const img = new Image();
     img.addEventListener(
       'load',
       (): void => {
-        // テクスチャオブジェクトの作成
+        // 텍스처 객체 생성
         const tex: WebGLTexture = this._glManager.getGl().createTexture();
 
-        // テクスチャを選択
+        // 텍스처를 선택합니다
         this._glManager
           .getGl()
           .bindTexture(this._glManager.getGl().TEXTURE_2D, tex);
 
-        // テクスチャにピクセルを書き込む
+        // 텍스처에 픽셀을 씁니다
         this._glManager
           .getGl()
           .texParameteri(
@@ -99,7 +99,7 @@ export class LAppTextureManager {
             this._glManager.getGl().LINEAR
           );
 
-        // Premult処理を行わせる
+        // 사악한 과정을 수행합니다
         if (usePremultiply) {
           this._glManager
             .getGl()
@@ -109,7 +109,7 @@ export class LAppTextureManager {
             );
         }
 
-        // テクスチャにピクセルを書き込む
+        // 텍스처에 픽셀을 씁니다
         this._glManager
           .getGl()
           .texImage2D(
@@ -121,12 +121,12 @@ export class LAppTextureManager {
             img
           );
 
-        // ミップマップを生成
+        // mipmap을 생성합니다
         this._glManager
           .getGl()
           .generateMipmap(this._glManager.getGl().TEXTURE_2D);
 
-        // テクスチャをバインド
+        // 텍스처 바인드
         this._glManager
           .getGl()
           .bindTexture(this._glManager.getGl().TEXTURE_2D, null);
@@ -152,9 +152,9 @@ export class LAppTextureManager {
   }
 
   /**
-   * 画像の解放
+   * 이미지 릴리스
    *
-   * 配列に存在する画像全てを解放する。
+   * 배열의 모든 이미지를 해방합니다.
    */
   public releaseTextures(): void {
     for (let i = 0; i < this._textures.getSize(); i++) {
@@ -166,10 +166,10 @@ export class LAppTextureManager {
   }
 
   /**
-   * 画像の解放
+   * 이미지 릴리스
    *
-   * 指定したテクスチャの画像を解放する。
-   * @param texture 解放するテクスチャ
+   * 지정된 텍스처의 이미지가 해방됩니다.
+   * @param 텍스처 텍스처가 출시 될 예정입니다
    */
   public releaseTextureByTexture(texture: WebGLTexture): void {
     for (let i = 0; i < this._textures.getSize(); i++) {
@@ -185,10 +185,10 @@ export class LAppTextureManager {
   }
 
   /**
-   * 画像の解放
+   * 이미지 릴리스
    *
-   * 指定した名前の画像を解放する。
-   * @param fileName 解放する画像ファイルパス名
+   * 지정된 이름의 이미지를 해방합니다.
+   * @param filename 이미지 파일 파일 경로 이름을 해제합니다.
    */
   public releaseTextureByFilePath(fileName: string): void {
     for (let i = 0; i < this._textures.getSize(); i++) {
@@ -202,8 +202,8 @@ export class LAppTextureManager {
   }
 
   /**
-   * setter
-   * @param glManager
+   * 세터
+   * @param glmanager
    */
   public setGlManager(glManager: LAppGlManager): void {
     this._glManager = glManager;
@@ -214,7 +214,7 @@ export class LAppTextureManager {
 }
 
 /**
- * 画像情報構造体
+ * 이미지 정보 구조
  */
 export class TextureInfo {
   img: HTMLImageElement; // 画像

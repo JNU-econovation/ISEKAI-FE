@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -14,23 +13,23 @@ import { CubismJson, Value } from '../utils/cubismjson';
 const Epsilon = 0.001;
 const DefaultFadeInSeconds = 0.5;
 
-// Pose.jsonのタグ
+// Pose.json 태그
 const FadeIn = 'FadeInTime';
 const Link = 'Link';
 const Groups = 'Groups';
 const Id = 'Id';
 
 /**
- * パーツの不透明度の設定
+ * 파츠 불투명도 설정
  *
- * パーツの不透明度の管理と設定を行う。
+ * 파츠의 불투명도를 관리하고 설정합니다.
  */
 export class CubismPose {
   /**
-   * インスタンスの作成
-   * @param pose3json pose3.jsonのデータ
-   * @param size pose3.jsonのデータのサイズ[byte]
-   * @return 作成されたインスタンス
+   * 인스턴스 생성
+   * @param pose3json pose3.json 데이터
+   * @param size pose3.json 데이터의 크기 [byte]
+   * @return 생성된 인스턴스
    */
   public static create(pose3json: ArrayBuffer, size: number): CubismPose {
     const json: CubismJson = CubismJson.create(pose3json, size);
@@ -41,7 +40,7 @@ export class CubismPose {
     const ret: CubismPose = new CubismPose();
     const root: Value = json.getRoot();
 
-    // フェード時間の指定
+    // 페이드 시간 지정
     if (!root.getValueByString(FadeIn).isNull()) {
       ret._fadeTimeSeconds = root
         .getValueByString(FadeIn)
@@ -52,7 +51,7 @@ export class CubismPose {
       }
     }
 
-    // パーツグループ
+    // 파츠 그룹
     const poseListInfo: Value = root.getValueByString(Groups);
     const poseCount: number = poseListInfo.getSize();
 
@@ -71,7 +70,7 @@ export class CubismPose {
 
         partData.partId = parameterId;
 
-        // リンクするパーツの設定
+        // 링크할 파츠 설정
         if (!partInfo.getValueByString(Link).isNull()) {
           const linkListInfo: Value = partInfo.getValueByString(Link);
           const linkCount: number = linkListInfo.getSize();
@@ -102,8 +101,8 @@ export class CubismPose {
   }
 
   /**
-   * インスタンスを破棄する
-   * @param pose 対象のCubismPose
+   * 인스턴스를 파기합니다.
+   * @param pose 대상 CubismPose
    */
   public static delete(pose: CubismPose): void {
     if (pose != null) {
@@ -112,20 +111,20 @@ export class CubismPose {
   }
 
   /**
-   * モデルのパラメータの更新
-   * @param model 対象のモデル
-   * @param deltaTimeSeconds デルタ時間[秒]
+   * 모델 파라미터 업데이트
+   * @param model 대상 모델
+   * @param deltaTimeSeconds 델타 시간 [초]
    */
   public updateParameters(model: CubismModel, deltaTimeSeconds: number): void {
-    // 前回のモデルと同じでない場合は初期化が必要
+    // 이전 모델과 다르면 초기화 필요
     if (model != this._lastModel) {
-      // パラメータインデックスの初期化
+      // 파라미터 인덱스 초기화
       this.reset(model);
     }
 
     this._lastModel = model;
 
-    // 設定から時間を変更すると、経過時間がマイナスになる事があるので、経過時間0として対応
+    // 설정에서 시간을 변경하면 경과 시간이 마이너스가 될 수 있으므로 경과 시간 0으로 처리
     if (deltaTimeSeconds < 0.0) {
       deltaTimeSeconds = 0.0;
     }
@@ -144,9 +143,9 @@ export class CubismPose {
   }
 
   /**
-   * 表示を初期化
-   * @param model 対象のモデル
-   * @note 不透明度の初期値が0でないパラメータは、不透明度を１に設定する
+   * 표시 초기화
+   * @param model 대상 모델
+   * @note 불투명도 초기값이 0이 아닌 파라미터는 불투명도를 1로 설정
    */
   public reset(model: CubismModel): void {
     let beginIndex = 0;
@@ -177,9 +176,9 @@ export class CubismPose {
   }
 
   /**
-   * パーツの不透明度をコピー
+   * 파츠 불투명도 복사
    *
-   * @param model 対象のモデル
+   * @param model 대상 모델
    */
   public copyPartOpacities(model: CubismModel): void {
     for (
@@ -190,7 +189,7 @@ export class CubismPose {
       const partData: PartData = this._partGroups.at(groupIndex);
 
       if (partData.link.getSize() == 0) {
-        continue; // 連動するパラメータはない
+        continue; // 연동할 파라미터 없음
       }
 
       const partIndex: number = this._partGroups.at(groupIndex).partIndex;
@@ -214,11 +213,11 @@ export class CubismPose {
   }
 
   /**
-   * パーツのフェード操作を行う。
-   * @param model 対象のモデル
-   * @param deltaTimeSeconds デルタ時間[秒]
-   * @param beginIndex フェード操作を行うパーツグループの先頭インデックス
-   * @param partGroupCount フェード操作を行うパーツグループの個数
+   * 파츠 페이드 조작을 수행합니다.
+   * @param model 대상 모델
+   * @param deltaTimeSeconds 델타 시간 [초]
+   * @param beginIndex 페이드 조작을 수행할 파츠 그룹의 시작 인덱스
+   * @param partGroupCount 페이드 조작을 수행할 파츠 그룹의 개수
    */
   public doFade(
     model: CubismModel,
@@ -232,7 +231,7 @@ export class CubismPose {
     const phi = 0.5;
     const backOpacityThreshold = 0.15;
 
-    // 現在、表示状態になっているパーツを取得
+    // 현재 표시 상태인 파츠 가져오기
     for (let i: number = beginIndex; i < beginIndex + partGroupCount; ++i) {
       const partIndex: number = this._partGroups.at(i).partIndex;
       const paramIndex: number = this._partGroups.at(i).parameterIndex;
@@ -243,7 +242,7 @@ export class CubismPose {
         }
 
         visiblePartIndex = i;
-        // ゼロ除算の回避
+        // 0으로 나누기 방지
         if (this._fadeTimeSeconds == 0) {
           newOpacity = 1.0;
           continue;
@@ -251,7 +250,7 @@ export class CubismPose {
 
         newOpacity = model.getPartOpacityByIndex(partIndex);
 
-        // 新しい不透明度を計算
+        // 새 불투명도 계산
         newOpacity += deltaTimeSeconds / this._fadeTimeSeconds;
 
         if (newOpacity > 1.0) {
@@ -265,26 +264,26 @@ export class CubismPose {
       newOpacity = 1.0;
     }
 
-    // 表示パーツ、非表示パーツの不透明度を設定する
+    // 표시 파츠, 비표시 파츠의 불투명도 설정
     for (let i: number = beginIndex; i < beginIndex + partGroupCount; ++i) {
       const partsIndex: number = this._partGroups.at(i).partIndex;
 
-      // 表示パーツの設定
+      // 표시 파츠 설정
       if (visiblePartIndex == i) {
-        model.setPartOpacityByIndex(partsIndex, newOpacity); // 先に設定
+        model.setPartOpacityByIndex(partsIndex, newOpacity); // 먼저 설정
       }
-      // 非表示パーツの設定
+      // 비표시 파츠 설정
       else {
         let opacity: number = model.getPartOpacityByIndex(partsIndex);
-        let a1: number; // 計算によって求められる不透明度
+        let a1: number; // 계산으로 구해지는 불투명도
 
         if (newOpacity < phi) {
-          a1 = (newOpacity * (phi - 1)) / phi + 1.0; // (0,1),(phi,phi)を通る直線式
+          a1 = (newOpacity * (phi - 1)) / phi + 1.0; // (0,1),(phi,phi)를 지나는 직선식
         } else {
-          a1 = ((1 - newOpacity) * phi) / (1.0 - phi); // (1,0),(phi,phi)を通る直線式
+          a1 = ((1 - newOpacity) * phi) / (1.0 - phi); // (1,0),(phi,phi)를 지나는 직선식
         }
 
-        // 背景の見える割合を制限する場合
+        // 배경이 보이는 비율을 제한하는 경우
         const backOpacity: number = (1.0 - a1) * (1.0 - newOpacity);
 
         if (backOpacity > backOpacityThreshold) {
@@ -292,7 +291,7 @@ export class CubismPose {
         }
 
         if (opacity > a1) {
-          opacity = a1; // 計算の不透明度よりも大きければ（濃ければ）不透明度を上げる
+          opacity = a1; // 계산된 불투명도보다 크면(진하면) 불투명도를 높임
         }
 
         model.setPartOpacityByIndex(partsIndex, opacity);
@@ -301,7 +300,7 @@ export class CubismPose {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._fadeTimeSeconds = DefaultFadeInSeconds;
@@ -310,18 +309,18 @@ export class CubismPose {
     this._partGroupCounts = new csmVector<number>();
   }
 
-  _partGroups: csmVector<PartData>; // パーツグループ
-  _partGroupCounts: csmVector<number>; // それぞれのパーツグループの個数
-  _fadeTimeSeconds: number; // フェード時間[秒]
-  _lastModel: CubismModel; // 前回操作したモデル
+  _partGroups: csmVector<PartData>; // 파츠 그룹
+  _partGroupCounts: csmVector<number>; // 각 파츠 그룹의 개수
+  _fadeTimeSeconds: number; // 페이드 시간 [초]
+  _lastModel: CubismModel; // 이전에 조작한 모델
 }
 
 /**
- * パーツにまつわるデータを管理
+ * 파츠에 관한 데이터 관리
  */
 export class PartData {
   /**
-   * コンストラクタ
+   * 생성자
    */
   constructor(v?: PartData) {
     this.parameterIndex = 0;
@@ -342,7 +341,7 @@ export class PartData {
   }
 
   /**
-   * =演算子のオーバーロード
+   * = 연산자 오버로드
    */
   public assignment(v: PartData): PartData {
     this.partId = v.partId;
@@ -359,8 +358,8 @@ export class PartData {
   }
 
   /**
-   * 初期化
-   * @param model 初期化に使用するモデル
+   * 초기화
+   * @param model 초기화에 사용할 모델
    */
   public initialize(model: CubismModel): void {
     this.parameterIndex = model.getParameterIndex(this.partId);
@@ -370,7 +369,7 @@ export class PartData {
   }
 
   /**
-   * オブジェクトのコピーを生成する
+   * 객체 복사본 생성
    */
   public clone(): PartData {
     const clonePartData: PartData = new PartData();
@@ -391,13 +390,13 @@ export class PartData {
     return clonePartData;
   }
 
-  partId: CubismIdHandle; // パーツID
-  parameterIndex: number; // パラメータのインデックス
-  partIndex: number; // パーツのインデックス
-  link: csmVector<PartData>; // 連動するパラメータ
+  partId: CubismIdHandle; // 파츠 ID
+  parameterIndex: number; // 파라미터 인덱스
+  partIndex: number; // 파츠 인덱스
+  link: csmVector<PartData>; // 연동하는 파라미터
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismpose';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

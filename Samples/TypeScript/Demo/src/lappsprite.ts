@@ -1,25 +1,25 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import { LAppSubdelegate } from './lappsubdelegate';
 
 /**
- * スプライトを実装するクラス
+ * 스프라이트를 구현하는 클래스
  *
- * テクスチャＩＤ、Rectの管理
+ * 텍스처 ID 및 직장을 관리합니다
  */
 export class LAppSprite {
   /**
-   * コンストラクタ
-   * @param x            x座標
-   * @param y            y座標
-   * @param width        横幅
-   * @param height       高さ
-   * @param textureId    テクスチャ
+   * 생성자
+   * @param x x am
+   * @param y y 좌표
+   * @param 너비
+   * @param 높이
+   * @param 텍스처 텍스처
    */
   public constructor(
     x: number,
@@ -50,7 +50,7 @@ export class LAppSprite {
   }
 
   /**
-   * 解放する。
+   * 풀어 주다.
    */
   public release(): void {
     this._rect = null;
@@ -71,56 +71,56 @@ export class LAppSprite {
   }
 
   /**
-   * テクスチャを返す
+   * 질감을 반환합니다
    */
   public getTexture(): WebGLTexture {
     return this._texture;
   }
 
   /**
-   * 描画する。
-   * @param programId シェーダープログラム
-   * @param canvas 描画するキャンパス情報
+   * 그리다.
+   * @param 프로그램 셰이더 프로그램
+   * @Param Canvas 캠퍼스 정보를 그리십시오
    */
   public render(programId: WebGLProgram): void {
     if (this._texture == null) {
-      // ロードが完了していない
+      //로드가 완료되지 않았습니다
       return;
     }
 
     const gl = this._subdelegate.getGlManager().getGl();
 
-    // 初回描画時
+    // 처음으로 그리는 경우
     if (this._firstDraw) {
-      // 何番目のattribute変数か取得
+      // 속성 변수 수를 얻습니다
       this._positionLocation = gl.getAttribLocation(programId, 'position');
       gl.enableVertexAttribArray(this._positionLocation);
 
       this._uvLocation = gl.getAttribLocation(programId, 'uv');
       gl.enableVertexAttribArray(this._uvLocation);
 
-      // 何番目のuniform変数か取得
+      // 균일 한 변수를 얻습니다
       this._textureLocation = gl.getUniformLocation(programId, 'texture');
 
-      // uniform属性の登録
+      // 균일 한 속성을 등록합니다
       gl.uniform1i(this._textureLocation, 0);
 
-      // uvバッファ、座標初期化
+      // UV 버퍼, 조정 초기화
       {
         this._uvArray = new Float32Array([
           1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0
         ]);
 
-        // uvバッファを作成
+        // UV 버퍼를 만듭니다
         this._uvBuffer = gl.createBuffer();
       }
 
-      // 頂点バッファ、座標初期化
+      // vertex 버퍼, 조정 초기화
       {
         const maxWidth = this._subdelegate.getCanvas().width;
         const maxHeight = this._subdelegate.getCanvas().height;
 
-        // 頂点データ
+        // 정점 데이터
         this._positionArray = new Float32Array([
           (this._rect.right - maxWidth * 0.5) / (maxWidth * 0.5),
           (this._rect.up - maxHeight * 0.5) / (maxHeight * 0.5),
@@ -132,41 +132,41 @@ export class LAppSprite {
           (this._rect.down - maxHeight * 0.5) / (maxHeight * 0.5)
         ]);
 
-        // 頂点バッファを作成
+        // 정점 버퍼를 만듭니다
         this._vertexBuffer = gl.createBuffer();
       }
 
-      // 頂点インデックスバッファ、初期化
+      // 정점 인덱스 버퍼, 초기화
       {
-        // インデックスデータ
+        // 색인 데이터
         this._indexArray = new Uint16Array([0, 1, 2, 3, 2, 0]);
 
-        // インデックスバッファを作成
+        // 인덱스 버퍼를 만듭니다
         this._indexBuffer = gl.createBuffer();
       }
 
       this._firstDraw = false;
     }
 
-    // UV座標登録
+    // UV 좌표 등록
     gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, this._uvArray, gl.STATIC_DRAW);
 
-    // attribute属性を登録
+    // 속성 속성을 등록합니다
     gl.vertexAttribPointer(this._uvLocation, 2, gl.FLOAT, false, 0, 0);
 
-    // 頂点座標を登録
+    // 정점 좌표를 등록합니다
     gl.bindBuffer(gl.ARRAY_BUFFER, this._vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, this._positionArray, gl.STATIC_DRAW);
 
-    // attribute属性を登録
+    // 속성 속성을 등록합니다
     gl.vertexAttribPointer(this._positionLocation, 2, gl.FLOAT, false, 0, 0);
 
-    // 頂点インデックスを作成
+    // 정점 인덱스를 만듭니다
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._indexArray, gl.DYNAMIC_DRAW);
 
-    // モデルの描画
+    // 모델 그리기
     gl.bindTexture(gl.TEXTURE_2D, this._texture);
     gl.drawElements(
       gl.TRIANGLES,
@@ -177,15 +177,15 @@ export class LAppSprite {
   }
 
   /**
-   * 当たり判定
-   * @param pointX x座標
-   * @param pointY y座標
+   *손 결정
+   * @param pointx x 座標
+   * @param pointy y 좌표
    */
   public isHit(pointX: number, pointY: number): boolean {
-    // 画面サイズを取得する。
+    // 화면 크기를 얻습니다.
     const { height } = this._subdelegate.getCanvas();
 
-    // Y座標は変換する必要あり
+    // y 좌표를 변환해야합니다
     const y = height - pointY;
 
     return (
@@ -197,7 +197,7 @@ export class LAppSprite {
   }
 
   /**
-   * setter
+   * 세터
    * @param subdelegate
    */
   public setSubdelegate(subdelegate: LAppSubdelegate): void {

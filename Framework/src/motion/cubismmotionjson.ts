@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -12,7 +11,7 @@ import { CSM_ASSERT, CubismLogWarning } from '../utils/cubismdebug';
 import { CubismJson, JsonMap } from '../utils/cubismjson';
 import { CubismMotionSegmentType } from './cubismmotioninternal';
 
-// JSON keys
+// JSON 키
 const Meta = 'Meta';
 const Duration = 'Duration';
 const Loop = 'Loop';
@@ -34,28 +33,28 @@ const Time = 'Time';
 const Value = 'Value';
 
 /**
- * motion3.jsonのコンテナ。
+ * motion3.json의 컨테이너.
  */
 export class CubismMotionJson {
   /**
-   * コンストラクタ
-   * @param buffer motion3.jsonが読み込まれているバッファ
-   * @param size バッファのサイズ
+   * 생성자
+   * @param buffer motion3.json이 로드된 버퍼
+   * @param size 버퍼의 크기
    */
   public constructor(buffer: ArrayBuffer, size: number) {
     this._json = CubismJson.create(buffer, size);
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    */
   public release(): void {
     CubismJson.delete(this._json);
   }
 
   /**
-   * モーションの長さを取得する
-   * @return モーションの長さ[秒]
+   * 모션 길이를 가져옵니다.
+   * @return 모션 길이 [초]
    */
   public getMotionDuration(): number {
     return this._json
@@ -66,9 +65,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのループ情報の取得
-   * @return true ループする
-   * @return false ループしない
+   * 모션 루프 정보 가져오기
+   * @return true 루프함
+   * @return false 루프하지 않음
    */
   public isMotionLoop(): boolean {
     return this._json
@@ -79,9 +78,9 @@ export class CubismMotionJson {
   }
 
   /**
-   *  motion3.jsonファイルの整合性チェック
+   *  motion3.json 파일 무결성 확인
    *
-   * @return 正常なファイルの場合はtrueを返す。
+   * @return 정상적인 파일인 경우 true를 반환합니다.
    */
   hasConsistency(): boolean {
     let result = true;
@@ -98,7 +97,7 @@ export class CubismMotionJson {
     let actualTotalSegmentCount = 0;
     let actualTotalPointCount = 0;
 
-    // カウント処理
+    // 카운트 처리
     for (
       let curvePosition = 0;
       curvePosition < actualCurveListSize;
@@ -145,7 +144,7 @@ export class CubismMotionJson {
       }
     }
 
-    // 個数チェック
+    // 개수 확인
     if (actualCurveListSize != this.getMotionCurveCount()) {
       CubismLogWarning('The number of curves does not match the metadata.');
       result = false;
@@ -177,8 +176,8 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションカーブの個数の取得
-   * @return モーションカーブの個数
+   * 모션 커브 개수 가져오기
+   * @return 모션 커브 개수
    */
   public getMotionCurveCount(): number {
     return this._json
@@ -189,8 +188,8 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのフレームレートの取得
-   * @return フレームレート[FPS]
+   * 모션 프레임레이트 가져오기
+   * @return 프레임레이트 [FPS]
    */
   public getMotionFps(): number {
     return this._json
@@ -201,8 +200,8 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのセグメントの総合計の取得
-   * @return モーションのセグメントの取得
+   * 모션 세그먼트 총합계 가져오기
+   * @return 모션 세그먼트 가져오기
    */
   public getMotionTotalSegmentCount(): number {
     return this._json
@@ -213,8 +212,8 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブの制御店の総合計の取得
-   * @return モーションのカーブの制御点の総合計
+   * 모션 커브의 제어점 총합계 가져오기
+   * @return 모션 커브의 제어점 총합계
    */
   public getMotionTotalPointCount(): number {
     return this._json
@@ -225,9 +224,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのフェードイン時間の存在
-   * @return true 存在する
-   * @return false 存在しない
+   * 모션 페이드인 시간 존재 여부
+   * @return true 존재함
+   * @return false 존재하지 않음
    */
   public isExistMotionFadeInTime(): boolean {
     return !this._json
@@ -238,9 +237,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのフェードアウト時間の存在
-   * @return true 存在する
-   * @return false 存在しない
+   * 모션 페이드아웃 시간 존재 여부
+   * @return true 존재함
+   * @return false 존재하지 않음
    */
   public isExistMotionFadeOutTime(): boolean {
     return !this._json
@@ -251,8 +250,8 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのフェードイン時間の取得
-   * @return フェードイン時間[秒]
+   * 모션 페이드인 시간 가져오기
+   * @return 페이드인 시간 [초]
    */
   public getMotionFadeInTime(): number {
     return this._json
@@ -263,8 +262,8 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのフェードアウト時間の取得
-   * @return フェードアウト時間[秒]
+   * 모션 페이드아웃 시간 가져오기
+   * @return 페이드아웃 시간 [초]
    */
   public getMotionFadeOutTime(): number {
     return this._json
@@ -275,9 +274,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブの種類の取得
-   * @param curveIndex カーブのインデックス
-   * @return カーブの種類
+   * 모션 커브 종류 가져오기
+   * @param curveIndex 커브의 인덱스
+   * @return 커브의 종류
    */
   public getMotionCurveTarget(curveIndex: number): string {
     return this._json
@@ -289,9 +288,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブのIDの取得
-   * @param curveIndex カーブのインデックス
-   * @return カーブのID
+   * 모션 커브 ID 가져오기
+   * @param curveIndex 커브의 인덱스
+   * @return 커브의 ID
    */
   public getMotionCurveId(curveIndex: number): CubismIdHandle {
     return CubismFramework.getIdManager().getId(
@@ -305,10 +304,10 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブのフェードイン時間の存在
-   * @param curveIndex カーブのインデックス
-   * @return true 存在する
-   * @return false 存在しない
+   * 모션 커브의 페이드인 시간 존재 여부
+   * @param curveIndex 커브의 인덱스
+   * @return true 존재함
+   * @return false 존재하지 않음
    */
   public isExistMotionCurveFadeInTime(curveIndex: number): boolean {
     return !this._json
@@ -320,10 +319,10 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブのフェードアウト時間の存在
-   * @param curveIndex カーブのインデックス
-   * @return true 存在する
-   * @return false 存在しない
+   * 모션 커브의 페이드아웃 시간 존재 여부
+   * @param curveIndex 커브의 인덱스
+   * @return true 존재함
+   * @return false 존재하지 않음
    */
   public isExistMotionCurveFadeOutTime(curveIndex: number): boolean {
     return !this._json
@@ -335,9 +334,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブのフェードイン時間の取得
-   * @param curveIndex カーブのインデックス
-   * @return フェードイン時間[秒]
+   * 모션 커브의 페이드인 시간 가져오기
+   * @param curveIndex 커브의 인덱스
+   * @return 페이드인 시간 [초]
    */
   public getMotionCurveFadeInTime(curveIndex: number): number {
     return this._json
@@ -349,9 +348,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブのフェードアウト時間の取得
-   * @param curveIndex カーブのインデックス
-   * @return フェードアウト時間[秒]
+   * 모션 커브의 페이드아웃 시간 가져오기
+   * @param curveIndex 커브의 인덱스
+   * @return 페이드아웃 시간 [초]
    */
   public getMotionCurveFadeOutTime(curveIndex: number): number {
     return this._json
@@ -363,9 +362,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブのセグメントの個数を取得する
-   * @param curveIndex カーブのインデックス
-   * @return モーションのカーブのセグメントの個数
+   * 모션 커브의 세그먼트 개수를 가져옵니다.
+   * @param curveIndex 커브의 인덱스
+   * @return 모션 커브의 세그먼트 개수
    */
   public getMotionCurveSegmentCount(curveIndex: number): number {
     return this._json
@@ -378,10 +377,10 @@ export class CubismMotionJson {
   }
 
   /**
-   * モーションのカーブのセグメントの値の取得
-   * @param curveIndex カーブのインデックス
-   * @param segmentIndex セグメントのインデックス
-   * @return セグメントの値
+   * 모션 커브의 세그먼트 값 가져오기
+   * @param curveIndex 커브의 인덱스
+   * @param segmentIndex 세그먼트의 인덱스
+   * @return 세그먼트 값
    */
   public getMotionCurveSegment(
     curveIndex: number,
@@ -397,8 +396,8 @@ export class CubismMotionJson {
   }
 
   /**
-   * イベントの個数の取得
-   * @return イベントの個数
+   * 이벤트 개수 가져오기
+   * @return 이벤트 개수
    */
   public getEventCount(): number {
     return this._json
@@ -409,8 +408,8 @@ export class CubismMotionJson {
   }
 
   /**
-   *  イベントの総文字数の取得
-   * @return イベントの総文字数
+   *  이벤트 총 문자 수 가져오기
+   * @return 이벤트 총 문자 수
    */
   public getTotalEventValueSize(): number {
     return this._json
@@ -421,9 +420,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * イベントの時間の取得
-   * @param userDataIndex イベントのインデックス
-   * @return イベントの時間[秒]
+   * 이벤트 시간 가져오기
+   * @param userDataIndex 이벤트의 인덱스
+   * @return 이벤트 시간 [초]
    */
   public getEventTime(userDataIndex: number): number {
     return this._json
@@ -435,9 +434,9 @@ export class CubismMotionJson {
   }
 
   /**
-   * イベントの取得
-   * @param userDataIndex イベントのインデックス
-   * @return イベントの文字列
+   * 이벤트 가져오기
+   * @param userDataIndex 이벤트의 인덱스
+   * @return 이벤트의 문자열
    */
   public getEventValue(userDataIndex: number): csmString {
     return new csmString(
@@ -450,17 +449,17 @@ export class CubismMotionJson {
     );
   }
 
-  _json: CubismJson; // motion3.jsonのデータ
+  _json: CubismJson; // motion3.json 데이터
 }
 
 /**
- * @brief ベジェカーブの解釈方法のフラグタイプ
+ * @brief 베지어 곡선 해석 방법의 플래그 타입
  */
 export enum EvaluationOptionFlag {
-  EvaluationOptionFlag_AreBeziersRistricted = 0 ///< ベジェハンドルの規制状態
+  EvaluationOptionFlag_AreBeziersRistricted = 0 ///< 베지어 핸들 규제 상태
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmotionjson';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

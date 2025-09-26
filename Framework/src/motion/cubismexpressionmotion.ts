@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -13,7 +12,7 @@ import { CubismJson, Value } from '../utils/cubismjson';
 import { ACubismMotion } from './acubismmotion';
 import { CubismMotionQueueEntry } from './cubismmotionqueueentry';
 
-// exp3.jsonのキーとデフォルト
+// exp3.json의 키와 기본값
 const ExpressionKeyFadeIn = 'FadeInTime';
 const ExpressionKeyFadeOut = 'FadeOutTime';
 const ExpressionKeyParameters = 'Parameters';
@@ -26,19 +25,19 @@ const BlendValueOverwrite = 'Overwrite';
 const DefaultFadeTime = 1.0;
 
 /**
- * 表情のモーション
+ * 표정 모션
  *
- * 表情のモーションクラス。
+ * 표정의 모션 클래스.
  */
 export class CubismExpressionMotion extends ACubismMotion {
-  static readonly DefaultAdditiveValue = 0.0; // 加算適用の初期値
-  static readonly DefaultMultiplyValue = 1.0; // 乗算適用の初期値
+  static readonly DefaultAdditiveValue = 0.0; // 덧셈 적용의 초기값
+  static readonly DefaultMultiplyValue = 1.0; // 곱셈 적용의 초기값
 
   /**
-   * インスタンスを作成する。
-   * @param buffer expファイルが読み込まれているバッファ
-   * @param size バッファのサイズ
-   * @return 作成されたインスタンス
+   * 인스턴스를 생성합니다.
+   * @param buffer exp 파일이 로드된 버퍼
+   * @param size 버퍼의 크기
+   * @return 생성된 인스턴스
    */
   public static create(
     buffer: ArrayBuffer,
@@ -50,11 +49,11 @@ export class CubismExpressionMotion extends ACubismMotion {
   }
 
   /**
-   * モデルのパラメータの更新の実行
-   * @param model 対象のモデル
-   * @param userTimeSeconds デルタ時間の積算値[秒]
-   * @param weight モーションの重み
-   * @param motionQueueEntry CubismMotionQueueManagerで管理されているモーション
+   * 모델 파라미터 업데이트 실행
+   * @param model 대상 모델
+   * @param userTimeSeconds 델타 시간의 누적 값 [초]
+   * @param weight 모션 가중치
+   * @param motionQueueEntry CubismMotionQueueManager에서 관리하는 모션
    */
   public doUpdateParameters(
     model: CubismModel,
@@ -91,23 +90,23 @@ export class CubismExpressionMotion extends ACubismMotion {
           break;
         }
         default:
-          // 仕様にない値を設定した時はすでに加算モードになっている
+          // 사양에 없는 값을 설정했을 때는 이미 덧셈 모드로 되어 있음
           break;
       }
     }
   }
 
   /**
-   * @brief 表情によるモデルのパラメータの計算
+   * @brief 표정에 의한 모델 파라미터 계산
    *
-   * モデルの表情に関するパラメータを計算する。
+   * 모델의 표정에 관한 파라미터를 계산합니다.
    *
-   * @param[in]   model                        対象のモデル
-   * @param[in]   userTimeSeconds              デルタ時間の積算値[秒]
-   * @param[in]   motionQueueEntry             CubismMotionQueueManagerで管理されているモーション
-   * @param[in]   expressionParameterValues    モデルに適用する各パラメータの値
-   * @param[in]   expressionIndex              表情のインデックス
-   * @param[in]   fadeWeight                   表情のウェイト
+   * @param[in]   model                        대상 모델
+   * @param[in]   userTimeSeconds              델타 시간의 누적 값 [초]
+   * @param[in]   motionQueueEntry             CubismMotionQueueManager에서 관리하는 모션
+   * @param[in]   expressionParameterValues    모델에 적용할 각 파라미터 값
+   * @param[in]   expressionIndex              표정의 인덱스
+   * @param[in]   fadeWeight                   표정의 가중치
    */
   public calculateExpressionParameters(
     model: CubismModel,
@@ -125,11 +124,11 @@ export class CubismExpressionMotion extends ACubismMotion {
       return;
     }
 
-    // CubismExpressionMotion._fadeWeight は廃止予定です。
-    // 互換性のために処理は残りますが、実際には使用しておりません。
+    // CubismExpressionMotion._fadeWeight는 폐지될 예정입니다.
+    // 호환성을 위해 처리는 남아 있지만 실제로는 사용하지 않습니다.
     this._fadeWeight = this.updateFadeWeight(motionQueueEntry, userTimeSeconds);
 
-    // モデルに適用する値を計算
+    // 모델에 적용할 값 계산
     for (let i = 0; i < expressionParameterValues.getSize(); ++i) {
       const expressionParameterValue = expressionParameterValues.at(i);
 
@@ -155,7 +154,7 @@ export class CubismExpressionMotion extends ACubismMotion {
         break;
       }
 
-      // 再生中のExpressionが参照していないパラメータは初期値を適用
+      // 재생 중인 Expression이 참조하지 않는 파라미터는 초기값을 적용
       if (parameterIndex < 0) {
         if (expressionIndex == 0) {
           expressionParameterValue.additiveValue =
@@ -183,7 +182,7 @@ export class CubismExpressionMotion extends ACubismMotion {
         continue;
       }
 
-      // 値を計算
+      // 값 계산
       const value = expressionParameters.at(parameterIndex).value;
       let newAdditiveValue, newMultiplyValue, newOverwriteValue;
       switch (expressionParameters.at(parameterIndex).blendType) {
@@ -228,25 +227,25 @@ export class CubismExpressionMotion extends ACubismMotion {
   }
 
   /**
-   * @brief 表情が参照しているパラメータを取得
+   * @brief 표정이 참조하는 파라미터를 가져옵니다
    *
-   * 表情が参照しているパラメータを取得する
+   * 표정이 참조하는 파라미터를 가져옵니다
    *
-   * @return 表情パラメータ
+   * @return 표정 파라미터
    */
   public getExpressionParameters() {
     return this._parameters;
   }
 
   /**
-   * @brief 表情のフェードの値を取得
+   * @brief 표정 페이드 값 가져오기
    *
-   * 現在の表情のフェードのウェイト値を取得する
+   * 현재 표정의 페이드 가중치 값을 가져옵니다.
    *
-   * @returns 表情のフェードのウェイト値
+   * @returns 표정의 페이드 가중치 값
    *
-   * @deprecated CubismExpressionMotion.fadeWeightが削除予定のため非推奨。
-   * CubismExpressionMotionManager.getFadeWeight(index: number): number を使用してください。
+   * @deprecated CubismExpressionMotion.fadeWeight가 삭제될 예정이므로 사용을 권장하지 않습니다.
+   * CubismExpressionMotionManager.getFadeWeight(index: number): number 를 사용하십시오.
    * @see CubismExpressionMotionManager#getFadeWeight(index: number)
    */
   public getFadeWeight() {
@@ -263,12 +262,12 @@ export class CubismExpressionMotion extends ACubismMotion {
 
     this.setFadeInTime(
       root.getValueByString(ExpressionKeyFadeIn).toFloat(DefaultFadeTime)
-    ); // フェードイン
+    ); // 페이드인
     this.setFadeOutTime(
       root.getValueByString(ExpressionKeyFadeOut).toFloat(DefaultFadeTime)
-    ); // フェードアウト
+    ); // 페이드아웃
 
-    // 各パラメータについて
+    // 각 파라미터에 대해
     const parameterCount = root
       .getValueByString(ExpressionKeyParameters)
       .getSize();
@@ -280,13 +279,13 @@ export class CubismExpressionMotion extends ACubismMotion {
         .getValueByIndex(i);
       const parameterId: CubismIdHandle = CubismFramework.getIdManager().getId(
         param.getValueByString(ExpressionKeyId).getRawString()
-      ); // パラメータID
+      ); // 파라미터 ID
 
       const value: number = param
         .getValueByString(ExpressionKeyValue)
-        .toFloat(); // 値
+        .toFloat(); // 값
 
-      // 計算方法の設定
+      // 계산 방법 설정
       let blendType: ExpressionBlendType;
 
       if (
@@ -305,11 +304,11 @@ export class CubismExpressionMotion extends ACubismMotion {
       ) {
         blendType = ExpressionBlendType.Overwrite;
       } else {
-        // その他 仕様にない値を設定した時は加算モードにすることで復旧
+        // 기타 사양에 없는 값을 설정했을 때는 덧셈 모드로 하여 복구
         blendType = ExpressionBlendType.Additive;
       }
 
-      // 設定オブジェクトを作成してリストに追加する
+      // 설정 객체를 생성하여 목록에 추가
       const item: ExpressionParameter = new ExpressionParameter();
 
       item.parameterId = parameterId;
@@ -319,18 +318,18 @@ export class CubismExpressionMotion extends ACubismMotion {
       this._parameters.pushBack(item);
     }
 
-    CubismJson.delete(json); // JSONデータは不要になったら削除する
+    CubismJson.delete(json); // JSON 데이터는 불필요해지면 삭제
   }
 
   /**
-   * @brief ブレンド計算
+   * @brief 블렌드 계산
    *
-   * 入力された値でブレンド計算をする。
+   * 입력된 값으로 블렌드 계산을 합니다.
    *
-   * @param source 現在の値
-   * @param destination 適用する値
-   * @param weight ウェイト
-   * @returns 計算結果
+   * @param source 현재 값
+   * @param destination 적용할 값
+   * @param weight 가중치
+   * @returns 계산 결과
    */
   public calculateValue(
     source: number,
@@ -341,7 +340,7 @@ export class CubismExpressionMotion extends ACubismMotion {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   protected constructor() {
     super();
@@ -349,35 +348,35 @@ export class CubismExpressionMotion extends ACubismMotion {
     this._fadeWeight = 0.0;
   }
 
-  private _parameters: csmVector<ExpressionParameter>; // 表情のパラメータ情報リスト
+  private _parameters: csmVector<ExpressionParameter>; // 표정 파라미터 정보 목록
 
   /**
-   * 表情の現在のウェイト
+   * 현재 표정의 가중치
    *
-   * @deprecated 不具合を引き起こす要因となるため非推奨。
+   * @deprecated 버그를 유발할 수 있으므로 사용을 권장하지 않습니다.
    */
   private _fadeWeight: number;
 }
 
 /**
- * 表情パラメータ値の計算方式
+ * 표정 파라미터 값 계산 방식
  */
 export enum ExpressionBlendType {
-  Additive = 0, // 加算
-  Multiply = 1, // 乗算
-  Overwrite = 2 // 上書き
+  Additive = 0, // 덧셈
+  Multiply = 1, // 곱셈
+  Overwrite = 2 // 덮어쓰기
 }
 
 /**
- * 表情のパラメータ情報
+ * 표정 파라미터 정보
  */
 export class ExpressionParameter {
-  parameterId: CubismIdHandle; // パラメータID
-  blendType: ExpressionBlendType; // パラメータの演算種類
-  value: number; // 値
+  parameterId: CubismIdHandle; // 파라미터 ID
+  blendType: ExpressionBlendType; // 파라미터 연산 종류
+  value: number; // 값
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismexpressionmotion';
 import { ExpressionParameterValue } from './cubismexpressionmotionmanager';
 import { CubismDefaultParameterId } from '../cubismdefaultparameterid';

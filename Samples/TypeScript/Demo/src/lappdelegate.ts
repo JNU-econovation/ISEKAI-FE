@@ -1,8 +1,8 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import { csmVector } from '@framework/type/csmvector';
@@ -15,15 +15,15 @@ import { CubismLogError } from '@framework/utils/cubismdebug';
 export let s_instance: LAppDelegate = null;
 
 /**
- * アプリケーションクラス。
- * Cubism SDKの管理を行う。
+ * 응용 프로그램 클래스.
+ * Cubism SDK 관리.
  */
 export class LAppDelegate {
   /**
-   * クラスのインスタンス（シングルトン）を返す。
-   * インスタンスが生成されていない場合は内部でインスタンスを生成する。
+   * 클래스의 인스턴스 (싱글 톤)를 반환합니다.
+   * 인스턴스가 생성되지 않으면 내부적으로 인스턴스를 만듭니다.
    *
-   * @return クラスのインスタンス
+   * @return 클래스 인스턴스
    */
   public static getInstance(): LAppDelegate {
     if (s_instance == null) {
@@ -34,7 +34,7 @@ export class LAppDelegate {
   }
 
   /**
-   * クラスのインスタンス（シングルトン）を解放する。
+   * 수업의 인스턴스 (싱글 톤)를 해방시킵니다.
    */
   public static releaseInstance(): void {
     if (s_instance != null) {
@@ -45,7 +45,7 @@ export class LAppDelegate {
   }
 
   /**
-   * ポインタがアクティブになるときに呼ばれる。
+   * 포인터가 활성화 될 때 호출됩니다.
    */
   private onPointerBegan(e: PointerEvent): void {
     for (
@@ -58,7 +58,7 @@ export class LAppDelegate {
   }
 
   /**
-   * ポインタが動いたら呼ばれる。
+   * 포인터가 움직일 때 호출됩니다.
    */
   private onPointerMoved(e: PointerEvent): void {
     for (
@@ -71,7 +71,7 @@ export class LAppDelegate {
   }
 
   /**
-   * ポインタがアクティブでなくなったときに呼ばれる。
+   * 포인터가 더 이상 활성화되지 않을 때 호출됩니다.
    */
   private onPointerEnded(e: PointerEvent): void {
     for (
@@ -84,7 +84,7 @@ export class LAppDelegate {
   }
 
   /**
-   * ポインタがキャンセルされると呼ばれる。
+   * 포인터가 취소되었습니다.
    */
   private onPointerCancel(e: PointerEvent): void {
     for (
@@ -97,7 +97,7 @@ export class LAppDelegate {
   }
 
   /**
-   * Resize canvas and re-initialize view.
+   * 캔버스 크기를 조정하고보기를 다시 시작하십시오.
    */
   public onResize(): void {
     for (let i = 0; i < this._subdelegates.getSize(); i++) {
@@ -106,12 +106,12 @@ export class LAppDelegate {
   }
 
   /**
-   * 実行処理。
+   * 실행 프로세스.
    */
   public run(): void {
-    // メインループ
+    // 메인 루프
     const loop = (): void => {
-      // インスタンスの有無の確認
+      // 인스턴스가 있는지 확인하십시오
       if (s_instance == null) {
         return;
       }
@@ -123,27 +123,27 @@ export class LAppDelegate {
         this._subdelegates.at(i).update();
       }
 
-      // ループのために再帰呼び出し
+      // 루프에 대한 재귀 호출
       requestAnimationFrame(loop);
     };
     loop();
   }
 
   /**
-   * 解放する。
+   * 풀어 주다.
    */
   private release(): void {
     this.releaseEventListener();
     this.releaseSubdelegates();
 
-    // Cubism SDKの解放
+    // 입체파 SDK를 릴리스합니다
     CubismFramework.dispose();
 
     this._cubismOption = null;
   }
 
   /**
-   * イベントリスナーを解除する。
+   * 이벤트 리스너 잠금을 해제하십시오.
    */
   private releaseEventListener(): void {
     document.removeEventListener('pointerup', this.pointBeganEventListener);
@@ -167,7 +167,7 @@ export class LAppDelegate {
   }
 
   /**
-   * Subdelegate を解放する
+   * 잠자리를 자유롭게하십시오
    */
   private releaseSubdelegates(): void {
     for (
@@ -183,10 +183,10 @@ export class LAppDelegate {
   }
 
   /**
-   * APPに必要な物を初期化する。
+   * 앱에 필요한 것을 초기화하십시오.
    */
   public initialize(): boolean {
-    // Cubism SDKの初期化
+    // 입체파 초기화 SDK
     this.initializeCubism();
 
     this.initializeSubdelegates();
@@ -196,7 +196,7 @@ export class LAppDelegate {
   }
 
   /**
-   * イベントリスナーを設定する。
+   * 이벤트 리스너를 설정하십시오.
    */
   private initializeEventListener(): void {
     this.pointBeganEventListener = this.onPointerBegan.bind(this);
@@ -204,7 +204,7 @@ export class LAppDelegate {
     this.pointEndedEventListener = this.onPointerEnded.bind(this);
     this.pointCancelEventListener = this.onPointerCancel.bind(this);
 
-    // ポインタ関連コールバック関数登録
+    // 포인터 관련 콜백 함수를 등록합니다
     document.addEventListener('pointerdown', this.pointBeganEventListener, {
       passive: true
     });
@@ -242,22 +242,22 @@ export class LAppDelegate {
   }
 
   /**
-   * Cubism SDKの初期化
+   * 입체파 초기화 SDK
    */
   private initializeCubism(): void {
     LAppPal.updateTime();
 
-    // setup cubism
+    // 입체파 설정
     this._cubismOption.logFunction = LAppPal.printMessage;
     this._cubismOption.loggingLevel = LAppDefine.CubismLoggingLevel;
     CubismFramework.startUp(this._cubismOption);
 
-    // initialize cubism
+    // 입체파 초기화
     CubismFramework.initialize();
   }
 
   /**
-   * Canvasを生成配置、Subdelegateを初期化する
+   * 캔버스를 생성하고 하위 방향을 초기화하십시오
    */
   private initializeSubdelegates(): void {
     let width: number = 100;
@@ -279,7 +279,7 @@ export class LAppDelegate {
       canvas.style.width = `${width}vw`;
       canvas.style.height = `${height}vh`;
 
-      // キャンバスを DOM に追加
+      // dom에 캔버스를 추가합니다
       document.body.appendChild(canvas);
     }
 
@@ -299,7 +299,7 @@ export class LAppDelegate {
   }
 
   /**
-   * Privateなコンストラクタ
+   * 개인 생성자
    */
   private constructor() {
     this._cubismOption = new Option();
@@ -319,37 +319,37 @@ export class LAppDelegate {
   }
 
   /**
-   * Cubism SDK Option
+   * 입체파 SDK 옵션
    */
   private _cubismOption: Option;
 
   /**
-   * 操作対象のcanvas要素
+   * 작동 할 캔버스 요소
    */
   private _canvases: csmVector<HTMLCanvasElement>;
 
   /**
-   * Subdelegate
+   * 세분화
    */
   private _subdelegates: csmVector<LAppSubdelegate>;
 
   /**
-   * 登録済みイベントリスナー 関数オブジェクト
+   * 등록 된 이벤트 리스너 기능 개체
    */
   private pointBeganEventListener: (this: Document, ev: PointerEvent) => void;
 
   /**
-   * 登録済みイベントリスナー 関数オブジェクト
+   * 등록 된 이벤트 리스너 기능 개체
    */
   private pointMovedEventListener: (this: Document, ev: PointerEvent) => void;
 
   /**
-   * 登録済みイベントリスナー 関数オブジェクト
+   * 등록 된 이벤트 리스너 기능 개체
    */
   private pointEndedEventListener: (this: Document, ev: PointerEvent) => void;
 
   /**
-   * 登録済みイベントリスナー 関数オブジェクト
+   * 등록 된 이벤트 리스너 기능 개체
    */
   private pointCancelEventListener: (this: Document, ev: PointerEvent) => void;
 }

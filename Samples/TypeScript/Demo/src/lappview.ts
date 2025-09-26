@@ -1,8 +1,8 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import { CubismMatrix44 } from '@framework/math/cubismmatrix44';
@@ -17,29 +17,29 @@ import { TouchManager } from './touchmanager';
 import { LAppSubdelegate } from './lappsubdelegate';
 
 /**
- * 描画クラス。
+ * 그림 수업.
  */
 export class LAppView {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._programId = null;
     this._back = null;
     this._gear = null;
 
-    // タッチ関係のイベント管理
+    // 관련 이벤트 관리를 터치합니다
     this._touchManager = new TouchManager();
 
-    // デバイス座標からスクリーン座標に変換するための
+    // 장치 좌표를 화면 좌표로 변환합니다
     this._deviceToScreen = new CubismMatrix44();
 
-    // 画面の表示の拡大縮小や移動の変換を行う行列
+    // 화면 표시 및 이동을 변환하는 행렬
     this._viewMatrix = new CubismViewMatrix();
   }
 
   /**
-   * 初期化する。
+   * 초기화.
    */
   public initialize(subdelegate: LAppSubdelegate): void {
     this._subdelegate = subdelegate;
@@ -64,11 +64,11 @@ export class LAppView {
     }
     this._deviceToScreen.translateRelative(-width * 0.5, -height * 0.5);
 
-    // 表示範囲の設定
+    // 디스플레이 범위를 설정합니다
     this._viewMatrix.setMaxScale(LAppDefine.ViewMaxScale); // 限界拡張率
     this._viewMatrix.setMinScale(LAppDefine.ViewMinScale); // 限界縮小率
 
-    // 表示できる最大範囲
+    // 표시 할 수있는 최대 범위
     this._viewMatrix.setMaxScreenRect(
       LAppDefine.ViewLogicalMaxLeft,
       LAppDefine.ViewLogicalMaxRight,
@@ -78,7 +78,7 @@ export class LAppView {
   }
 
   /**
-   * 解放する
+   * 풀어 주다
    */
   public release(): void {
     this._viewMatrix = null;
@@ -96,7 +96,7 @@ export class LAppView {
   }
 
   /**
-   * 描画する。
+   * 그리다.
    */
   public render(): void {
     this._subdelegate.getGlManager().getGl().useProgram(this._programId);
@@ -119,7 +119,7 @@ export class LAppView {
   }
 
   /**
-   * 画像の初期化を行う。
+   * 이미지를 초기화하십시오.
    */
   public initializeSprite(): void {
     const width: number = this._subdelegate.getCanvas().width;
@@ -129,10 +129,10 @@ export class LAppView {
 
     let imageName = '';
 
-    // 背景画像初期化
+    // 배경 이미지 초기화
     imageName = LAppDefine.BackImageName;
 
-    // 非同期なのでコールバック関数を作成
+    // 콜백 함수는 비동기식이므로 만듭니다
     const initBackGroundTexture = (textureInfo: TextureInfo): void => {
       const x: number = width * 0.5;
       const y: number = height * 0.5;
@@ -149,7 +149,7 @@ export class LAppView {
       initBackGroundTexture
     );
 
-    // 歯車画像初期化
+    // 기어 이미지 초기화
     imageName = LAppDefine.GearImageName;
     const initGearTexture = (textureInfo: TextureInfo): void => {
       const x = width - textureInfo.width * 0.5;
@@ -166,17 +166,17 @@ export class LAppView {
       initGearTexture
     );
 
-    // シェーダーを作成
+    // 셰이더를 만듭니다
     if (this._programId == null) {
       this._programId = this._subdelegate.createShader();
     }
   }
 
   /**
-   * タッチされた時に呼ばれる。
+   * 만질 때 호출.
    *
-   * @param pointX スクリーンX座標
-   * @param pointY スクリーンY座標
+   * @param pointx 화면 x 좌표
+   * @param 뾰족한 화면 Y 좌표
    */
   public onTouchesBegan(pointX: number, pointY: number): void {
     this._touchManager.touchesBegan(
@@ -186,10 +186,10 @@ export class LAppView {
   }
 
   /**
-   * タッチしているときにポインタが動いたら呼ばれる。
+   * 접촉하는 동안 포인터가 움직이는 경우 호출됩니다.
    *
-   * @param pointX スクリーンX座標
-   * @param pointY スクリーンY座標
+   * @param pointx 화면 x 좌표
+   * @param 뾰족한 화면 Y 좌표
    */
   public onTouchesMoved(pointX: number, pointY: number): void {
     const posX = pointX * window.devicePixelRatio;
@@ -206,10 +206,10 @@ export class LAppView {
   }
 
   /**
-   * タッチが終了したら呼ばれる。
+   * 터치가 끝나면 호출됩니다.
    *
-   * @param pointX スクリーンX座標
-   * @param pointY スクリーンY座標
+   * @param pointx 화면 x 좌표
+   * @param 뾰족한 화면 Y 좌표
    */
   public onTouchesEnded(pointX: number, pointY: number): void {
     const posX = pointX * window.devicePixelRatio;
@@ -217,10 +217,10 @@ export class LAppView {
 
     const lapplive2dmanager = this._subdelegate.getLive2DManager();
 
-    // タッチ終了
+    // 터치 끝
     lapplive2dmanager.onDrag(0.0, 0.0);
 
-    // シングルタップ
+    // 단일 탭
     const x: number = this.transformViewX(posX);
     const y: number = this.transformViewY(posY);
 
@@ -229,16 +229,16 @@ export class LAppView {
     }
     lapplive2dmanager.onTap(x, y);
 
-    // 歯車にタップしたか
+    // 기어를 탭 했습니까?
     if (this._gear.isHit(posX, posY)) {
       lapplive2dmanager.nextScene();
     }
   }
 
   /**
-   * X座標をView座標に変換する。
+   * X 좌표를 변환하여 좌표를 봅니다.
    *
-   * @param deviceX デバイスX座標
+   * @param devicex devicex 좌표
    */
   public transformViewX(deviceX: number): number {
     const screenX: number = this._deviceToScreen.transformX(deviceX); // 論理座標変換した座標を取得。
@@ -246,9 +246,9 @@ export class LAppView {
   }
 
   /**
-   * Y座標をView座標に変換する。
+   * 좌표를 볼 수 있도록 Y 좌표를 변환합니다.
    *
-   * @param deviceY デバイスY座標
+   * @Param 장치 장치 y 좌표
    */
   public transformViewY(deviceY: number): number {
     const screenY: number = this._deviceToScreen.transformY(deviceY); // 論理座標変換した座標を取得。
@@ -256,17 +256,17 @@ export class LAppView {
   }
 
   /**
-   * X座標をScreen座標に変換する。
-   * @param deviceX デバイスX座標
+   * X 좌표를 화면 좌표로 변환합니다.
+   * @param devicex devicex 좌표
    */
   public transformScreenX(deviceX: number): number {
     return this._deviceToScreen.transformX(deviceX);
   }
 
   /**
-   * Y座標をScreen座標に変換する。
+   * y 좌표를 화면 좌표로 변환합니다.
    *
-   * @param deviceY デバイスY座標
+   * @Param 장치 장치 y 좌표
    */
   public transformScreenY(deviceY: number): number {
     return this._deviceToScreen.transformY(deviceY);

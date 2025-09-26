@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismBreath } from '../effect/cubismbreath';
@@ -32,71 +31,71 @@ import { CubismModel } from './cubismmodel';
 import { CubismModelUserData } from './cubismmodeluserdata';
 
 /**
- * ユーザーが実際に使用するモデル
+ * 사용자가 실제로 사용하는 모델
  *
- * ユーザーが実際に使用するモデルの基底クラス。これを継承してユーザーが実装する。
+ * 사용자가 실제로 사용하는 모델의 기본 클래스. 이를 상속하여 사용자가 구현합니다.
  */
 export class CubismUserModel {
   /**
-   * 初期化状態の取得
+   * 초기화 상태 가져오기
    *
-   * 初期化されている状態か？
+   * 초기화되었는지?
    *
-   * @return true     初期化されている
-   * @return false    初期化されていない
+   * @return true     초기화됨
+   * @return false    초기화되지 않음
    */
   public isInitialized(): boolean {
     return this._initialized;
   }
 
   /**
-   * 初期化状態の設定
+   * 초기화 상태 설정
    *
-   * 初期化状態を設定する。
+   * 초기화 상태를 설정합니다.
    *
-   * @param v 初期化状態
+   * @param v 초기화 상태
    */
   public setInitialized(v: boolean): void {
     this._initialized = v;
   }
 
   /**
-   * 更新状態の取得
+   * 업데이트 상태 가져오기
    *
-   * 更新されている状態か？
+   * 업데이트되었는지?
    *
-   * @return true     更新されている
-   * @return false    更新されていない
+   * @return true     업데이트됨
+   * @return false    업데이트되지 않음
    */
   public isUpdating(): boolean {
     return this._updating;
   }
 
   /**
-   * 更新状態の設定
+   * 업데이트 상태 설정
    *
-   * 更新状態を設定する
+   * 업데이트 상태를 설정합니다.
    *
-   * @param v 更新状態
+   * @param v 업데이트 상태
    */
   public setUpdating(v: boolean): void {
     this._updating = v;
   }
 
   /**
-   * マウスドラッグ情報の設定
-   * @param ドラッグしているカーソルのX位置
-   * @param ドラッグしているカーソルのY位置
+   * 마우스 드래그 정보 설정
+   * @param x 드래그하는 커서의 X 위치
+   * @param y 드래그하는 커서의 Y 위치
    */
   public setDragging(x: number, y: number): void {
     this._dragManager.set(x, y);
   }
 
   /**
-   * 加速度の情報を設定する
-   * @param x X軸方向の加速度
-   * @param y Y軸方向の加速度
-   * @param z Z軸方向の加速度
+   * 가속도 정보 설정
+   * @param x X축 방향 가속도
+   * @param y Y축 방향 가속도
+   * @param z Z축 방향 가속도
    */
   public setAcceleration(x: number, y: number, z: number): void {
     this._accelerationX = x;
@@ -105,33 +104,33 @@ export class CubismUserModel {
   }
 
   /**
-   * モデル行列を取得する
-   * @return モデル行列
+   * 모델 행렬 가져오기
+   * @return 모델 행렬
    */
   public getModelMatrix(): CubismModelMatrix {
     return this._modelMatrix;
   }
 
   /**
-   * 不透明度の設定
-   * @param a 不透明度
+   * 불투명도 설정
+   * @param a 불투명도
    */
   public setOpacity(a: number): void {
     this._opacity = a;
   }
 
   /**
-   * 不透明度の取得
-   * @return 不透明度
+   * 불투명도 가져오기
+   * @return 불투명도
    */
   public getOpacity(): number {
     return this._opacity;
   }
 
   /**
-   * モデルデータを読み込む
+   * 모델 데이터 로드
    *
-   * @param buffer    moc3ファイルが読み込まれているバッファ
+   * @param buffer    moc3 파일이 로드된 버퍼
    */
   public loadModel(buffer: ArrayBuffer, shouldCheckMocConsistency = false) {
     this._moc = CubismMoc.create(buffer, shouldCheckMocConsistency);
@@ -156,17 +155,17 @@ export class CubismUserModel {
   }
 
   /**
-   * モーションデータを読み込む
-   * @param buffer motion3.jsonファイルが読み込まれているバッファ
-   * @param size バッファのサイズ
-   * @param name モーションの名前
-   * @param onFinishedMotionHandler モーション再生終了時に呼び出されるコールバック関数
-   * @param onBeganMotionHandler モーション再生開始時に呼び出されるコールバック関数
-   * @param modelSetting モデル設定
-   * @param group モーショングループ名
-   * @param index モーションインデックス
-   * @param shouldCheckMotionConsistency motion3.json整合性チェックするかどうか
-   * @return モーションクラス
+   * 모션 데이터 로드
+   * @param buffer motion3.json 파일이 로드된 버퍼
+   * @param size 버퍼의 크기
+   * @param name 모션의 이름
+   * @param onFinishedMotionHandler 모션 재생 종료 시 호출되는 콜백 함수
+   * @param onBeganMotionHandler 모션 재생 시작 시 호출되는 콜백 함수
+   * @param modelSetting 모델 설정
+   * @param group 모션 그룹 이름
+   * @param index 모션 인덱스
+   * @param shouldCheckMotionConsistency motion3.json 무결성 확인 여부
+   * @return 모션 클래스
    */
   public loadMotion(
     buffer: ArrayBuffer,
@@ -197,7 +196,7 @@ export class CubismUserModel {
       return null;
     }
 
-    // 必要であればモーションフェード値を上書き
+    // 필요한 경우 모션 페이드 값 덮어쓰기
     if (modelSetting) {
       const fadeInTime: number = modelSetting.getMotionFadeInTimeValue(
         group,
@@ -217,10 +216,10 @@ export class CubismUserModel {
   }
 
   /**
-   * 表情データの読み込み
-   * @param buffer expファイルが読み込まれているバッファ
-   * @param size バッファのサイズ
-   * @param name 表情の名前
+   * 표정 데이터 로드
+   * @param buffer exp 파일이 로드된 버퍼
+   * @param size 버퍼의 크기
+   * @param name 표정의 이름
    */
   public loadExpression(
     buffer: ArrayBuffer,
@@ -235,9 +234,9 @@ export class CubismUserModel {
   }
 
   /**
-   * ポーズデータの読み込み
-   * @param buffer pose3.jsonが読み込まれているバッファ
-   * @param size バッファのサイズ
+   * 포즈 데이터 로드
+   * @param buffer pose3.json이 로드된 버퍼
+   * @param size 버퍼의 크기
    */
   public loadPose(buffer: ArrayBuffer, size: number): void {
     if (buffer == null || size == 0) {
@@ -248,9 +247,9 @@ export class CubismUserModel {
   }
 
   /**
-   * モデルに付属するユーザーデータを読み込む
-   * @param buffer userdata3.jsonが読み込まれているバッファ
-   * @param size バッファのサイズ
+   * 모델에 첨부된 사용자 데이터 로드
+   * @param buffer userdata3.json이 로드된 버퍼
+   * @param size 버퍼의 크기
    */
   public loadUserData(buffer: ArrayBuffer, size: number): void {
     if (buffer == null || size == 0) {
@@ -261,9 +260,9 @@ export class CubismUserModel {
   }
 
   /**
-   * 物理演算データの読み込み
-   * @param buffer  physics3.jsonが読み込まれているバッファ
-   * @param size    バッファのサイズ
+   * 물리 연산 데이터 로드
+   * @param buffer  physics3.json이 로드된 버퍼
+   * @param size    버퍼의 크기
    */
   public loadPhysics(buffer: ArrayBuffer, size: number): void {
     if (buffer == null || size == 0) {
@@ -274,12 +273,12 @@ export class CubismUserModel {
   }
 
   /**
-   * 当たり判定の取得
-   * @param drawableId 検証したいDrawableのID
-   * @param pointX X位置
-   * @param pointY Y位置
-   * @return true ヒットしている
-   * @return false ヒットしていない
+   * 히트 판정 가져오기
+   * @param drawableId 검증하려는 Drawable의 ID
+   * @param pointX X 위치
+   * @param pointY Y 위치
+   * @return true 히트함
+   * @return false 히트하지 않음
    */
   public isHit(
     drawableId: CubismIdHandle,
@@ -289,7 +288,7 @@ export class CubismUserModel {
     const drawIndex: number = this._model.getDrawableIndex(drawableId);
 
     if (drawIndex < 0) {
-      return false; // 存在しない場合はfalse
+      return false; // 존재하지 않으면 false
     }
 
     const count: number = this._model.getDrawableVertexCount(drawIndex);
@@ -328,24 +327,24 @@ export class CubismUserModel {
   }
 
   /**
-   * モデルの取得
-   * @return モデル
+   * 모델 가져오기
+   * @return 모델
    */
   public getModel(): CubismModel {
     return this._model;
   }
 
   /**
-   * レンダラの取得
-   * @return レンダラ
+   * 렌더러 가져오기
+   * @return 렌더러
    */
   public getRenderer(): CubismRenderer_WebGL {
     return this._renderer;
   }
 
   /**
-   * レンダラを作成して初期化を実行する
-   * @param maskBufferCount バッファの生成数
+   * 렌더러를 생성하고 초기화를 실행합니다.
+   * @param maskBufferCount 버퍼 생성 수
    */
   public createRenderer(maskBufferCount = 1): void {
     if (this._renderer) {
@@ -357,7 +356,7 @@ export class CubismUserModel {
   }
 
   /**
-   * レンダラの解放
+   * 렌더러 해제
    */
   public deleteRenderer(): void {
     if (this._renderer != null) {
@@ -367,27 +366,27 @@ export class CubismUserModel {
   }
 
   /**
-   * イベント発火時の標準処理
+   * 이벤트 발생 시 표준 처리
    *
-   * Eventが再生処理時にあった場合の処理をする。
-   * 継承で上書きすることを想定している。
-   * 上書きしない場合はログ出力をする。
+   * Event가 재생 처리 시에 있었을 경우의 처리를 합니다.
+   * 상속으로 덮어쓰는 것을 상정하고 있습니다.
+   * 덮어쓰지 않으면 로그를 출력합니다.
    *
-   * @param eventValue 発火したイベントの文字列データ
+   * @param eventValue 발생한 이벤트의 문자열 데이터
    */
   public motionEventFired(eventValue: csmString): void {
     CubismLogInfo('{0}', eventValue.s);
   }
 
   /**
-   * イベント用のコールバック
+   * 이벤트용 콜백
    *
-   * CubismMotionQueueManagerにイベント用に登録するためのCallback。
-   * CubismUserModelの継承先のEventFiredを呼ぶ。
+   * CubismMotionQueueManager에 이벤트용으로 등록하기 위한 콜백.
+   * CubismUserModel의 상속처의 EventFired를 호출합니다.
    *
-   * @param caller 発火したイベントを管理していたモーションマネージャー、比較用
-   * @param eventValue 発火したイベントの文字列データ
-   * @param customData CubismUserModelを継承したインスタンスを想定
+   * @param caller 발생한 이벤트를 관리하던 모션 관리자, 비교용
+   * @param eventValue 발생한 이벤트의 문자열 데이터
+   * @param customData CubismUserModel을 상속한 인스턴스를 상정
    */
   public static cubismDefaultMotionEventCallback(
     caller: CubismMotionQueueManager,
@@ -402,10 +401,10 @@ export class CubismUserModel {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
-    // 各変数初期化
+    // 각 변수 초기화
     this._moc = null;
     this._model = null;
     this._motionManager = null;
@@ -431,22 +430,22 @@ export class CubismUserModel {
     this._debugMode = false;
     this._renderer = null;
 
-    // モーションマネージャーを作成
+    // 모션 관리자 생성
     this._motionManager = new CubismMotionManager();
     this._motionManager.setEventCallback(
       CubismUserModel.cubismDefaultMotionEventCallback,
       this
     );
 
-    // 表情マネージャーを作成
+    // 표정 관리자 생성
     this._expressionManager = new CubismExpressionMotionManager();
 
-    // ドラッグによるアニメーション
+    // 드래그에 의한 애니메이션
     this._dragManager = new CubismTargetPoint();
   }
 
   /**
-   * デストラクタに相当する処理
+   * 소멸자에 해당하는 처리
    */
   public release() {
     if (this._motionManager != null) {
@@ -479,37 +478,37 @@ export class CubismUserModel {
     this.deleteRenderer();
   }
 
-  protected _moc: CubismMoc; // Mocデータ
-  protected _model: CubismModel; // Modelインスタンス
+  protected _moc: CubismMoc; // Moc 데이터
+  protected _model: CubismModel; // Model 인스턴스
 
-  protected _motionManager: CubismMotionManager; // モーション管理
-  protected _expressionManager: CubismExpressionMotionManager; // 表情管理
-  protected _eyeBlink: CubismEyeBlink; // 自動まばたき
-  protected _breath: CubismBreath; // 呼吸
-  protected _modelMatrix: CubismModelMatrix; // モデル行列
-  protected _pose: CubismPose; // ポーズ管理
-  protected _dragManager: CubismTargetPoint; // マウスドラッグ
-  protected _physics: CubismPhysics; // 物理演算
-  protected _modelUserData: CubismModelUserData; // ユーザーデータ
+  protected _motionManager: CubismMotionManager; // 모션 관리
+  protected _expressionManager: CubismExpressionMotionManager; // 표정 관리
+  protected _eyeBlink: CubismEyeBlink; // 자동 눈 깜박임
+  protected _breath: CubismBreath; // 호흡
+  protected _modelMatrix: CubismModelMatrix; // 모델 행렬
+  protected _pose: CubismPose; // 포즈 관리
+  protected _dragManager: CubismTargetPoint; // 마우스 드래그
+  protected _physics: CubismPhysics; // 물리 연산
+  protected _modelUserData: CubismModelUserData; // 사용자 데이터
 
-  protected _initialized: boolean; // 初期化されたかどうか
-  protected _updating: boolean; // 更新されたかどうか
-  protected _opacity: number; // 不透明度
-  protected _lipsync: boolean; // リップシンクするかどうか
-  protected _lastLipSyncValue: number; // 最後のリップシンクの制御地
-  protected _dragX: number; // マウスドラッグのX位置
-  protected _dragY: number; // マウスドラッグのY位置
-  protected _accelerationX: number; // X軸方向の加速度
-  protected _accelerationY: number; // Y軸方向の加速度
-  protected _accelerationZ: number; // Z軸方向の加速度
-  protected _mocConsistency: boolean; // MOC3整合性検証するかどうか
-  protected _motionConsistency: boolean; // motion3.json整合性検証するかどうか
-  protected _debugMode: boolean; // デバッグモードかどうか
+  protected _initialized: boolean; // 초기화되었는지 여부
+  protected _updating: boolean; // 업데이트되었는지 여부
+  protected _opacity: number; // 불투명도
+  protected _lipsync: boolean; // 립싱크 여부
+  protected _lastLipSyncValue: number; // 마지막 립싱크 제어 값
+  protected _dragX: number; // 마우스 드래그의 X 위치
+  protected _dragY: number; // 마우스 드래그의 Y 위치
+  protected _accelerationX: number; // X축 방향 가속도
+  protected _accelerationY: number; // Y축 방향 가속도
+  protected _accelerationZ: number; // Z축 방향 가속도
+  protected _mocConsistency: boolean; // MOC3 무결성 검증 여부
+  protected _motionConsistency: boolean; // motion3.json 무결성 검증 여부
+  protected _debugMode: boolean; // 디버그 모드 여부
 
-  private _renderer: CubismRenderer_WebGL; // レンダラ
+  private _renderer: CubismRenderer_WebGL; // 렌더러
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismusermodel';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

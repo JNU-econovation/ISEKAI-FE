@@ -1,25 +1,24 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismVector2 } from './cubismvector2';
 
 /**
- * 数値計算などに使用するユーティリティクラス
+ * 수치 계산 등에 사용하는 유틸리티 클래스
  */
 export class CubismMath {
   static readonly Epsilon: number = 0.00001;
 
   /**
-   * 第一引数の値を最小値と最大値の範囲に収めた値を返す
+   * 첫 번째 인수의 값을 최소값과 최대값 범위로 제한한 값을 반환합니다.
    *
-   * @param value 収められる値
-   * @param min   範囲の最小値
-   * @param max   範囲の最大値
-   * @return 最小値と最大値の範囲に収めた値
+   * @param value 제한할 값
+   * @param min   범위의 최소값
+   * @param max   범위의 최대값
+   * @return 최소값과 최대값 범위로 제한된 값
    */
   static range(value: number, min: number, max: number): number {
     if (value < min) {
@@ -32,48 +31,48 @@ export class CubismMath {
   }
 
   /**
-   * サイン関数の値を求める
+   * 사인 함수 값을 구합니다.
    *
-   * @param x 角度値（ラジアン）
-   * @return サイン関数sin(x)の値
+   * @param x 앵글 값 (라디안)
+   * @return 사인 함수 sin(x)의 값
    */
   static sin(x: number): number {
     return Math.sin(x);
   }
 
   /**
-   * コサイン関数の値を求める
+   * 코사인 함수 값을 구합니다.
    *
-   * @param x 角度値(ラジアン)
-   * @return コサイン関数cos(x)の値
+   * @param x 앵글 값(라디안)
+   * @return 코사인 함수 cos(x)의 값
    */
   static cos(x: number): number {
     return Math.cos(x);
   }
 
   /**
-   * 値の絶対値を求める
+   * 값의 절대값을 구합니다.
    *
-   * @param x 絶対値を求める値
-   * @return 値の絶対値
+   * @param x 절대값을 구할 값
+   * @return 값의 절대값
    */
   static abs(x: number): number {
     return Math.abs(x);
   }
 
   /**
-   * 平方根(ルート)を求める
-   * @param x -> 平方根を求める値
-   * @return 値の平方根
+   * 제곱근(루트)을 구합니다.
+   * @param x -> 제곱근을 구할 값
+   * @return 값의 제곱근
    */
   static sqrt(x: number): number {
     return Math.sqrt(x);
   }
 
   /**
-   * 立方根を求める
-   * @param x -> 立方根を求める値
-   * @return 値の立方根
+   * 세제곱근을 구합니다.
+   * @param x -> 세제곱근을 구할 값
+   * @return 값의 세제곱근
    */
   static cbrt(x: number): number {
     if (x === 0) {
@@ -98,11 +97,11 @@ export class CubismMath {
   }
 
   /**
-   * イージング処理されたサインを求める
-   * フェードイン・アウト時のイージングに利用できる
+   * 이징 처리된 사인을 구합니다.
+   * 페이드인·아웃 시의 이징에 이용할 수 있습니다.
    *
-   * @param value イージングを行う値
-   * @return イージング処理されたサイン値
+   * @param value 이징을 수행할 값
+   * @return 이징 처리된 사인 값
    */
   static getEasingSine(value: number): number {
     if (value < 0.0) {
@@ -115,22 +114,22 @@ export class CubismMath {
   }
 
   /**
-   * 大きい方の値を返す
+   * 더 큰 값을 반환합니다.
    *
-   * @param left 左辺の値
-   * @param right 右辺の値
-   * @return 大きい方の値
+   * @param left 왼쪽 값
+   * @param right 오른쪽 값
+   * @return 더 큰 값
    */
   static max(left: number, right: number): number {
     return left > right ? left : right;
   }
 
   /**
-   * 小さい方の値を返す
+   * 더 작은 값을 반환합니다.
    *
-   * @param left  左辺の値
-   * @param right 右辺の値
-   * @return 小さい方の値
+   * @param left  왼쪽 값
+   * @param right 오른쪽 값
+   * @return 더 작은 값
    */
   static min(left: number, right: number): number {
     return left > right ? right : left;
@@ -146,31 +145,31 @@ export class CubismMath {
   }
 
   /**
-   * 角度値をラジアン値に変換する
+   * 각도 값을 라디안 값으로 변환합니다.
    *
-   * @param degrees   角度値
-   * @return 角度値から変換したラジアン値
+   * @param degrees   각도 값
+   * @return 각도 값에서 변환된 라디안 값
    */
   static degreesToRadian(degrees: number): number {
     return (degrees / 180.0) * Math.PI;
   }
 
   /**
-   * ラジアン値を角度値に変換する
+   * 라디안 값을 각도 값으로 변환합니다.
    *
-   * @param radian    ラジアン値
-   * @return ラジアン値から変換した角度値
+   * @param radian    라디안 값
+   * @return 라디안 값에서 변환된 각도 값
    */
   static radianToDegrees(radian: number): number {
     return (radian * 180.0) / Math.PI;
   }
 
   /**
-   * ２つのベクトルからラジアン値を求める
+   * 두 벡터에서 라디안 값을 구합니다.
    *
-   * @param from  始点ベクトル
-   * @param to    終点ベクトル
-   * @return ラジアン値から求めた方向ベクトル
+   * @param from  시작 벡터
+   * @param to    끝 벡터
+   * @return 라디안 값에서 구한 방향 벡터
    */
   static directionToRadian(from: CubismVector2, to: CubismVector2): number {
     const q1: number = Math.atan2(to.y, to.x);
@@ -190,11 +189,11 @@ export class CubismMath {
   }
 
   /**
-   * ２つのベクトルから角度値を求める
+   * 두 벡터에서 각도 값을 구합니다.
    *
-   * @param from  始点ベクトル
-   * @param to    終点ベクトル
-   * @return 角度値から求めた方向ベクトル
+   * @param from  시작 벡터
+   * @param to    끝 벡터
+   * @return 각도 값에서 구한 방향 벡터
    */
   static directionToDegrees(from: CubismVector2, to: CubismVector2): number {
     const radian: number = this.directionToRadian(from, to);
@@ -208,10 +207,10 @@ export class CubismMath {
   }
 
   /**
-   * ラジアン値を方向ベクトルに変換する。
+   * 라디안 값을 방향 벡터로 변환합니다.
    *
-   * @param totalAngle    ラジアン値
-   * @return ラジアン値から変換した方向ベクトル
+   * @param totalAngle    라디안 값
+   * @return 라디안 값에서 변환된 방향 벡터
    */
 
   static radianToDirection(totalAngle: number): CubismVector2 {
@@ -224,13 +223,13 @@ export class CubismMath {
   }
 
   /**
-   * 三次方程式の三次項の係数が0になったときに補欠的に二次方程式の解をもとめる。
+   * 삼차 방정식의 삼차항 계수가 0이 되었을 때 보조적으로 이차 방정식의 해를 구합니다.
    * a * x^2 + b * x + c = 0
    *
-   * @param   a -> 二次項の係数値
-   * @param   b -> 一次項の係数値
-   * @param   c -> 定数項の値
-   * @return  二次方程式の解
+   * @param   a -> 이차항의 계수 값
+   * @param   b -> 일차항의 계수 값
+   * @param   c -> 상수항의 값
+   * @return  이차 방정식의 해
    */
   static quadraticEquation(a: number, b: number, c: number): number {
     if (this.abs(a) < CubismMath.Epsilon) {
@@ -244,16 +243,16 @@ export class CubismMath {
   }
 
   /**
-   * カルダノの公式によってベジェのt値に該当する３次方程式の解を求める。
-   * 重解になったときには0.0～1.0の値になる解を返す。
+   * 카르다노의 공식으로 베지어의 t값에 해당하는 3차 방정식의 해를 구합니다.
+   * 중근일 때는 0.0～1.0의 값이 되는 해를 반환합니다.
    *
    * a * x^3 + b * x^2 + c * x + d = 0
    *
-   * @param   a -> 三次項の係数値
-   * @param   b -> 二次項の係数値
-   * @param   c -> 一次項の係数値
-   * @param   d -> 定数項の値
-   * @return  0.0～1.0の間にある解
+   * @param   a -> 삼차항의 계수 값
+   * @param   b -> 이차항의 계수 값
+   * @param   c -> 일차항의 계수 값
+   * @param   d -> 상수항의 값
+   * @return  0.0～1.0 사이의 해
    */
   static cardanoAlgorithmForBezier(
     a: number,
@@ -329,11 +328,11 @@ export class CubismMath {
   }
 
   /**
-   * 浮動小数点の余りを求める。
+   * 부동 소수점의 나머지를 구합니다.
    *
-   * @param dividend 被除数（割られる値）
-   * @param divisor 除数（割る値）
-   * @returns 余り
+   * @param dividend 피제수 (나누어지는 값)
+   * @param divisor 제수 (나누는 값)
+   * @returns 나머지
    */
   static mod(dividend: number, divisor: number): number {
     if (
@@ -348,26 +347,26 @@ export class CubismMath {
       return NaN;
     }
 
-    // 絶対値に変換する。
+    // 절대값으로 변환합니다.
     const absDividend = Math.abs(dividend);
     const absDivisor = Math.abs(divisor);
 
-    // 絶対値で割り算する。
+    // 절대값으로 나눕니다.
     let result =
       absDividend - Math.floor(absDividend / absDivisor) * absDivisor;
 
-    // 符号を被除数のものに指定する。
+    // 부호를 피제수의 것으로 지정합니다.
     result *= Math.sign(dividend);
     return result;
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   private constructor() {}
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmath';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

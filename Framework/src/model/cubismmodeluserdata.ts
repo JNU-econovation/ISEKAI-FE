@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { CubismIdHandle } from '../id/cubismid';
@@ -14,28 +13,28 @@ import { CubismModelUserDataJson } from './cubismmodeluserdatajson';
 const ArtMesh = 'ArtMesh';
 
 /**
- * ユーザーデータインターフェース
+ * 사용자 데이터 인터페이스
  *
- * Jsonから読み込んだユーザーデータを記録しておくための構造体
+ * Json에서 로드한 사용자 데이터를 기록하기 위한 구조체
  */
 export class CubismModelUserDataNode {
-  targetType: CubismIdHandle; // ユーザーデータターゲットタイプ
-  targetId: CubismIdHandle; // ユーザーデータターゲットのID
-  value: csmString; // ユーザーデータ
+  targetType: CubismIdHandle; // 사용자 데이터 대상 타입
+  targetId: CubismIdHandle; // 사용자 데이터 대상 ID
+  value: csmString; // 사용자 데이터
 }
 
 /**
- * ユーザデータの管理クラス
+ * 사용자 데이터 관리 클래스
  *
- * ユーザデータをロード、管理、検索インターフェイス、解放までを行う。
+ * 사용자 데이터를 로드, 관리, 검색 인터페이스, 해제까지 수행합니다.
  */
 export class CubismModelUserData {
   /**
-   * インスタンスの作成
+   * 인스턴스 생성
    *
-   * @param buffer    userdata3.jsonが読み込まれているバッファ
-   * @param size      バッファのサイズ
-   * @return 作成されたインスタンス
+   * @param buffer    userdata3.json이 로드된 버퍼
+   * @param size      버퍼의 크기
+   * @return 생성된 인스턴스
    */
   public static create(buffer: ArrayBuffer, size: number): CubismModelUserData {
     const ret: CubismModelUserData = new CubismModelUserData();
@@ -46,9 +45,9 @@ export class CubismModelUserData {
   }
 
   /**
-   * インスタンスを破棄する
+   * 인스턴스를 파기합니다.
    *
-   * @param modelUserData 破棄するインスタンス
+   * @param modelUserData 파기할 인스턴스
    */
   public static delete(modelUserData: CubismModelUserData): void {
     if (modelUserData != null) {
@@ -58,19 +57,19 @@ export class CubismModelUserData {
   }
 
   /**
-   * ArtMeshのユーザーデータのリストの取得
+   * ArtMesh의 사용자 데이터 목록 가져오기
    *
-   * @return ユーザーデータリスト
+   * @return 사용자 데이터 목록
    */
   public getArtMeshUserDatas(): csmVector<CubismModelUserDataNode> {
     return this._artMeshUserDataNode;
   }
 
   /**
-   * userdata3.jsonのパース
+   * userdata3.json 파싱
    *
-   * @param buffer    userdata3.jsonが読み込まれているバッファ
-   * @param size      バッファのサイズ
+   * @param buffer    userdata3.json이 로드된 버퍼
+   * @param size      버퍼의 크기
    */
   public parseUserData(buffer: ArrayBuffer, size: number): void {
     let json: CubismModelUserDataJson = new CubismModelUserDataJson(
@@ -106,7 +105,7 @@ export class CubismModelUserData {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._userDataNodes = new csmVector<CubismModelUserDataNode>();
@@ -114,9 +113,9 @@ export class CubismModelUserData {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 해당 처리
    *
-   * ユーザーデータ構造体配列を解放する
+   * 사용자 데이터 구조체 배열을 해제합니다.
    */
   public release(): void {
     for (let i = 0; i < this._userDataNodes.getSize(); ++i) {
@@ -126,11 +125,11 @@ export class CubismModelUserData {
     this._userDataNodes = null;
   }
 
-  private _userDataNodes: csmVector<CubismModelUserDataNode>; // ユーザーデータ構造体配列
-  private _artMeshUserDataNode: csmVector<CubismModelUserDataNode>; // 閲覧リストの保持
+  private _userDataNodes: csmVector<CubismModelUserDataNode>; // 사용자 데이터 구조체 배열
+  private _artMeshUserDataNode: csmVector<CubismModelUserDataNode>; // 조회 목록 유지
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismmodeluserdata';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {

@@ -1,20 +1,20 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
-/** @deprecated この変数は getInstance() が非推奨になったことに伴い、非推奨となりました。 */
+/** @deprecated이 변수는 getInstance ()의 감가 상각으로 인해 더 이상 사용되지 않았습니다. */
 export let s_instance: LAppWavFileHandler = null;
 
 export class LAppWavFileHandler {
   /**
-   * クラスのインスタンス（シングルトン）を返す。
-   * インスタンスが生成されていない場合は内部でインスタンスを生成する。
+   * 클래스의 인스턴스 (싱글 톤)를 반환합니다.
+   * 인스턴스가 생성되지 않으면 내부적으로 인스턴스를 만듭니다.
    *
-   * @return クラスのインスタンス
-   * @deprecated このクラスでのシングルトンパターンの使用は非推奨となりました。代わりに new LAppWavFileHandler() を使用してください。
+   * @return 클래스 인스턴스
+   * @deprecated이 클래스에서 싱글 톤 패턴의 사용은 더 이상 사용되지 않았습니다. 대신 새 LappwavfileHandler ()를 사용하십시오.
    */
   public static getInstance(): LAppWavFileHandler {
     if (s_instance == null) {
@@ -25,9 +25,9 @@ export class LAppWavFileHandler {
   }
 
   /**
-   * クラスのインスタンス（シングルトン）を解放する。
+   * 수업의 인스턴스 (싱글 톤)를 해방시킵니다.
    *
-   * @deprecated この関数は getInstance() が非推奨になったことに伴い、非推奨となりました。
+   * @deprecated이 기능은 getInstance ()의 감가 상각으로 인해 더 이상 사용되지 않았습니다.
    */
   public static releaseInstance(): void {
     if (s_instance != null) {
@@ -41,7 +41,7 @@ export class LAppWavFileHandler {
     let goalOffset: number;
     let rms: number;
 
-    // データロード前/ファイル末尾に達した場合は更新しない
+    // 데이터로드되기 전에/파일의 끝에 도달하면 업데이트하지 마십시오.
     if (
       this._pcmData == null ||
       this._sampleOffset >= this._wavFileInfo._samplesPerChannel
@@ -50,7 +50,7 @@ export class LAppWavFileHandler {
       return false;
     }
 
-    // 経過時間後の状態を保持
+    // 경과 시간 후에 상태를 유지하십시오
     this._userTimeSeconds += deltaTimeSeconds;
     goalOffset = Math.floor(
       this._userTimeSeconds * this._wavFileInfo._samplingRate
@@ -59,7 +59,7 @@ export class LAppWavFileHandler {
       goalOffset = this._wavFileInfo._samplesPerChannel;
     }
 
-    // RMS計測
+    // rms 計測
     rms = 0.0;
     for (
       let channelCount = 0;
@@ -87,11 +87,11 @@ export class LAppWavFileHandler {
   }
 
   public start(filePath: string): void {
-    // サンプル位参照位置を初期化
+    // 샘플 위치를 초기화합니다. 참조 위치
     this._sampleOffset = 0;
     this._userTimeSeconds = 0.0;
 
-    // RMS値をリセット
+    // rms 값을 재설정합니다
     this._lastRms = 0.0;
 
     this.loadWavFile(filePath);
@@ -109,7 +109,7 @@ export class LAppWavFileHandler {
         this.releasePcmData();
       }
 
-      // ファイルロード
+      // 파일로드
       const asyncFileLoad = async () => {
         return fetch(filePath).then(responce => {
           return responce.arrayBuffer();
@@ -124,7 +124,7 @@ export class LAppWavFileHandler {
         this._byteReader._fileSize = this._byteReader._fileByte.byteLength;
         this._byteReader._readOffset = 0;
 
-        // ファイルロードに失敗しているか、先頭のシグネチャ"RIFF"を入れるサイズもない場合は失敗
+        // 파일로드가 실패했거나 첫 번째 서명 "리프"에 맞는 크기가없는 경우 실패
         if (
           this._byteReader._fileByte == null ||
           this._byteReader._fileSize < 4
@@ -133,52 +133,52 @@ export class LAppWavFileHandler {
           return;
         }
 
-        // ファイル名
+        // 파일 이름
         this._wavFileInfo._fileName = filePath;
 
         try {
-          // シグネチャ "RIFF"
+          // 서명 "리프"
           if (!this._byteReader.getCheckSignature('RIFF')) {
             ret = false;
             throw new Error('Cannot find Signeture "RIFF".');
           }
-          // ファイルサイズ-8（読み飛ばし）
+          // 파일 크기 -8 (건너 뛰기)
           this._byteReader.get32LittleEndian();
-          // シグネチャ "WAVE"
+          // 서명 "웨이브"
           if (!this._byteReader.getCheckSignature('WAVE')) {
             ret = false;
             throw new Error('Cannot find Signeture "WAVE".');
           }
-          // シグネチャ "fmt "
+          // 서명 "FMT"
           if (!this._byteReader.getCheckSignature('fmt ')) {
             ret = false;
             throw new Error('Cannot find Signeture "fmt".');
           }
-          // fmtチャンクサイズ
+          // FMT 청크 크기
           const fmtChunkSize = this._byteReader.get32LittleEndian();
-          // フォーマットIDは1（リニアPCM）以外受け付けない
+          // 1 (선형 PCM)을 제외한 형식 ID가 허용되지 않습니다.
           if (this._byteReader.get16LittleEndian() != 1) {
             ret = false;
             throw new Error('File is not linear PCM.');
           }
-          // チャンネル数
+          // 채널 수
           this._wavFileInfo._numberOfChannels =
             this._byteReader.get16LittleEndian();
-          // サンプリングレート
+          // 샘플링 속도
           this._wavFileInfo._samplingRate =
             this._byteReader.get32LittleEndian();
-          // データ速度[byte/sec]（読み飛ばし）
+          // 데이터 속도 [바이트/초] (건너 뛰기)
           this._byteReader.get32LittleEndian();
-          // ブロックサイズ（読み飛ばし）
+          // 블록 크기 (읽기 건너 뛰기)
           this._byteReader.get16LittleEndian();
-          // 量子化ビット数
+          // 양자화 된 비트 수
           this._wavFileInfo._bitsPerSample =
             this._byteReader.get16LittleEndian();
-          // fmtチャンクの拡張部分の読み飛ばし
+          // FMT 청크의 확장 부분을 건너 뜁니다
           if (fmtChunkSize > 16) {
             this._byteReader._readOffset += fmtChunkSize - 16;
           }
-          // "data"チャンクが出現するまで読み飛ばし
+          // "데이터"청크가 나타날 때까지 건너 뜁니다
           while (
             !this._byteReader.getCheckSignature('data') &&
             this._byteReader._readOffset < this._byteReader._fileSize
@@ -186,12 +186,12 @@ export class LAppWavFileHandler {
             this._byteReader._readOffset +=
               this._byteReader.get32LittleEndian() + 4;
           }
-          // ファイル内に"data"チャンクが出現しなかった
+          // 파일에 "Data"청크가 나타나지 않았습니다
           if (this._byteReader._readOffset >= this._byteReader._fileSize) {
             ret = false;
             throw new Error('Cannot find "data" Chunk.');
           }
-          // サンプル数
+          // 샘플 수
           {
             const dataChunkSize = this._byteReader.get32LittleEndian();
             this._wavFileInfo._samplesPerChannel =
@@ -210,7 +210,7 @@ export class LAppWavFileHandler {
               this._wavFileInfo._samplesPerChannel
             );
           }
-          // 波形データ取得
+          // 파형 데이터의 획득
           for (
             let sampleCount = 0;
             sampleCount < this._wavFileInfo._samplesPerChannel;
@@ -240,7 +240,7 @@ export class LAppWavFileHandler {
   public getPcmSample(): number {
     let pcm32;
 
-    // 32ビット幅に拡張してから-1～1の範囲に丸める
+    // 32 비트 너비로 확장 한 다음 -1에서 1 범위로 반올림합니다.
     switch (this._wavFileInfo._bitsPerSample) {
       case 8:
         pcm32 = this._byteReader.get8() - 128;
@@ -253,7 +253,7 @@ export class LAppWavFileHandler {
         pcm32 = this._byteReader.get24LittleEndian() << 8;
         break;
       default:
-        // 対応していないビット幅
+        // 지원되지 않은 비트 너비
         pcm32 = 0;
         break;
     }
@@ -262,25 +262,25 @@ export class LAppWavFileHandler {
   }
 
   /**
-   * 指定したチャンネルから音声サンプルの配列を取得する
+   * 지정된 채널에서 오디오 샘플 배열 가져 오기
    *
-   * @param usechannel 利用するチャンネル
-   * @returns 指定したチャンネルの音声サンプルの配列
+   * @param usechannel 채널을 사용할 수 있습니다
+   * 지정된 채널 용 오디오 샘플 배열 @returns 배열
    */
   public getPcmDataChannel(usechannel: number): Float32Array {
-    // 指定したチャンネル数がデータ用配列の長さより多いならnullを返す。
+    // 지정된 채널 수가 데이터 배열의 길이보다 큰 경우 null을 반환합니다.
     if (!this._pcmData || !(usechannel < this._pcmData.length)) {
       return null;
     }
 
-    // _pcmDataから新規に指定したチャンネルのFloat32Arrayを作成する。
+    // _PCMDATA에서 새로 지정된 채널에 대한 float32ARRAY를 만듭니다.
     return Float32Array.from(this._pcmData[usechannel]);
   }
 
   /**
-   * 音声のサンプリング周波数を取得する。
+   * 오디오 샘플링 주파수를 가져옵니다.
    *
-   * @returns 音声のサンプリング周波数
+   * @returns 오디오 샘플링 주파수
    */
   public getWavSamplingRate(): number {
     if (!this._wavFileInfo || this._wavFileInfo._samplingRate < 1) {
@@ -349,8 +349,8 @@ export class ByteReader {
   }
 
   /**
-   * @brief 8ビット読み込み
-   * @return Csm::csmUint8 読み取った8ビット値
+   * @brief 8 비트 읽기
+   * @return csm :: csmuint8 8 비트 값을 읽습니다
    */
   public get8(): number {
     const ret = this._fileDataView.getUint8(this._readOffset);
@@ -359,8 +359,8 @@ export class ByteReader {
   }
 
   /**
-   * @brief 16ビット読み込み（リトルエンディアン）
-   * @return Csm::csmUint16 読み取った16ビット値
+   * @Brief 16 비트 읽기 (Little-Endian)
+   * @return csm :: csmuint16 16 비트 값을 읽습니다
    */
   public get16LittleEndian(): number {
     const ret =
@@ -371,8 +371,8 @@ export class ByteReader {
   }
 
   /**
-   * @brief 24ビット読み込み（リトルエンディアン）
-   * @return Csm::csmUint32 読み取った24ビット値（下位24ビットに設定）
+   * @Brief 24 비트 읽기 (Little-Endian)
+   * @return csm :: csmuint32 읽기 24 비트 값 (낮은 24 비트로 설정)
    */
   public get24LittleEndian(): number {
     const ret =
@@ -384,8 +384,8 @@ export class ByteReader {
   }
 
   /**
-   * @brief 32ビット読み込み（リトルエンディアン）
-   * @return Csm::csmUint32 読み取った32ビット値
+   * @Brief 32 비트 읽기 (Little-Endian)
+   * @return csm :: csmuint32 32 비트 값을 읽습니다
    */
   public get32LittleEndian(): number {
     const ret =
@@ -398,10 +398,10 @@ export class ByteReader {
   }
 
   /**
-   * @brief シグネチャの取得と参照文字列との一致チェック
-   * @param[in] reference 検査対象のシグネチャ文字列
-   * @retval  true    一致している
-   * @retval  false   一致していない
+   * @brief 서명을 받고 참조 문자열 일치 확인
+   * @param [in] 참조 서명 문자열을 확인합니다
+   * @retval True 일치
+   * @retval false는 일치하지 않습니다
    */
   public getCheckSignature(reference: string): boolean {
     const getSignature: Uint8Array = new Uint8Array(4);

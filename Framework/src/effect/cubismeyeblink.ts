@@ -1,8 +1,7 @@
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ * 이 소스 코드의 사용은 https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html 에서 찾을 수 있는 Live2D Open Software 라이선스의 적용을 받습니다.
  */
 
 import { ICubismModelSetting } from '../icubismmodelsetting';
@@ -11,16 +10,16 @@ import { CubismModel } from '../model/cubismmodel';
 import { csmVector } from '../type/csmvector';
 
 /**
- * 自動まばたき機能
+ * 자동 눈 깜박임 기능
  *
- * 自動まばたき機能を提供する。
+ * 자동 눈 깜박임 기능을 제공합니다.
  */
 export class CubismEyeBlink {
   /**
-   * インスタンスを作成する
-   * @param modelSetting モデルの設定情報
-   * @return 作成されたインスタンス
-   * @note 引数がNULLの場合、パラメータIDが設定されていない空のインスタンスを作成する。
+   * 인스턴스를 생성합니다.
+   * @param modelSetting 모델 설정 정보
+   * @return 생성된 인스턴스
+   * @note 인수가 NULL인 경우 파라미터 ID가 설정되지 않은 빈 인스턴스를 생성합니다.
    */
   public static create(
     modelSetting: ICubismModelSetting = null
@@ -29,8 +28,8 @@ export class CubismEyeBlink {
   }
 
   /**
-   * インスタンスの破棄
-   * @param eyeBlink 対象のCubismEyeBlink
+   * 인스턴스 파기
+   * @param eyeBlink 대상 CubismEyeBlink
    */
   public static delete(eyeBlink: CubismEyeBlink): void {
     if (eyeBlink != null) {
@@ -39,18 +38,18 @@ export class CubismEyeBlink {
   }
 
   /**
-   * まばたきの間隔の設定
-   * @param blinkingInterval まばたきの間隔の時間[秒]
+   * 눈 깜박임 간격 설정
+   * @param blinkingInterval 눈 깜박임 간격 시간 [초]
    */
   public setBlinkingInterval(blinkingInterval: number): void {
     this._blinkingIntervalSeconds = blinkingInterval;
   }
 
   /**
-   * まばたきのモーションの詳細設定
-   * @param closing   まぶたを閉じる動作の所要時間[秒]
-   * @param closed    まぶたを閉じている動作の所要時間[秒]
-   * @param opening   まぶたを開く動作の所要時間[秒]
+   * 눈 깜박임 모션 상세 설정
+   * @param closing   눈꺼풀을 감는 동작에 걸리는 시간 [초]
+   * @param closed    눈꺼풀을 감고 있는 동작에 걸리는 시간 [초]
+   * @param opening   눈꺼풀을 뜨는 동작에 걸리는 시간 [초]
    */
   public setBlinkingSetting(
     closing: number,
@@ -63,25 +62,25 @@ export class CubismEyeBlink {
   }
 
   /**
-   * まばたきさせるパラメータIDのリストの設定
-   * @param parameterIds パラメータのIDのリスト
+   * 눈 깜박임을 적용할 파라미터 ID 목록 설정
+   * @param parameterIds 파라미터 ID 목록
    */
   public setParameterIds(parameterIds: csmVector<CubismIdHandle>): void {
     this._parameterIds = parameterIds;
   }
 
   /**
-   * まばたきさせるパラメータIDのリストの取得
-   * @return パラメータIDのリスト
+   * 눈 깜박임을 적용할 파라미터 ID 목록 가져오기
+   * @return 파라미터 ID 목록
    */
   public getParameterIds(): csmVector<CubismIdHandle> {
     return this._parameterIds;
   }
 
   /**
-   * モデルのパラメータの更新
-   * @param model 対象のモデル
-   * @param deltaTimeSeconds デルタ時間[秒]
+   * 모델 파라미터 업데이트
+   * @param model 대상 모델
+   * @param deltaTimeSeconds 델타 시간 [초]
    */
   public updateParameters(model: CubismModel, deltaTimeSeconds: number): void {
     this._userTimeSeconds += deltaTimeSeconds;
@@ -159,8 +158,8 @@ export class CubismEyeBlink {
   }
 
   /**
-   * コンストラクタ
-   * @param modelSetting モデルの設定情報
+   * 생성자
+   * @param modelSetting 모델 설정 정보
    */
   public constructor(modelSetting: ICubismModelSetting) {
     this._blinkingState = EyeState.EyeState_First;
@@ -183,9 +182,9 @@ export class CubismEyeBlink {
   }
 
   /**
-   * 次の瞬きのタイミングの決定
+   * 다음 눈 깜박임 타이밍 결정
    *
-   * @return 次のまばたきを行う時刻[秒]
+   * @return 다음 눈 깜박임을 수행할 시간 [초]
    */
   public determinNextBlinkingTiming(): number {
     const r: number = Math.random();
@@ -194,36 +193,36 @@ export class CubismEyeBlink {
     );
   }
 
-  _blinkingState: number; // 現在の状態
-  _parameterIds: csmVector<CubismIdHandle>; // 操作対象のパラメータのIDのリスト
-  _nextBlinkingTime: number; // 次のまばたきの時刻[秒]
-  _stateStartTimeSeconds: number; // 現在の状態が開始した時刻[秒]
-  _blinkingIntervalSeconds: number; // まばたきの間隔[秒]
-  _closingSeconds: number; // まぶたを閉じる動作の所要時間[秒]
-  _closedSeconds: number; // まぶたを閉じている動作の所要時間[秒]
-  _openingSeconds: number; // まぶたを開く動作の所要時間[秒]
-  _userTimeSeconds: number; // デルタ時間の積算値[秒]
+  _blinkingState: number; // 현재 상태
+  _parameterIds: csmVector<CubismIdHandle>; // 조작 대상 파라미터의 ID 목록
+  _nextBlinkingTime: number; // 다음 눈 깜박임 시간 [초]
+  _stateStartTimeSeconds: number; // 현재 상태가 시작된 시간 [초]
+  _blinkingIntervalSeconds: number; // 눈 깜박임 간격 [초]
+  _closingSeconds: number; // 눈을 감는 동작에 걸리는 시간 [초]
+  _closedSeconds: number; // 눈을 감고 있는 동작에 걸리는 시간 [초]
+  _openingSeconds: number; // 눈을 뜨는 동작에 걸리는 시간 [초]
+  _userTimeSeconds: number; // 델타 시간의 누적 값 [초]
 
   /**
-   * IDで指定された目のパラメータが、0のときに閉じるなら true 、1の時に閉じるなら false 。
+   * ID로 지정된 눈 파라미터가 0일 때 닫히면 true, 1일 때 닫히면 false.
    */
   static readonly CloseIfZero: boolean = true;
 }
 
 /**
- * まばたきの状態
+ * 눈 깜박임 상태
  *
- * まばたきの状態を表す列挙型
+ * 눈 깜박임 상태를 나타내는 열거형
  */
 export enum EyeState {
-  EyeState_First = 0, // 初期状態
-  EyeState_Interval, // まばたきしていない状態
-  EyeState_Closing, // まぶたが閉じていく途中の状態
-  EyeState_Closed, // まぶたが閉じている状態
-  EyeState_Opening // まぶたが開いていく途中の状態
+  EyeState_First = 0, // 초기 상태
+  EyeState_Interval, // 눈 깜박이지 않는 상태
+  EyeState_Closing, // 눈꺼풀이 감기는 중인 상태
+  EyeState_Closed, // 눈꺼풀이 감긴 상태
+  EyeState_Opening // 눈꺼풀이 뜨이는 중인 상태
 }
 
-// Namespace definition for compatibility.
+// 호환성을 위한 네임스페이스 정의.
 import * as $ from './cubismeyeblink';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Live2DCubismFramework {
