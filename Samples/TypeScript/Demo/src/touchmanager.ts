@@ -1,13 +1,13 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 export class TouchManager {
   /**
-   * コンストラクタ
+   * 생성자
    */
   constructor() {
     this._startX = 0.0;
@@ -91,9 +91,9 @@ export class TouchManager {
   }
 
   /**
-   * タッチ開始時イベント
-   * @param deviceX タッチした画面のxの値
-   * @param deviceY タッチした画面のyの値
+   * 터치 스타트 이벤트
+   * @param devicex x 값을 터치 한 화면의 값
+   * @param devicy y a 값이 터치 한 화면에 값
    */
   public touchesBegan(deviceX: number, deviceY: number): void {
     this._lastX = deviceX;
@@ -106,9 +106,9 @@ export class TouchManager {
   }
 
   /**
-   * ドラッグ時のイベント
-   * @param deviceX タッチした画面のxの値
-   * @param deviceY タッチした画面のyの値
+   * 드래그 이벤트
+   * @param devicex x 값을 터치 한 화면의 값
+   * @param devicy y a 값이 터치 한 화면에 값
    */
   public touchesMoved(deviceX: number, deviceY: number): void {
     this._lastX = deviceX;
@@ -118,8 +118,8 @@ export class TouchManager {
   }
 
   /**
-   * フリックの距離測定
-   * @return フリック距離
+   * 도발 거리 측정
+   * @return Flick 거리
    */
   public getFlickDistance(): number {
     return this.calculateDistance(
@@ -131,12 +131,12 @@ export class TouchManager {
   }
 
   /**
-   * 点１から点２への距離を求める
+   * 지점 1에서 2 점까지의 거리를 찾으십시오.
    *
-   * @param x1 １つ目のタッチした画面のxの値
-   * @param y1 １つ目のタッチした画面のyの値
-   * @param x2 ２つ目のタッチした画面のxの値
-   * @param y2 ２つ目のタッチした画面のyの値
+   * @param x1 첫 번째 터치 된 화면에서 x 값
+   * @param y1 첫 번째 터치 된 화면에서 Y의 값
+   * @param x2 두 번째 터치 된 화면에서 x 값
+   * @param y2 두 번째 터치 된 화면에서 Y의 값
    */
   public calculateDistance(
     x1: number,
@@ -148,13 +148,13 @@ export class TouchManager {
   }
 
   /**
-   * ２つ目の値から、移動量を求める。
-   * 違う方向の場合は移動量０。同じ方向の場合は、絶対値が小さい方の値を参照する。
+   * 두 번째 값에서 움직임의 양을 찾으십시오.
+   * 다른 방향 인 경우 이동량은 0입니다. 동일한 방향 인 경우 절대 값이 낮은 값을 참조하십시오.
    *
-   * @param v1 １つ目の移動量
-   * @param v2 ２つ目の移動量
+   * @param v1 첫 번째 움직임 금액
+   * @param v2 두 번째 이동 금액
    *
-   * @return 小さい方の移動量
+   * @작은 움직임 금액
    */
   public calculateMovingAmount(v1: number, v2: number): number {
     if (v1 > 0.0 != v2 > 0.0) {

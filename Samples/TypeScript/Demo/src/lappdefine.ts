@@ -1,23 +1,23 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import { LogLevel } from '@framework/live2dcubismframework';
 
 /**
- * Sample Appで使用する定数
+ * 샘플 앱에 사용되는 상수
  */
 
-// Canvas width and height pixel values, or dynamic screen size ('auto').
+// 캔버스 너비 및 높이 픽셀 값 또는 동적 화면 크기 ( 'Auto').
 export const CanvasSize: { width: number; height: number } | 'auto' = 'auto';
 
-// キャンバスの数
+// 캔버스 수
 export const CanvasNum = 1;
 
-// 画面
+// 화면
 export const ViewScale = 1.0;
 export const ViewMaxScale = 2.0;
 export const ViewMinScale = 0.8;
@@ -32,53 +32,53 @@ export const ViewLogicalMaxRight = 2.0;
 export const ViewLogicalMaxBottom = -2.0;
 export const ViewLogicalMaxTop = 2.0;
 
-// 相対パス
+// 상대 경로
 export const ResourcesPath = '../../Resources/';
 
-// モデルの後ろにある背景の画像ファイル
+// 모델 뒤의 배경 이미지 파일
 export const BackImageName = 'back_class_normal.png';
 
-// 歯車
+// 기어
 export const GearImageName = 'icon_gear.png';
 
-// 終了ボタン
+// 종료 버튼
 export const PowerImageName = 'CloseNormal.png';
 
-// モデル定義---------------------------------------------
-// モデルを配置したディレクトリ名の配列
-// ディレクトリ名とmodel3.jsonの名前を一致させておくこと
+// 모델 정의 ----
+// 모델이 위치한 디렉토리 이름 배열
+// 디렉토리 이름이 model3.json의 이름과 일치하는지 확인하십시오.
 export const ModelDir: string[] = [
   'ANIYA',
   'Mao'
 ];
 export const ModelDirSize: number = ModelDir.length;
 
-// 外部定義ファイル（json）と合わせる
+// 외부 정의 파일 (JSON)과 일치
 export const MotionGroupIdle = 'Idle'; // アイドリング
 export const MotionGroupTapBody = 'TapBody'; // 体をタップしたとき
 
-// 外部定義ファイル（json）と合わせる
+// 외부 정의 파일 (JSON)과 일치
 export const HitAreaNameHead = 'Head';
 export const HitAreaNameBody = 'Body';
 
-// モーションの優先度定数
+// 모션 우선 순위 상수
 export const PriorityNone = 0;
 export const PriorityIdle = 1;
 export const PriorityNormal = 2;
 export const PriorityForce = 3;
 
-// MOC3の整合性検証オプション
+// MOC3 무결성 확인 옵션
 export const MOCConsistencyValidationEnable = true;
-// motion3.jsonの整合性検証オプション
+// motion3.json의 무결성 확인 옵션
 export const MotionConsistencyValidationEnable = true;
 
-// デバッグ用ログの表示オプション
+// 디버그 로그에 대한 옵션보기
 export const DebugLogEnable = true;
 export const DebugTouchLogEnable = false;
 
-// Frameworkから出力するログのレベル設定
+// 프레임 워크에서 로그 출력 레벨을 설정합니다
 export const CubismLoggingLevel: LogLevel = LogLevel.LogLevel_Verbose;
 
-// デフォルトのレンダーターゲットサイズ
+// 기본값 렌더링 대상 크기
 export const RenderTargetWidth = 1900;
 export const RenderTargetHeight = 1000;

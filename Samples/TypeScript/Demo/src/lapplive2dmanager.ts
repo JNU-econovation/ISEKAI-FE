@@ -1,8 +1,8 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import { CubismMatrix44 } from '@framework/math/cubismmatrix44';
@@ -15,22 +15,22 @@ import { LAppPal } from './lapppal';
 import { LAppSubdelegate } from './lappsubdelegate';
 
 /**
- * サンプルアプリケーションにおいてCubismModelを管理するクラス
- * モデル生成と破棄、タップイベントの処理、モデル切り替えを行う。
+ * 샘플 애플리케이션에서 CubismModel을 관리하는 클래스
+ * 모델을 생성 및 폐기하고, 탭 이벤트를 처리하며, 모델을 스위치하십시오.
  */
 export class LAppLive2DManager {
   /**
-   * 現在のシーンで保持しているすべてのモデルを解放する
+   * 현재 장면에서 보관 된 모든 모델을 무료로 제공합니다
    */
   private releaseAllModel(): void {
     this._models.clear();
   }
 
   /**
-   * 画面をドラッグした時の処理
+   * 화면을 드래그 할 때 동작
    *
-   * @param x 画面のX座標
-   * @param y 画面のY座標
+   * @param x x 화면의 좌표
+   * @param y 화면 Y 좌표
    */
   public onDrag(x: number, y: number): void {
     const model: LAppModel = this._models.at(0);
@@ -40,10 +40,10 @@ export class LAppLive2DManager {
   }
 
   /**
-   * 画面をタップした時の処理
+   * 화면을 누를 때해야 할 일
    *
-   * @param x 画面のX座標
-   * @param y 画面のY座標
+   * @param x x 화면의 좌표
+   * @param y 화면 Y 좌표
    */
   public onTap(x: number, y: number): void {
     if (LAppDefine.DebugLogEnable) {
@@ -73,8 +73,8 @@ export class LAppLive2DManager {
   }
 
   /**
-   * 画面を更新するときの処理
-   * モデルの更新処理及び描画処理を行う
+   * 화면을 업데이트 할 때해야 할 일
+   * 모델 업데이트 및 도면 프로세스를 수행합니다
    */
   public onUpdate(): void {
     const { width, height } = this._subdelegate.getCanvas();
@@ -84,14 +84,14 @@ export class LAppLive2DManager {
 
     if (model.getModel()) {
       if (model.getModel().getCanvasWidth() > 1.0 && width < height) {
-        // 横に長いモデルを縦長ウィンドウに表示する際モデルの横サイズでscaleを算出する
+        // 수직 창에 긴 수평 모델을 표시 할 때 모델의 너비 크기에 따라 스케일을 계산합니다.
         model.getModelMatrix().setWidth(2.0);
         projection.scale(1.0, width / height);
       } else {
         projection.scale(height / width, 1.0);
       }
 
-      // 必要があればここで乗算
+      // 필요한 경우 여기에 곱하십시오
       if (this._viewMatrix != null) {
         projection.multiplyByMatrix(this._viewMatrix);
       }
@@ -102,8 +102,8 @@ export class LAppLive2DManager {
   }
 
   /**
-   * 次のシーンに切りかえる
-   * サンプルアプリケーションではモデルセットの切り替えを行う。
+   *다음 장면으로 교체하십시오
+   * 샘플 응용 프로그램이 모델 세트를 전환합니다.
    */
   public nextScene(): void {
     const no: number = (this._sceneIndex + 1) % LAppDefine.ModelDirSize;
@@ -111,9 +111,9 @@ export class LAppLive2DManager {
   }
 
   /**
-   * シーンを切り替える
-   * サンプルアプリケーションではモデルセットの切り替えを行う。
-   * @param index
+   * 전환 장면
+   * 샘플 응용 프로그램이 모델 세트를 전환합니다.
+   * @param 색인
    */
   private changeScene(index: number): void {
     this._sceneIndex = index;
@@ -122,9 +122,9 @@ export class LAppLive2DManager {
       LAppPal.printMessage(`[APP]model index: ${this._sceneIndex}`);
     }
 
-    // ModelDir[]に保持したディレクトリ名から
-    // model3.jsonのパスを決定する。
-    // ディレクトリ名とmodel3.jsonの名前を一致させておくこと。
+    // modelDir []에서 보유한 디렉토리 이름에서
+    // model3.json의 경로를 결정합니다.
+    // 디렉토리 이름이 model3.json의 이름과 일치하는지 확인하십시오.
     const model: string = LAppDefine.ModelDir[index];
     const modelPath: string = LAppDefine.ResourcesPath + model + '/';
     let modelJsonName: string = LAppDefine.ModelDir[index];
@@ -144,7 +144,7 @@ export class LAppLive2DManager {
   }
 
   /**
-   * モデルの追加
+   * 모델 추가
    */
   public addModel(sceneIndex: number = 0): void {
     this._sceneIndex = sceneIndex;
@@ -152,7 +152,7 @@ export class LAppLive2DManager {
   }
 
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._subdelegate = null;
@@ -162,12 +162,12 @@ export class LAppLive2DManager {
   }
 
   /**
-   * 解放する。
+   * 풀어 주다.
    */
   public release(): void {}
 
   /**
-   * 初期化する。
+   * 초기화.
    * @param subdelegate
    */
   public initialize(subdelegate: LAppSubdelegate): void {
@@ -176,7 +176,7 @@ export class LAppLive2DManager {
   }
 
   /**
-   * 自身が所属するSubdelegate
+   * 당신이 속한 세분화
    */
   private _subdelegate: LAppSubdelegate;
 
@@ -184,12 +184,12 @@ export class LAppLive2DManager {
   _models: csmVector<LAppModel>; // モデルインスタンスのコンテナ
   private _sceneIndex: number; // 表示するシーンのインデックス値
 
-  // モーション再生開始のコールバック関数
+  // 모션 재생을 시작하려면 콜백 함수
   beganMotion = (self: ACubismMotion): void => {
     LAppPal.printMessage('Motion Began:');
     console.log(self);
   };
-  // モーション再生終了のコールバック関数
+  // 동작 재생 종료를위한 콜백 함수
   finishedMotion = (self: ACubismMotion): void => {
     LAppPal.printMessage('Motion Finished:');
     console.log(self);

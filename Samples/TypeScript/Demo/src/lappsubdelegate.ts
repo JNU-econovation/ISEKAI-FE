@@ -1,8 +1,8 @@
 /**
- * Copyright(c) Live2D Inc. All rights reserved.
+ * 저작권 (c) Live2d Inc. 모든 권리 보유.
  *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
+ *이 소스 코드 사용은 Live2D Open 소프트웨어 라이센스에 의해 관리됩니다.
+ * https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html에서 찾을 수 있습니다.
  */
 
 import * as LAppDefine from './lappdefine';
@@ -13,11 +13,11 @@ import { LAppTextureManager } from './lapptexturemanager';
 import { LAppView } from './lappview';
 
 /**
- * Canvasに関連する操作を取りまとめるクラス
+ * 캔버스와 관련된 작업을 구성하는 클래스
  */
 export class LAppSubdelegate {
   /**
-   * コンストラクタ
+   * 생성자
    */
   public constructor() {
     this._canvas = null;
@@ -30,7 +30,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * デストラクタ相当の処理
+   * 소멸자 동등한 처리
    */
   public release(): void {
     this._resizeObserver.unobserve(this._canvas);
@@ -51,7 +51,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * APPに必要な物を初期化する。
+   * 앱에 필요한 것을 초기화하십시오.
    */
   public initialize(canvas: HTMLCanvasElement): boolean {
     if (!this._glManager.initialize(canvas)) {
@@ -79,7 +79,7 @@ export class LAppSubdelegate {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    // AppViewの初期化
+    // AppView 초기화
     this._view.initialize(this);
     this._view.initializeSprite();
 
@@ -95,7 +95,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * Resize canvas and re-initialize view.
+   * 캔버스 크기를 조정하고보기를 다시 시작하십시오.
    */
   public onResize(): void {
     this.resizeCanvas();
@@ -113,14 +113,14 @@ export class LAppSubdelegate {
   }
 
   /**
-   * ループ処理
+   * 루프 처리
    */
   public update(): void {
     if (this._glManager.getGl().isContextLost()) {
       return;
     }
 
-    // キャンバスのサイズが変わっている場合はリサイズに必要な処理をする。
+    // 캔버스 크기가 변경된 경우 크기를 조정하는 데 필요한 처리를 수행하십시오.
     if (this._needResize) {
       this.onResize();
       this._needResize = false;
@@ -128,16 +128,16 @@ export class LAppSubdelegate {
 
     const gl = this._glManager.getGl();
 
-    // 画面の初期化
+    // 화면 초기화
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-    // 深度テストを有効化
+    // 깊이 테스트를 활성화합니다
     gl.enable(gl.DEPTH_TEST);
 
-    // 近くにある物体は、遠くにある物体を覆い隠す
+    // 객체를 닫습니다
     gl.depthFunc(gl.LEQUAL);
 
-    // カラーバッファや深度バッファをクリアする
+    // 색상과 깊이 버퍼를 제거합니다
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clearDepth(1.0);
 
@@ -145,17 +145,17 @@ export class LAppSubdelegate {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    // 描画更新
+    // 업데이트 된 도면
     this._view.render();
   }
 
   /**
-   * シェーダーを登録する。
+   * 셰이더를 등록하십시오.
    */
   public createShader(): WebGLProgram {
     const gl = this._glManager.getGl();
 
-    // バーテックスシェーダーのコンパイル
+    // 정점 셰이더를 컴파일합니다
     const vertexShaderId = gl.createShader(gl.VERTEX_SHADER);
 
     if (vertexShaderId == null) {
@@ -177,7 +177,7 @@ export class LAppSubdelegate {
     gl.shaderSource(vertexShaderId, vertexShader);
     gl.compileShader(vertexShaderId);
 
-    // フラグメントシェーダのコンパイル
+    // 파편 셰이더를 컴파일합니다
     const fragmentShaderId = gl.createShader(gl.FRAGMENT_SHADER);
 
     if (fragmentShaderId == null) {
@@ -197,7 +197,7 @@ export class LAppSubdelegate {
     gl.shaderSource(fragmentShaderId, fragmentShader);
     gl.compileShader(fragmentShaderId);
 
-    // プログラムオブジェクトの作成
+    // 프로그램 객체 생성
     const programId = gl.createProgram();
     gl.attachShader(programId, vertexShaderId);
     gl.attachShader(programId, fragmentShaderId);
@@ -205,7 +205,7 @@ export class LAppSubdelegate {
     gl.deleteShader(vertexShaderId);
     gl.deleteShader(fragmentShaderId);
 
-    // リンク
+    // 링크
     gl.linkProgram(programId);
     gl.useProgram(programId);
 
@@ -233,7 +233,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * Resize the canvas to fill the screen.
+   * 화면을 채우도록 캔버스 크기를 조정하십시오.
    */
   private resizeCanvas(): void {
     this._canvas.width = this._canvas.clientWidth * window.devicePixelRatio;
@@ -245,7 +245,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * マウスダウン、タッチダウンしたときに呼ばれる。
+   * 마우스가 내려 가거나 터치 다운 할 때 호출됩니다.
    */
   public onPointBegan(pageX: number, pageY: number): void {
     if (!this._view) {
@@ -261,7 +261,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * マウスポインタが動いたら呼ばれる。
+   * 마우스 포인터가 움직일 때 호출됩니다.
    */
   public onPointMoved(pageX: number, pageY: number): void {
     if (!this._captured) {
@@ -275,7 +275,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * クリックが終了したら呼ばれる。
+   * 클릭이 완료되면 호출됩니다.
    */
   public onPointEnded(pageX: number, pageY: number): void {
     this._captured = false;
@@ -292,7 +292,7 @@ export class LAppSubdelegate {
   }
 
   /**
-   * タッチがキャンセルされると呼ばれる。
+   * 취소되도록 요청했습니다.
    */
   public onTouchCancel(pageX: number, pageY: number): void {
     this._captured = false;
@@ -324,12 +324,12 @@ export class LAppSubdelegate {
   private _canvas: HTMLCanvasElement;
 
   /**
-   * View情報
+   * 정보를 봅니다
    */
   private _view: LAppView;
 
   /**
-   * テクスチャマネージャー
+   * 텍스처 관리자
    */
   private _textureManager: LAppTextureManager;
   private _frameBuffer: WebGLFramebuffer;
@@ -337,12 +337,12 @@ export class LAppSubdelegate {
   private _live2dManager: LAppLive2DManager;
 
   /**
-   * ResizeObserver
+   * RESIZEOBSERVER
    */
   private _resizeObserver: ResizeObserver;
 
   /**
-   * クリックしているか
+   * 클릭하고 있습니까?
    */
   private _captured: boolean;
 
