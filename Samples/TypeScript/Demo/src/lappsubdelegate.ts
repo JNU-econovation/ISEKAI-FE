@@ -311,7 +311,7 @@ export class LAppSubdelegate {
   public isContextLost(): boolean {
     return this._glManager.getGl().isContextLost();
   }
-  
+
   public onKeyDown(key: string): void {
     if (!this._live2dManager) {
       return;
@@ -319,7 +319,6 @@ export class LAppSubdelegate {
 
     this._live2dManager.onKeyDown(key);
   }
-
 
   private _canvas: HTMLCanvasElement;
 

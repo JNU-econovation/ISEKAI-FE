@@ -157,7 +157,7 @@ export class LAppDelegate {
 
     // 키보드 이벤트 해제
     document.removeEventListener('keydown', this.keyDownEventListener);
-    
+
     // null 처리
     this.pointBeganEventListener = null;
     this.pointMovedEventListener = null;
@@ -234,7 +234,7 @@ export class LAppDelegate {
     document.addEventListener('pointercancel', this.pointCancelEventListener, {
       passive: true
     });
-    
+
     // 키보드 이벤트 등록
     document.addEventListener('keydown', this.keyDownEventListener, {
       passive: true

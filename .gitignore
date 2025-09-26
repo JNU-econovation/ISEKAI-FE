@@ -7,5 +7,7 @@ Rice/
 Wanko/
 node_modules/
 dist/
+translate_comments.py
+translate_md.py
 
 *.env
