@@ -169,18 +169,18 @@ export class TouchManager {
     );
   }
 
-  _startY: number; // タッチを開始した時のxの値
-  _startX: number; // タッチを開始した時のyの値
-  _lastX: number; // シングルタッチ時のxの値
-  _lastY: number; // シングルタッチ時のyの値
-  _lastX1: number; // ダブルタッチ時の一つ目のxの値
-  _lastY1: number; // ダブルタッチ時の一つ目のyの値
-  _lastX2: number; // ダブルタッチ時の二つ目のxの値
-  _lastY2: number; // ダブルタッチ時の二つ目のyの値
-  _lastTouchDistance: number; // 2本以上でタッチしたときの指の距離
-  _deltaX: number; // 前回の値から今回の値へのxの移動距離。
-  _deltaY: number; // 前回の値から今回の値へのyの移動距離。
-  _scale: number; // このフレームで掛け合わせる拡大率。拡大操作中以外は1。
-  _touchSingle: boolean; // シングルタッチ時はtrue
-  _flipAvailable: boolean; // フリップが有効かどうか
+  _startY: number; // 터치를 시작했을 때의 x 값
+  _startX: number; // 터치를 시작했을 때의 y 값
+  _lastX: number; // 싱글 터치 시의 x 값
+  _lastY: number; // 싱글 터치 시의 y 값
+  _lastX1: number; // 더블 터치 시의 첫 번째 x 값
+  _lastY1: number; // 더블 터치 시의 첫 번째 y 값
+  _lastX2: number; // 더블 터치 시의 두 번째 x 값
+  _lastY2: number; // 더블 터치 시의 두 번째 y 값
+  _lastTouchDistance: number; // 손가락 2개 이상으로 터치했을 때의 손가락 사이 거리
+  _deltaX: number; // 이전 값에서 현재 값까지 x의 이동 거리
+  _deltaY: number; // 이전 값에서 현재 값까지 y의 이동 거리
+  _scale: number; // 현재 프레임에 적용할 확대율. 확대 조작 중이 아닐 때는 1.
+  _touchSingle: boolean; // 싱글 터치일 경우 true
+  _flipAvailable: boolean; // 플립(손가락으로 튕기는 동작) 가능 여부
 }
