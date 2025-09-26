@@ -1,7 +1,7 @@
 ---
 name: ISSUE
 about: 이슈 템플릿
-title: '[ISSUE_TYPE]'
+title: 'ISSUE_TYPE :'
 assignees: ''
 ---
 

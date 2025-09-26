@@ -1,7 +1,7 @@
 ---
 name: BUG
 about: 버그 제보
-title: '[BUG]:'
+title: 'BUG :'
 labels: ["Bug"]
 assignees: ''
 ---
